@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Builder
-public class StandardErrorDTO {
+public class StandardErrorDTO implements Serializable {
 
     private final Instant timestamp;
     private final Integer status;
