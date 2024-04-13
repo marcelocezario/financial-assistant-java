@@ -7,7 +7,7 @@ import static java.util.Objects.isNull;
 public enum TokenUsageType {
     ACCESS_TOKEN, REFRESH_TOKEN;
 
-    static TokenUsageType toEnum(Object object) {
+    public static TokenUsageType toEnum(Object object) {
         if (isNull(object)) {
             return null;
         }

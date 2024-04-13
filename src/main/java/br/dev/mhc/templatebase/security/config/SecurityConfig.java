@@ -1,7 +1,9 @@
 package br.dev.mhc.templatebase.security.config;
 
 import br.dev.mhc.templatebase.security.filters.JWTAuthenticationFilter;
+import br.dev.mhc.templatebase.security.filters.JWTAuthorizationFilter;
 import br.dev.mhc.templatebase.security.filters.dependencies.AuthenticationDependencies;
+import br.dev.mhc.templatebase.security.filters.dependencies.AuthorizationDependencies;
 import br.dev.mhc.templatebase.user.UserRole;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -24,10 +26,12 @@ public class SecurityConfig {
 
     private final Environment environment;
     private final AuthenticationDependencies authenticationDependencies;
+    private final AuthorizationDependencies authorizationDependencies;
 
-    public SecurityConfig(Environment environment, AuthenticationDependencies authenticationDependencies) {
+    public SecurityConfig(Environment environment, AuthenticationDependencies authenticationDependencies, AuthorizationDependencies authorizationDependencies) {
         this.environment = environment;
         this.authenticationDependencies = authenticationDependencies;
+        this.authorizationDependencies = authorizationDependencies;
     }
 
     @Bean
@@ -45,6 +49,7 @@ public class SecurityConfig {
                         .anyRequest().hasAnyRole(UserRole.ADMIN.getDescription())
                 )
                 .addFilter(new JWTAuthenticationFilter(authenticationManager, authenticationDependencies))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager, authorizationDependencies))
                 .authenticationManager(authenticationManager(http));
         return http.build();
     }

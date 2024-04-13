@@ -3,23 +3,17 @@ package br.dev.mhc.templatebase.security.services.impl;
 import br.dev.mhc.templatebase.security.TokenUsageType;
 import br.dev.mhc.templatebase.security.UserDetailsModel;
 import br.dev.mhc.templatebase.security.services.interfaces.IBuildTokenService;
+import br.dev.mhc.templatebase.security.utils.SecurityUtils;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKey;
 import java.time.Instant;
 import java.util.Date;
 
 @Service
 public class BuildTokenServiceImpl implements IBuildTokenService {
-
-    private final SecretKey secretKey;
-
-    public BuildTokenServiceImpl(SecretKey secretKey) {
-        this.secretKey = secretKey;
-    }
 
     @Override
     public String build(UserDetailsModel userDetailsModel, Instant iat, Long expiration, TokenUsageType tokenUsageType) {
@@ -33,7 +27,7 @@ public class BuildTokenServiceImpl implements IBuildTokenService {
                     .claim("userId", userDetailsModel.getId())
                     .claim("roles", userDetailsModel.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList());
         }
-        jwtBuilder.signWith(secretKey);
+        jwtBuilder.signWith(SecurityUtils.getSecretKey());
         return jwtBuilder.compact();
     }
 }
