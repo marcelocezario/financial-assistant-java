@@ -1,6 +1,6 @@
-package br.dev.mhc.templatebase.auth.services.impl;
+package br.dev.mhc.templatebase.security.services.impl;
 
-import br.dev.mhc.templatebase.auth.services.interfaces.IEncryptPasswordService;
+import br.dev.mhc.templatebase.security.services.interfaces.IEncryptPasswordService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

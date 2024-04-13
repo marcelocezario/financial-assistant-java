@@ -1,4 +1,4 @@
-package br.dev.mhc.templatebase.auth.services.interfaces;
+package br.dev.mhc.templatebase.security.services.interfaces;
 
 public interface IEncryptPasswordService {
 

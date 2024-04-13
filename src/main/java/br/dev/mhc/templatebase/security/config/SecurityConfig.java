@@ -1,5 +1,8 @@
-package br.dev.mhc.templatebase.auth.config;
+package br.dev.mhc.templatebase.security.config;
 
+import br.dev.mhc.templatebase.security.filters.JWTAuthenticationFilter;
+import br.dev.mhc.templatebase.security.filters.dependencies.AuthenticationDependencies;
+import br.dev.mhc.templatebase.user.UserRole;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,9 +23,11 @@ import java.util.Arrays;
 public class SecurityConfig {
 
     private final Environment environment;
+    private final AuthenticationDependencies authenticationDependencies;
 
-    public SecurityConfig(Environment environment) {
+    public SecurityConfig(Environment environment, AuthenticationDependencies authenticationDependencies) {
         this.environment = environment;
+        this.authenticationDependencies = authenticationDependencies;
     }
 
     @Bean
@@ -32,12 +37,14 @@ public class SecurityConfig {
                     .headers(headersConfigurer -> headersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                     .authorizeHttpRequests(authorize -> authorize.requestMatchers(PathRequest.toH2Console()).permitAll());
         }
+        var authenticationManager = authenticationManager(http);
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().permitAll()
+                        .anyRequest().hasAnyRole(UserRole.ADMIN.getDescription())
                 )
+                .addFilter(new JWTAuthenticationFilter(authenticationManager, authenticationDependencies))
                 .authenticationManager(authenticationManager(http));
         return http.build();
     }

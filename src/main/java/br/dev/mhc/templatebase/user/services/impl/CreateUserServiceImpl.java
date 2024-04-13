@@ -1,6 +1,6 @@
 package br.dev.mhc.templatebase.user.services.impl;
 
-import br.dev.mhc.templatebase.auth.services.interfaces.IEncryptPasswordService;
+import br.dev.mhc.templatebase.security.services.interfaces.IEncryptPasswordService;
 import br.dev.mhc.templatebase.user.UserRepository;
 import br.dev.mhc.templatebase.user.UserRole;
 import br.dev.mhc.templatebase.user.dtos.UserDTO;
