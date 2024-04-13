@@ -7,6 +7,7 @@ import br.dev.mhc.templatebase.security.dtos.CredentialsDTO;
 import br.dev.mhc.templatebase.security.dtos.TokenResponseDTO;
 import br.dev.mhc.templatebase.security.filters.dependencies.AuthenticationDependencies;
 import br.dev.mhc.templatebase.security.services.interfaces.IGenerateAccessTokenService;
+import br.dev.mhc.templatebase.security.services.interfaces.IRegisterLoginAttemptService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import jakarta.servlet.FilterChain;
@@ -35,11 +36,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private final AuthenticationManager authenticationManager;
     private final IGenerateAccessTokenService generateAccessTokenService;
     private final Gson gson;
+    private final IRegisterLoginAttemptService registerLoginAttemptService;
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager, AuthenticationDependencies dependencies) {
         this.authenticationManager = authenticationManager;
         this.generateAccessTokenService = dependencies.getGenerateAccessTokenService();
         this.gson = dependencies.getGson();
+        this.registerLoginAttemptService = dependencies.getRegisterLoginAttemptService();
     }
 
     @Override
@@ -52,6 +55,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+        registerLoginAttemptService.register(obtainUsername(request), true);
         UserDetailsModel userDetailsModel = (UserDetailsModel) authResult.getPrincipal();
         try {
             response.setContentType("application/json");
@@ -64,6 +68,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+        registerLoginAttemptService.register(obtainUsername(request), false);
         HttpStatus httpStatus = HttpStatus.UNAUTHORIZED;
         response.setStatus(httpStatus.value());
         response.setContentType("application/json");

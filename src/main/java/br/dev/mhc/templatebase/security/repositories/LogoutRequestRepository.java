@@ -1,5 +1,6 @@
-package br.dev.mhc.templatebase.security;
+package br.dev.mhc.templatebase.security.repositories;
 
+import br.dev.mhc.templatebase.security.entities.LogoutRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

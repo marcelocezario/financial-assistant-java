@@ -1,7 +1,8 @@
-package br.dev.mhc.templatebase.security;
+package br.dev.mhc.templatebase.security.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 

@@ -1,8 +1,8 @@
 package br.dev.mhc.templatebase.security.services.impl;
 
 import br.dev.mhc.templatebase.common.logs.LogHelper;
-import br.dev.mhc.templatebase.security.LogoutRequest;
-import br.dev.mhc.templatebase.security.LogoutRequestRepository;
+import br.dev.mhc.templatebase.security.entities.LogoutRequest;
+import br.dev.mhc.templatebase.security.repositories.LogoutRequestRepository;
 import br.dev.mhc.templatebase.security.services.interfaces.ILogoutService;
 import br.dev.mhc.templatebase.security.utils.SecurityUtils;
 import org.springframework.stereotype.Service;

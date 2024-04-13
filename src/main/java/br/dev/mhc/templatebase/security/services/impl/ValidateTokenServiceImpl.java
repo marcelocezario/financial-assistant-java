@@ -1,8 +1,8 @@
 package br.dev.mhc.templatebase.security.services.impl;
 
 import br.dev.mhc.templatebase.common.logs.LogHelper;
-import br.dev.mhc.templatebase.security.LogoutRequestRepository;
 import br.dev.mhc.templatebase.security.TokenUsageType;
+import br.dev.mhc.templatebase.security.repositories.LogoutRequestRepository;
 import br.dev.mhc.templatebase.security.services.interfaces.IValidateTokenService;
 import br.dev.mhc.templatebase.security.utils.JWTUtil;
 import io.jsonwebtoken.Claims;
@@ -10,7 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
-import static java.util.Objects.*;
+import static java.util.Objects.isNull;
+import static java.util.Objects.requireNonNull;
 
 @Service
 public class ValidateTokenServiceImpl implements IValidateTokenService {
