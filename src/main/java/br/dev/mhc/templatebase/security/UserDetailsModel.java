@@ -12,13 +12,15 @@ import java.util.Collection;
 
 public class UserDetailsModel implements UserDetails {
 
+    private final int MAX_FAILED_LOGIN_ATTEMPTS = 3;
+
     @Getter
     private final long id;
     private final String username;
     private final String password;
     private final boolean active;
     private final Collection<? extends GrantedAuthority> authorities;
-    private final boolean locked;
+    private final int failedLoginAttempts;
 
     private UserDetailsModel(UserDetailsModelBuilder builder) {
         super();
@@ -27,7 +29,7 @@ public class UserDetailsModel implements UserDetails {
         password = builder.user.getPassword();
         active = builder.user.isActive();
         authorities = builder.user.getRoles().stream().map(p -> new SimpleGrantedAuthority("ROLE_" + p.getDescription())).toList();
-        locked = builder.locked;
+        failedLoginAttempts = builder.failedLoginAttempts;
     }
 
     public static UserDetailsModelBuilder builder() {
@@ -56,7 +58,7 @@ public class UserDetailsModel implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return !locked;
+        return failedLoginAttempts < MAX_FAILED_LOGIN_ATTEMPTS;
     }
 
     @Override
@@ -77,15 +79,15 @@ public class UserDetailsModel implements UserDetails {
     public static class UserDetailsModelBuilder {
 
         User user;
-        boolean locked;
+        int failedLoginAttempts = 0;
 
         public UserDetailsModelBuilder user(User user) {
             this.user = user;
             return this;
         }
 
-        public UserDetailsModelBuilder locked(boolean locked) {
-            this.locked = locked;
+        public UserDetailsModelBuilder failedLoginAttempts(int failedLoginAttempts) {
+            this.failedLoginAttempts = failedLoginAttempts;
             return this;
         }
 
