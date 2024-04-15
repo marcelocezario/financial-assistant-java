@@ -16,7 +16,6 @@ import java.time.Instant;
 import java.util.Objects;
 
 import static br.dev.mhc.templatebase.common.translation.TranslationKey.*;
-import static br.dev.mhc.templatebase.common.translation.TranslationUtil.translate;
 import static br.dev.mhc.templatebase.common.translation.TranslationUtil.translateHttpStatus;
 
 @ControllerAdvice
@@ -58,7 +57,7 @@ public class ControllerExceptionHandler {
                 .timestamp(Instant.now())
                 .status(httpStatus.value())
                 .error(translateHttpStatus(httpStatus))
-                .message(translate(translationKey, args))
+                .message(translationKey.translate(args))
                 .path(request.getRequestURI())
                 .build();
     }

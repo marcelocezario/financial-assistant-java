@@ -13,15 +13,11 @@ public class TranslationUtil {
     private final static LogHelper LOG = new LogHelper(TranslationUtil.class);
     private final static MessageSource MESSAGE_SOURCE = TranslationConfig.messageSource();
 
-    public static String translate(TranslationKey key) {
-        return translate(key, (Object) null);
+    protected static String translate(String translateKey) {
+        return translate(translateKey, (Object) null);
     }
 
-    public static String translate(TranslationKey key, Object... args) {
-        return translate(key.toString(), args);
-    }
-
-    private static String translate(String translateKey, Object... args) {
+    protected static String translate(String translateKey, Object... args) {
         try {
             Locale locale = LocaleContextHolder.getLocale();
             return MESSAGE_SOURCE.getMessage(translateKey, args, locale);

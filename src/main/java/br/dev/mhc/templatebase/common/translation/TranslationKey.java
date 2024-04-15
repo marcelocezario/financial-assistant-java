@@ -1,12 +1,5 @@
 package br.dev.mhc.templatebase.common.translation;
 
-import lombok.Getter;
-
-import java.util.Arrays;
-
-import static java.util.Objects.isNull;
-
-@Getter
 public enum TranslationKey {
 
     EXCEPTION_GENERIC("exceptions.generic"),
@@ -36,16 +29,12 @@ public enum TranslationKey {
         this.key = key;
     }
 
-    public static TranslationKey toEnum(String key) {
-        if (isNull(key)) return null;
-        return Arrays.stream(TranslationKey.values())
-                .filter(objEnum -> objEnum.getKey().equals(key))
-                .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+    public String translate() {
+        return TranslationUtil.translate(key);
     }
 
-    @Override
-    public String toString() {
-        return key;
+    public String translate(Object... args) {
+        return TranslationUtil.translate(key, args);
     }
+
 }

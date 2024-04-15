@@ -30,6 +30,7 @@ public class UserDTO implements Serializable {
     private boolean active;
     private Instant createdAt;
     private Instant updatedAt;
+    @Builder.Default
     private Set<UserRole> roles = new HashSet<>();
 
     public UserDTO(User entity) {
