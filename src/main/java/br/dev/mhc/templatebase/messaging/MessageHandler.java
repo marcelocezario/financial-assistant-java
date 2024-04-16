@@ -1,7 +1,7 @@
 package br.dev.mhc.templatebase.messaging;
 
 @FunctionalInterface
-public interface MessageHandler {
+public interface MessageHandler<T> {
 
-    void handleMessage(Object message);
+    void handleMessage(T message);
 }

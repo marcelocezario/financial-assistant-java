@@ -2,7 +2,7 @@ package br.dev.mhc.templatebase.email.services.impl;
 
 import br.dev.mhc.templatebase.common.logs.LogHelper;
 import br.dev.mhc.templatebase.email.EmailDTO;
-import br.dev.mhc.templatebase.messaging.client.interfaces.IMessagingClientService;
+import br.dev.mhc.templatebase.messaging.IConsumerMessageService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Multipart;
 import jakarta.mail.internet.MimeMessage;
@@ -22,9 +22,11 @@ public class MockProcessEmailSendingServiceImpl extends AbstractProcessEmailSend
 
     private static final LogHelper LOG = new LogHelper(MockProcessEmailSendingServiceImpl.class);
 
-    public MockProcessEmailSendingServiceImpl(TemplateEngine templateEngine, MailSender mailSender, JavaMailSender javaMailSender, IMessagingClientService messagingClientService) {
+    public MockProcessEmailSendingServiceImpl(TemplateEngine templateEngine, MailSender mailSender, JavaMailSender javaMailSender, IConsumerMessageService messageConsumer) {
         super(templateEngine, mailSender, javaMailSender);
-        messagingClientService.receive("email", (email) -> this.process((EmailDTO) email));
+        messageConsumer.receive("email", m -> this.process((EmailDTO) m));
+        messageConsumer.receive("teste", System.out::println);
+        messageConsumer.receive("outroTeste", System.out::println);
     }
 
     @Override

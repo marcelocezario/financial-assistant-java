@@ -1,4 +1,4 @@
-package br.dev.mhc.templatebase.messaging.services.interfaces;
+package br.dev.mhc.templatebase.messaging;
 
 public interface IProducerMessageService {
 
