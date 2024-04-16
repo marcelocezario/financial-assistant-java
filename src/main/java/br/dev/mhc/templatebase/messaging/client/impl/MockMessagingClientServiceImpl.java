@@ -44,9 +44,12 @@ public class MockMessagingClientServiceImpl implements IMessagingClientService {
             var handler = handlers.get(topic);
             var queue = topics.get(topic);
             if (nonNull(handler)) {
-                for (int i = 0; i < queue.size(); i++) {
+                while(!queue.isEmpty()) {
                     LOG.debug("Start consumer message", topic);
-                    handler.handleMessage(queue.poll());
+                    var message = queue.poll();
+                    if (nonNull(message)) {
+                        handler.handleMessage(message);
+                    }
                     LOG.debug("End consumer message", topic);
                 }
             } else {

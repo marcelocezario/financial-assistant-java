@@ -71,6 +71,5 @@ public class ForgotPasswordServiceImpl implements IForgotPasswordService {
                 .body(body)
                 .build();
         sendEmailService.send(email);
-        LOG.debug(token);
     }
 }
