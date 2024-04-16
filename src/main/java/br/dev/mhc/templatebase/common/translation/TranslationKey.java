@@ -2,6 +2,15 @@ package br.dev.mhc.templatebase.common.translation;
 
 public enum TranslationKey {
 
+    COMPANY_NAME("company.name"),
+
+    EMAIL_GENERIC_GREETING("email.generic.greeting"),
+    EMAIL_GENERIC_COMPANY_SIGNATURE("email.generic.company.signature"),
+
+    EMAIL_FORGOT_PASSWORD_SUBJECT("email.forgotPassword.subject"),
+    EMAIL_FORGOT_PASSWORD_CONTENT("email.forgotPassword.content"),
+    EMAIL_FORGOT_PASSWORD_TOKEN_EXPIRATION("email.forgotPassword.tokenExpiration"),
+
     EXCEPTION_GENERIC("exceptions.generic"),
     EXCEPTION_METHOD_ARGUMENT_NOT_VALID("exceptions.methodArgumentNotValidException"),
     EXCEPTION_RESOURCE_NOT_FOUND("exceptions.resourceNotFound"),
