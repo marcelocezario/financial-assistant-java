@@ -18,8 +18,5 @@ public class SendEmailServiceImpl implements ISendEmailService {
     @Override
     public void send(EmailDTO emailDTO) {
         producerMessageService.send("email", emailDTO);
-        producerMessageService.send("teste", "APENAS TESTANDO ESSA BUDEGA");
-        producerMessageService.send("outroTeste", "FAZENDO OUTRO TESTE");
-        producerMessageService.send("outroTeste", emailDTO.toString());
     }
 }

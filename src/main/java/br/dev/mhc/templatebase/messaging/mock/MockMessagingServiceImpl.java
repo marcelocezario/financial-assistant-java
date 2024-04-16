@@ -4,6 +4,8 @@ import br.dev.mhc.templatebase.common.logs.LogHelper;
 import br.dev.mhc.templatebase.messaging.IConsumerMessageService;
 import br.dev.mhc.templatebase.messaging.IProducerMessageService;
 import br.dev.mhc.templatebase.messaging.MessageHandler;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -14,12 +16,14 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 
+@Primary
+@Profile("!(prod | qa)")
 @Service
-public class MockMessagingServiceImpl implements IConsumerMessageService, IProducerMessageService {
+public class MockMessagingServiceImpl implements IProducerMessageService, IConsumerMessageService {
 
     private static final LogHelper LOG = new LogHelper(MockMessagingServiceImpl.class);
     private static final Map<String, Queue<Object>> topics = new ConcurrentHashMap<>();
-    private static final Map<String, MessageHandler<Object>> handlers = new ConcurrentHashMap<>();
+    private static final Map<String, MessageHandler> handlers = new ConcurrentHashMap<>();
 
     @Override
     public void send(String topic, Object message) {
@@ -32,7 +36,7 @@ public class MockMessagingServiceImpl implements IConsumerMessageService, IProdu
     }
 
     @Override
-    public void receive(String topic, MessageHandler<Object> messageHandler) {
+    public void receive(String topic, MessageHandler<?> messageHandler) {
         LOG.debug("Start receive message", topic);
         requireNonNull(topic);
         requireNonNull(messageHandler);

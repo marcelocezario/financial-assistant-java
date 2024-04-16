@@ -6,6 +6,8 @@ import br.dev.mhc.templatebase.messaging.IConsumerMessageService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Multipart;
 import jakarta.mail.internet.MimeMessage;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,6 +19,8 @@ import java.io.IOException;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 
+@Primary
+@Profile("!(prod | qa)")
 @Service
 public class MockProcessEmailSendingServiceImpl extends AbstractProcessEmailSendingServiceImpl {
 
@@ -25,8 +29,6 @@ public class MockProcessEmailSendingServiceImpl extends AbstractProcessEmailSend
     public MockProcessEmailSendingServiceImpl(TemplateEngine templateEngine, MailSender mailSender, JavaMailSender javaMailSender, IConsumerMessageService messageConsumer) {
         super(templateEngine, mailSender, javaMailSender);
         messageConsumer.receive("email", m -> this.process((EmailDTO) m));
-        messageConsumer.receive("teste", System.out::println);
-        messageConsumer.receive("outroTeste", System.out::println);
     }
 
     @Override
