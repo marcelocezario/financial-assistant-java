@@ -1,6 +1,6 @@
 package br.dev.mhc.templatebase.security.services.impl;
 
-import br.dev.mhc.templatebase.security.UserDetailsModel;
+import br.dev.mhc.templatebase.security.UserAuthenticated;
 import br.dev.mhc.templatebase.security.dtos.TokenResponseDTO;
 import br.dev.mhc.templatebase.security.services.interfaces.IBuildTokenService;
 import br.dev.mhc.templatebase.security.services.interfaces.IGenerateAccessTokenService;
@@ -29,15 +29,15 @@ public class GenerateAccessTokenServiceImpl implements IGenerateAccessTokenServi
     }
 
     @Override
-    public TokenResponseDTO generate(UserDetailsModel userDetailsModel) {
-        requireNonNull(userDetailsModel);
+    public TokenResponseDTO generate(UserAuthenticated userAuthenticated) {
+        requireNonNull(userAuthenticated);
 
         Instant iat = Instant.now();
 
-        String accessToken = buildTokenService.build(userDetailsModel, iat, EXPIRATION_ACCESS_TOKEN, ACCESS_TOKEN);
-        String refreshToken = buildTokenService.build(userDetailsModel, iat, EXPIRATION_REFRESH_TOKEN, REFRESH_TOKEN);
+        String accessToken = buildTokenService.build(userAuthenticated, iat, EXPIRATION_ACCESS_TOKEN, ACCESS_TOKEN);
+        String refreshToken = buildTokenService.build(userAuthenticated, iat, EXPIRATION_REFRESH_TOKEN, REFRESH_TOKEN);
 //
-//        List<UserPendingIssue> pendingIssues = userPendingIssueService.getPendingIssuesByUserId(userDetailsModel.getId());
+//        List<UserPendingIssue> pendingIssues = userPendingIssueService.getPendingIssuesByUserId(userAuthenticated.getId());
 //
         return TokenResponseDTO.builder()
                 .access_token(accessToken)

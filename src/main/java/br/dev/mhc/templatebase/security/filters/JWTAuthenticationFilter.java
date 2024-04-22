@@ -2,7 +2,7 @@ package br.dev.mhc.templatebase.security.filters;
 
 import br.dev.mhc.templatebase.common.dtos.StandardErrorDTO;
 import br.dev.mhc.templatebase.common.logs.LogHelper;
-import br.dev.mhc.templatebase.security.UserDetailsModel;
+import br.dev.mhc.templatebase.security.UserAuthenticated;
 import br.dev.mhc.templatebase.security.dtos.CredentialsDTO;
 import br.dev.mhc.templatebase.security.dtos.TokenResponseDTO;
 import br.dev.mhc.templatebase.security.filters.dependencies.AuthenticationDependencies;
@@ -56,10 +56,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         registerLoginAttemptService.register(obtainUsername(request), true);
-        UserDetailsModel userDetailsModel = (UserDetailsModel) authResult.getPrincipal();
+        UserAuthenticated userAuthenticated = (UserAuthenticated) authResult.getPrincipal();
         try {
             response.setContentType("application/json");
-            TokenResponseDTO tokenResponse = generateAccessTokenService.generate(userDetailsModel);
+            TokenResponseDTO tokenResponse = generateAccessTokenService.generate(userAuthenticated);
             response.getWriter().append(gson.toJson(tokenResponse));
         } catch (IOException e) {
             LOG.error("Failed to add token to the response", e);

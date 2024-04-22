@@ -3,7 +3,7 @@ package br.dev.mhc.templatebase.security.services.impl;
 import br.dev.mhc.templatebase.common.logs.LogHelper;
 import br.dev.mhc.templatebase.email.EmailDTO;
 import br.dev.mhc.templatebase.email.services.interfaces.ISendEmailService;
-import br.dev.mhc.templatebase.security.UserDetailsModel;
+import br.dev.mhc.templatebase.security.UserAuthenticated;
 import br.dev.mhc.templatebase.security.dtos.ForgotPasswordRequestDTO;
 import br.dev.mhc.templatebase.security.services.interfaces.IBuildTokenService;
 import br.dev.mhc.templatebase.security.services.interfaces.IForgotPasswordService;
@@ -48,7 +48,7 @@ public class ForgotPasswordServiceImpl implements IForgotPasswordService {
             LOG.debug("Username not found", forgotPasswordRequestDTO.getUsername());
             return;
         }
-        var userDetails = UserDetailsModel.builder().user(userOpt.get()).build();
+        var userDetails = UserAuthenticated.builder().user(userOpt.get()).build();
         var iat = Instant.now();
         var token = buildTokenService.build(userDetails, iat, EXPIRATION_FORGOT_PASSWORD_TOKEN, FORGOT_PASSWORD_TOKEN);
         var forgotLink = UriComponentsBuilder

@@ -1,6 +1,6 @@
 package br.dev.mhc.templatebase.security.utils;
 
-import br.dev.mhc.templatebase.security.UserDetailsModel;
+import br.dev.mhc.templatebase.security.UserAuthenticated;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,22 +15,22 @@ public class SecurityUtils {
 
     private static String SECRET_KEYWORD;
 
-    public static UserDetailsModel getAuthenticatedUser() {
+    public static UserAuthenticated getAuthenticatedUser() {
         try {
-            return (UserDetailsModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            return (UserAuthenticated) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         } catch (Exception e) {
             return null;
         }
     }
 
     public static Long getIdAuthenticatedUser() {
-        UserDetailsModel userDetailsModel = getAuthenticatedUser();
-        return nonNull(userDetailsModel) ? userDetailsModel.getId() : null;
+        UserAuthenticated userAuthenticated = getAuthenticatedUser();
+        return nonNull(userAuthenticated) ? userAuthenticated.getId() : null;
     }
 
     public static String getUsernameAuthenticatedUser() {
-        UserDetailsModel userDetailsModel = getAuthenticatedUser();
-        return nonNull(userDetailsModel) ? userDetailsModel.getUsername() : null;
+        UserAuthenticated userAuthenticated = getAuthenticatedUser();
+        return nonNull(userAuthenticated) ? userAuthenticated.getUsername() : null;
     }
 
     public static SecretKey getSecretKey() {

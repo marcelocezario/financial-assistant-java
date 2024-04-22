@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-public class UserDetailsModel implements UserDetails {
+public class UserAuthenticated implements UserDetails {
 
     private final int MAX_FAILED_LOGIN_ATTEMPTS = 3;
 
@@ -22,7 +22,7 @@ public class UserDetailsModel implements UserDetails {
     private final Collection<? extends GrantedAuthority> authorities;
     private final int failedLoginAttempts;
 
-    private UserDetailsModel(UserDetailsModelBuilder builder) {
+    private UserAuthenticated(UserDetailsModelBuilder builder) {
         super();
         id = builder.user.getId();
         username = builder.user.getEmail();
@@ -33,7 +33,7 @@ public class UserDetailsModel implements UserDetails {
     }
 
     public static UserDetailsModelBuilder builder() {
-        return new UserDetailsModel.UserDetailsModelBuilder();
+        return new UserAuthenticated.UserDetailsModelBuilder();
     }
 
     @Override
@@ -91,8 +91,8 @@ public class UserDetailsModel implements UserDetails {
             return this;
         }
 
-        public UserDetailsModel build() {
-            return new UserDetailsModel(this);
+        public UserAuthenticated build() {
+            return new UserAuthenticated(this);
         }
     }
 }

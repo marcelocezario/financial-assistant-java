@@ -1,8 +1,8 @@
-package br.dev.mhc.templatebase.security.services.impl;
+package br.dev.mhc.templatebase.security;
 
-import br.dev.mhc.templatebase.security.UserDetailsModel;
 import br.dev.mhc.templatebase.security.entities.LoginAttempt;
 import br.dev.mhc.templatebase.security.repositories.LoginAttemptRepository;
+import br.dev.mhc.templatebase.user.User;
 import br.dev.mhc.templatebase.user.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,11 +22,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
-        var loginAttempts = loginAttemptRepository.findByUsername(username);
-        return UserDetailsModel.builder()
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
+        int loginAttempts = loginAttemptRepository.findByUsername(username)
+                .map(LoginAttempt::getFailedAttempts)
+                .orElse(0);
+        return UserAuthenticated.builder()
                 .user(user)
-                .failedLoginAttempts(loginAttempts.map(LoginAttempt::getFailedAttempts).orElse(0))
+                .failedLoginAttempts(loginAttempts)
                 .build();
     }
 }
