@@ -19,12 +19,10 @@ public class RegisterLoginAttemptServiceImpl implements IRegisterLoginAttemptSer
     @Override
     public void register(String username, boolean success) {
         requireNonNull(username);
-        var loginAttempt = loginAttemptRepository.findByUsername(username).orElse(new LoginAttempt(username));
-        if (success) {
-            loginAttempt.successfulLogin();
-        } else {
-            loginAttempt.addFailedAttempt();
-        }
+        var loginAttempt = LoginAttempt.builder()
+                .username(username)
+                .success(success)
+                .build();
         loginAttemptRepository.save(loginAttempt);
     }
 }

@@ -1,5 +1,6 @@
 package br.dev.mhc.financialassistant.security.config;
 
+import br.dev.mhc.financialassistant.security.CustomAuthorizationManager;
 import br.dev.mhc.financialassistant.security.filters.JWTAuthenticationFilter;
 import br.dev.mhc.financialassistant.security.filters.JWTAuthorizationFilter;
 import br.dev.mhc.financialassistant.security.filters.dependencies.AuthenticationDependencies;
@@ -19,19 +20,27 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private final static String NUMBER_REGEX = "/(\\d+)";
+    private final static String ANY_SUB_ROUTE_REGEX = "/(.*)";
+    private final static String ANY_ROUTE_REGEX = "?(/.*)?";
     private final Environment environment;
+    private final CustomAuthorizationManager customAuthorizationManager;
     private final AuthenticationDependencies authenticationDependencies;
     private final AuthorizationDependencies authorizationDependencies;
 
-    public SecurityConfig(Environment environment, AuthenticationDependencies authenticationDependencies, AuthorizationDependencies authorizationDependencies) {
+    public SecurityConfig(Environment environment, CustomAuthorizationManager customAuthorizationManager, AuthenticationDependencies authenticationDependencies, AuthorizationDependencies authorizationDependencies) {
         this.environment = environment;
+        this.customAuthorizationManager = customAuthorizationManager;
         this.authenticationDependencies = authenticationDependencies;
         this.authorizationDependencies = authorizationDependencies;
     }
@@ -48,7 +57,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/users")).permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/auth/forgot-password")).permitAll()
+                        .requestMatchers(buildRequestMatcher("/users", NUMBER_REGEX, ANY_ROUTE_REGEX)).access(customAuthorizationManager)
                         .anyRequest().hasAnyRole(UserRole.ADMIN.getDescription())
                 )
                 .addFilter(new JWTAuthenticationFilter(authenticationManager, authenticationDependencies))
@@ -61,5 +72,19 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.getSharedObject(AuthenticationManagerBuilder.class).build();
     }
+
+    private RequestMatcher buildRequestMatcher(HttpMethod httpMethod, String... patterns) {
+        String pattern = String.join("", patterns);
+        if (Objects.isNull(httpMethod)) {
+            return RegexRequestMatcher.regexMatcher(pattern);
+        } else {
+            return RegexRequestMatcher.regexMatcher(httpMethod, pattern);
+        }
+    }
+
+    private RequestMatcher buildRequestMatcher(String... patterns) {
+        return this.buildRequestMatcher(null, patterns);
+    }
+
 
 }

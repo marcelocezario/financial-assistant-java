@@ -9,6 +9,7 @@ import br.dev.mhc.financialassistant.user.services.interfaces.IUpdateUserService
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import static br.dev.mhc.financialassistant.user.UserMapper.toDto;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 
@@ -33,13 +34,12 @@ public class UpdateUserServiceImpl implements IUpdateUserService {
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException(userDTO.getId(), User.class);
         }
-        userDTO = new UserDTO(repository.save(userEntity));
+        userDTO = toDto(repository.save(userEntity));
         return userDTO;
     }
 
     private void updateData(User userEntity, UserDTO userDTO) {
         userEntity.setNickname(userDTO.getNickname());
-        userEntity.setEmail(userDTO.getEmail());
         if (nonNull(userDTO.getPassword()) && !userDTO.getPassword().isEmpty()) {
             userDTO.setPassword(encryptPasswordService.encrypt(userDTO.getPassword()));
             userEntity.setPassword(userDTO.getPassword());

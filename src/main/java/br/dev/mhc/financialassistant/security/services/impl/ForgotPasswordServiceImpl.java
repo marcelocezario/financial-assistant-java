@@ -43,7 +43,7 @@ public class ForgotPasswordServiceImpl implements IForgotPasswordService {
         requireNonNull(forgotPasswordRequestDTO);
         requireNonNull(forgotPasswordRequestDTO.getUsername());
 
-        var userOpt = userRepository.findByEmail(forgotPasswordRequestDTO.getUsername());
+        var userOpt = userRepository.findByEmailIgnoreCase(forgotPasswordRequestDTO.getUsername());
         if (userOpt.isEmpty()) {
             LOG.debug("Username not found", forgotPasswordRequestDTO.getUsername());
             return;

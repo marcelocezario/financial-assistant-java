@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class LogoutServiceImpl implements ILogoutService {
 
-    private final LogHelper LOG = new LogHelper(LogoutServiceImpl.class);
+    private static final LogHelper LOG = new LogHelper(LogoutServiceImpl.class);
 
     private final LogoutRequestRepository logoutRequestRepository;
 
@@ -21,6 +21,7 @@ public class LogoutServiceImpl implements ILogoutService {
     @Override
     public void logout() {
         var username = SecurityUtils.getUsernameAuthenticatedUser();
+        LOG.debug("Logout requested", username);
         var logoutRequest = new LogoutRequest(username);
         logoutRequestRepository.save(logoutRequest);
     }

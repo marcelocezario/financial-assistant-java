@@ -1,6 +1,5 @@
 package br.dev.mhc.financialassistant.security;
 
-import br.dev.mhc.financialassistant.security.entities.LoginAttempt;
 import br.dev.mhc.financialassistant.security.repositories.LoginAttemptRepository;
 import br.dev.mhc.financialassistant.user.User;
 import br.dev.mhc.financialassistant.user.UserRepository;
@@ -22,11 +21,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username)
+        User user = userRepository.findByEmailIgnoreCase(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
-        int loginAttempts = loginAttemptRepository.findByUsername(username)
-                .map(LoginAttempt::getFailedAttempts)
-                .orElse(0);
+        int loginAttempts = loginAttemptRepository.countLastFailedAttempts(username);
         return UserAuthenticated.builder()
                 .user(user)
                 .failedLoginAttempts(loginAttempts)

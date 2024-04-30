@@ -91,7 +91,7 @@ public class UserValidatorServiceImpl implements IUserValidatorService, Constrai
         if (email.length() > LENGTH_MAX) {
             validation.addError(FIELD_NAME, USER_VALIDATION_EMAIL_CANNOT_BE_LONGER_THEN_CHARACTERS.translate(LENGTH_MAX));
         }
-        var userOpt = repository.findByEmail(email);
+        var userOpt = repository.findByEmailIgnoreCase(email);
         if (userOpt.isPresent()) {
             var userByEmail = userOpt.get();
             if (!userByEmail.getId().equals(validation.getObject().getId())) {

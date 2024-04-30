@@ -3,7 +3,7 @@ create table users (
     nickname varchar(255),
     email varchar(255) not null unique,
     password varchar(255) not null,
-    active boolean,
+    active boolean not null,
     created_at timestamp(6) with time zone,
     updated_at timestamp(6) with time zone,
     primary key (id)

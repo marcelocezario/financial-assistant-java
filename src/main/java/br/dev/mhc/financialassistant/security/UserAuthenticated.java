@@ -12,7 +12,7 @@ import java.util.Collection;
 
 public class UserAuthenticated implements UserDetails {
 
-    private final int MAX_FAILED_LOGIN_ATTEMPTS = 3;
+    private final static int MAX_FAILED_LOGIN_ATTEMPTS = 3;
 
     @Getter
     private final long id;
@@ -21,8 +21,10 @@ public class UserAuthenticated implements UserDetails {
     private final boolean active;
     private final Collection<? extends GrantedAuthority> authorities;
     private final int failedLoginAttempts;
+    @Getter
+    private final String nickname;
 
-    private UserAuthenticated(UserDetailsModelBuilder builder) {
+    private UserAuthenticated(UserAuthenticatedBuilder builder) {
         super();
         id = builder.user.getId();
         username = builder.user.getEmail();
@@ -30,10 +32,11 @@ public class UserAuthenticated implements UserDetails {
         active = builder.user.isActive();
         authorities = builder.user.getRoles().stream().map(p -> new SimpleGrantedAuthority("ROLE_" + p.getDescription())).toList();
         failedLoginAttempts = builder.failedLoginAttempts;
+        nickname = builder.user.getNickname();
     }
 
-    public static UserDetailsModelBuilder builder() {
-        return new UserAuthenticated.UserDetailsModelBuilder();
+    public static UserAuthenticatedBuilder builder() {
+        return new UserAuthenticatedBuilder();
     }
 
     @Override
@@ -76,17 +79,17 @@ public class UserAuthenticated implements UserDetails {
     }
 
     @NoArgsConstructor
-    public static class UserDetailsModelBuilder {
+    public static class UserAuthenticatedBuilder {
 
         User user;
         int failedLoginAttempts = 0;
 
-        public UserDetailsModelBuilder user(User user) {
+        public UserAuthenticatedBuilder user(User user) {
             this.user = user;
             return this;
         }
 
-        public UserDetailsModelBuilder failedLoginAttempts(int failedLoginAttempts) {
+        public UserAuthenticatedBuilder failedLoginAttempts(int failedLoginAttempts) {
             this.failedLoginAttempts = failedLoginAttempts;
             return this;
         }

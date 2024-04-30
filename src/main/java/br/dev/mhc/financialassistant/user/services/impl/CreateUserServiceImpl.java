@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+import static br.dev.mhc.financialassistant.user.UserMapper.toDto;
+import static br.dev.mhc.financialassistant.user.UserMapper.toEntity;
 import static java.util.Objects.requireNonNull;
 
 @Service
@@ -26,11 +28,11 @@ public class CreateUserServiceImpl implements ICreateUserService {
     public UserDTO create(UserDTO userDTO) {
         requireNonNull(userDTO);
         userDTO.setId(null);
+        userDTO.setEmail(userDTO.getEmail().toLowerCase());
         userDTO.setPassword(encryptPasswordService.encrypt(userDTO.getPassword()));
         userDTO.setRoles(Set.of(UserRole.BASIC));
         userDTO.setActive(true);
-        var user = repository.save(userDTO.toEntity());
-        return new UserDTO(user);
+        userDTO = toDto(repository.save(toEntity(userDTO)));
+        return userDTO;
     }
-
 }

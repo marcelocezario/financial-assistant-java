@@ -1,5 +1,6 @@
 package br.dev.mhc.financialassistant.user.services.impl;
 
+import br.dev.mhc.financialassistant.user.UserMapper;
 import br.dev.mhc.financialassistant.user.UserRepository;
 import br.dev.mhc.financialassistant.user.dtos.UserDTO;
 import br.dev.mhc.financialassistant.user.services.interfaces.IFindAllUsersService;
@@ -18,6 +19,6 @@ public class FindAllUsersServiceImpl implements IFindAllUsersService {
 
     @Override
     public List<UserDTO> find() {
-        return repository.findAll().stream().map(UserDTO::new).toList();
+        return repository.findAll().stream().map(UserMapper::toDto).toList();
     }
 }
