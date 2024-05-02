@@ -53,24 +53,24 @@ public class UserValidatorServiceImpl implements IUserValidatorService, Constrai
         final var LENGTH_MIN = 8;
         if (isNull(password)) {
             if (isNull(validation.getObject().getId())) {
-                validation.addError(FIELD_NAME, USER_VALIDATION_PASSWORD_CANNOT_BE_NULL.translate());
+                validation.addError(FIELD_NAME, null, USER_VALIDATION_PASSWORD_CANNOT_BE_NULL.translate());
             }
             return;
         }
         if (password.isBlank()) {
-            validation.addError(FIELD_NAME, USER_VALIDATION_PASSWORD_CANNOT_BE_EMPTY.translate());
+            validation.addError(FIELD_NAME, password, USER_VALIDATION_PASSWORD_CANNOT_BE_EMPTY.translate());
         }
         if (password.length() < LENGTH_MIN) {
-            validation.addError(FIELD_NAME, USER_VALIDATION_PASSWORD_CANNOT_BE_LESS_THEN_CHARACTERS.translate(LENGTH_MIN));
+            validation.addError(FIELD_NAME, password, USER_VALIDATION_PASSWORD_CANNOT_BE_LESS_THEN_CHARACTERS.translate(LENGTH_MIN));
         }
         if (!containsLetters(password)) {
-            validation.addError(FIELD_NAME, USER_VALIDATION_PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_LETTER.translate());
+            validation.addError(FIELD_NAME, password, USER_VALIDATION_PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_LETTER.translate());
         }
         if (!containsNumbers(password)) {
-            validation.addError(FIELD_NAME, USER_VALIDATION_PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_NUMBER.translate());
+            validation.addError(FIELD_NAME, password, USER_VALIDATION_PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_NUMBER.translate());
         }
         if (!containsSpecialCharacters(password)) {
-            validation.addError(FIELD_NAME, USER_VALIDATION_PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_SPECIAL_CHARACTER.translate());
+            validation.addError(FIELD_NAME, password, USER_VALIDATION_PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_SPECIAL_CHARACTER.translate());
         }
     }
 
@@ -79,23 +79,23 @@ public class UserValidatorServiceImpl implements IUserValidatorService, Constrai
         var email = validation.getObject().getEmail();
         final var LENGTH_MAX = 255;
         if (isNull(email)) {
-            validation.addError(FIELD_NAME, USER_VALIDATION_EMAIL_CANNOT_BE_NULL.translate());
+            validation.addError(FIELD_NAME, null, USER_VALIDATION_EMAIL_CANNOT_BE_NULL.translate());
             return;
         }
         if (email.isBlank()) {
-            validation.addError(FIELD_NAME, USER_VALIDATION_EMAIL_CANNOT_BE_EMPTY.translate());
+            validation.addError(FIELD_NAME, email, USER_VALIDATION_EMAIL_CANNOT_BE_EMPTY.translate());
         }
         if (!isValidEmail(email)) {
-            validation.addError(FIELD_NAME, USER_VALIDATION_EMAIL_IS_INVALID.translate());
+            validation.addError(FIELD_NAME, email, USER_VALIDATION_EMAIL_IS_INVALID.translate());
         }
         if (email.length() > LENGTH_MAX) {
-            validation.addError(FIELD_NAME, USER_VALIDATION_EMAIL_CANNOT_BE_LONGER_THEN_CHARACTERS.translate(LENGTH_MAX));
+            validation.addError(FIELD_NAME, email, USER_VALIDATION_EMAIL_CANNOT_BE_LONGER_THEN_CHARACTERS.translate(LENGTH_MAX));
         }
         var userOpt = repository.findByEmailIgnoreCase(email);
         if (userOpt.isPresent()) {
             var userByEmail = userOpt.get();
             if (!userByEmail.getId().equals(validation.getObject().getId())) {
-                validation.addError(FIELD_NAME, USER_VALIDATION_EMAIL_IS_ALREADY_USED.translate());
+                validation.addError(FIELD_NAME, email, USER_VALIDATION_EMAIL_IS_ALREADY_USED.translate());
             }
         }
     }
@@ -106,17 +106,17 @@ public class UserValidatorServiceImpl implements IUserValidatorService, Constrai
         final var LENGTH_MIN = 3;
         final var LENGTH_MAX = 255;
         if (isNull(nickname)) {
-            validation.addError(FIELD_NAME, USER_VALIDATION_NICKNAME_CANNOT_BE_NULL.translate());
+            validation.addError(FIELD_NAME, nickname, USER_VALIDATION_NICKNAME_CANNOT_BE_NULL.translate());
             return;
         }
         if (nickname.isBlank()) {
-            validation.addError(FIELD_NAME, USER_VALIDATION_NICKNAME_CANNOT_BE_EMPTY.translate());
+            validation.addError(FIELD_NAME, nickname, USER_VALIDATION_NICKNAME_CANNOT_BE_EMPTY.translate());
         }
         if (nickname.length() < LENGTH_MIN) {
-            validation.addError(FIELD_NAME, USER_VALIDATION_NICKNAME_CANNOT_BE_LESS_THEN_CHARACTERS.translate(LENGTH_MIN));
+            validation.addError(FIELD_NAME, nickname, USER_VALIDATION_NICKNAME_CANNOT_BE_LESS_THEN_CHARACTERS.translate(LENGTH_MIN));
         }
         if (nickname.length() > LENGTH_MAX) {
-            validation.addError(FIELD_NAME, USER_VALIDATION_NICKNAME_CANNOT_BE_LONGER_THEN_CHARACTERS.translate(LENGTH_MAX));
+            validation.addError(FIELD_NAME, nickname, USER_VALIDATION_NICKNAME_CANNOT_BE_LONGER_THEN_CHARACTERS.translate(LENGTH_MAX));
         }
     }
 

@@ -4,6 +4,22 @@ public enum TranslationKey {
 
     COMPANY_NAME("company.name"),
 
+    CURRENCY_VALIDATION_CODE_CANNOT_BE_EMPTY("currency.validation.code.cannotBeEmpty"),
+    CURRENCY_VALIDATION_CODE_CANNOT_BE_NULL("currency.validation.code.cannotBeNull"),
+    CURRENCY_VALIDATION_CODE_IS_ALREADY_USED("currency.validation.code.isAlreadyUsedByUser"),
+    CURRENCY_VALIDATION_CODE_MUST_HAVE_CHARACTERS("currency.validation.code.mustHaveCharacters"),
+    CURRENCY_VALIDATION_NAME_CANNOT_BE_EMPTY("currency.validation.name.cannotBeEmpty"),
+    CURRENCY_VALIDATION_NAME_CANNOT_BE_LESS_THEN_CHARACTERS("currency.validation.name.cannotBeLessThenCharacters"),
+    CURRENCY_VALIDATION_NAME_CANNOT_BE_LONGER_THEN_CHARACTERS("currency.validation.name.cannotBeLongerThenCharacters"),
+    CURRENCY_VALIDATION_NAME_CANNOT_BE_NULL("currency.validation.name.cannotBeNull"),
+    CURRENCY_VALIDATION_NAME_IS_ALREADY_USED("currency.validation.name.isAlreadyUsedByUser"),
+    CURRENCY_VALIDATION_PRICE_IN_BRL_CANNOT_BE_NULL("currency.validation.princeInBRL.cannotBeNull"),
+    CURRENCY_VALIDATION_PRICE_IN_BRL_MUST_BE_GREATER_THAN_ZERO("currency.validation.princeInBRL.mustBeGreaterThanZero"),
+    CURRENCY_VALIDATION_SYMBOL_CANNOT_BE_EMPTY("currency.validation.symbol.cannotBeEmpty"),
+    CURRENCY_VALIDATION_SYMBOL_CANNOT_BE_LESS_THEN_CHARACTERS("currency.validation.symbol.cannotBeLessThenCharacters"),
+    CURRENCY_VALIDATION_SYMBOL_CANNOT_BE_LONGER_THEN_CHARACTERS("currency.validation.symbol.cannotBeLongerThenCharacters"),
+    CURRENCY_VALIDATION_SYMBOL_CANNOT_BE_NULL("currency.validation.symbol.cannotBeNull"),
+
     EMAIL_GENERIC_GREETING("email.generic.greeting"),
     EMAIL_GENERIC_COMPANY_SIGNATURE("email.generic.company.signature"),
 

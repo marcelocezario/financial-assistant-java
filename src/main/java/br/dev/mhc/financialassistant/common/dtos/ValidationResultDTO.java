@@ -20,8 +20,15 @@ public class ValidationResultDTO<T> implements Serializable {
         return errors.isEmpty();
     }
 
-    public void addError(String fieldName, String message) {
-        errors.add(new FieldMessageDTO(fieldName, message));
+    public void addError(String fieldName, Object value, String message) {
+        errors.add(new FieldMessageDTO(fieldName, value, message));
     }
 
+    @Override
+    public String toString() {
+        return "Validation result - " +
+                "type [" + object.getClass().getSimpleName() + "]" +
+                ", status [" + (isValid() ? "valid" : "invalid") + "]" +
+                ", errors " + errors;
+    }
 }

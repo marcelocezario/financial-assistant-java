@@ -46,11 +46,8 @@ public class ValidateTokenServiceImpl implements IValidateTokenService {
             }
             Date expirationDate = claims.getExpiration();
             Date now = new Date(System.currentTimeMillis());
-            if (now.after(expirationDate)) {
-                return false;
-            }
-            LOG.debug("Token successful validated", username);
-            return true;
+            return !now.after(expirationDate);
+//            LOG.debug("Token successful validated", username);
         } catch (Exception e) {
             LOG.error("Verification token failed", e);
             return false;

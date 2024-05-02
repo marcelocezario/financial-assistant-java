@@ -57,8 +57,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/users")).permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/auth/forgot-password")).permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/auth/logout")).authenticated()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/currencies/**")).authenticated()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/users")).permitAll()
                         .requestMatchers(buildRequestMatcher("/users", NUMBER_REGEX, ANY_ROUTE_REGEX)).access(customAuthorizationManager)
                         .anyRequest().hasAnyRole(UserRole.ADMIN.getDescription())
                 )
