@@ -14,7 +14,7 @@ public class LogHelper {
         this.LOG = LogManager.getLogger(classType);
     }
 
-    public void debug(String message) {
+    public void debug(Object message) {
         this.LOG.debug(message);
     }
 
@@ -25,7 +25,7 @@ public class LogHelper {
         this.LOG.debug(message.concat(reference));
     }
 
-    public void error(String message) {
+    public void error(Object message) {
         this.LOG.error(message);
     }
 

@@ -1,6 +1,8 @@
-package br.dev.mhc.financialassistant.user;
+package br.dev.mhc.financialassistant.user.mappers;
 
 import br.dev.mhc.financialassistant.user.dtos.UserDTO;
+import br.dev.mhc.financialassistant.user.entities.User;
+import br.dev.mhc.financialassistant.user.enums.UserRole;
 
 public class UserMapper {
 

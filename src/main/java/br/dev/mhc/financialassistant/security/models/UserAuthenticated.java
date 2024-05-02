@@ -1,7 +1,7 @@
-package br.dev.mhc.financialassistant.security;
+package br.dev.mhc.financialassistant.security.models;
 
-import br.dev.mhc.financialassistant.user.User;
-import br.dev.mhc.financialassistant.user.UserRole;
+import br.dev.mhc.financialassistant.user.entities.User;
+import br.dev.mhc.financialassistant.user.enums.UserRole;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

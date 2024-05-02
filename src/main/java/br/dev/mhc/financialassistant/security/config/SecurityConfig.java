@@ -5,7 +5,7 @@ import br.dev.mhc.financialassistant.security.filters.JWTAuthenticationFilter;
 import br.dev.mhc.financialassistant.security.filters.JWTAuthorizationFilter;
 import br.dev.mhc.financialassistant.security.filters.dependencies.AuthenticationDependencies;
 import br.dev.mhc.financialassistant.security.filters.dependencies.AuthorizationDependencies;
-import br.dev.mhc.financialassistant.user.UserRole;
+import br.dev.mhc.financialassistant.user.enums.UserRole;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +25,8 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import java.util.Arrays;
 import java.util.Objects;
+
+import static br.dev.mhc.financialassistant.common.constants.RouteConstants.*;
 
 @Configuration
 @EnableWebSecurity
@@ -57,11 +59,12 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/auth/forgot-password")).permitAll()
-                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/auth/logout")).authenticated()
-                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/currencies/**")).authenticated()
-                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/users")).permitAll()
-                        .requestMatchers(buildRequestMatcher("/users", NUMBER_REGEX, ANY_ROUTE_REGEX)).access(customAuthorizationManager)
+                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, AUTH_ROUTE + "/forgot-password")).permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, AUTH_ROUTE + "/**")).authenticated()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, CATEGORIES_ROUTE)).authenticated()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, CURRENCIES_ROUTE + "/**")).authenticated()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, USERS_ROUTE)).permitAll()
+                        .requestMatchers(buildRequestMatcher(USERS_ROUTE, NUMBER_REGEX, ANY_ROUTE_REGEX)).access(customAuthorizationManager)
                         .anyRequest().hasAnyRole(UserRole.ADMIN.getDescription())
                 )
                 .addFilter(new JWTAuthenticationFilter(authenticationManager, authenticationDependencies))

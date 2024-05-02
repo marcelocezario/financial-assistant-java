@@ -1,5 +1,6 @@
-package br.dev.mhc.financialassistant.user;
+package br.dev.mhc.financialassistant.user.entities;
 
+import br.dev.mhc.financialassistant.user.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnTransformer;

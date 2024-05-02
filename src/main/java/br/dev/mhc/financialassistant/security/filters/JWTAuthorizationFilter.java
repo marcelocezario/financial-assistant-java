@@ -1,6 +1,6 @@
 package br.dev.mhc.financialassistant.security.filters;
 
-import br.dev.mhc.financialassistant.security.TokenUsageType;
+import br.dev.mhc.financialassistant.security.enums.TokenUsageType;
 import br.dev.mhc.financialassistant.security.filters.dependencies.AuthorizationDependencies;
 import br.dev.mhc.financialassistant.security.services.interfaces.IValidateTokenService;
 import br.dev.mhc.financialassistant.security.utils.JWTUtil;

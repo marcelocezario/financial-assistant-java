@@ -1,5 +1,6 @@
-package br.dev.mhc.financialassistant.security;
+package br.dev.mhc.financialassistant.security.controllers;
 
+import br.dev.mhc.financialassistant.common.constants.RouteConstants;
 import br.dev.mhc.financialassistant.security.dtos.ForgotPasswordRequestDTO;
 import br.dev.mhc.financialassistant.security.dtos.TokenResponseDTO;
 import br.dev.mhc.financialassistant.security.services.interfaces.IForgotPasswordService;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/auth")
+@RequestMapping(value = RouteConstants.AUTH_ROUTE)
 public record AuthController(
         IRefreshTokenService refreshTokenService,
         ILogoutService logoutService,

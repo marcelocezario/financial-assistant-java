@@ -1,7 +1,7 @@
 package br.dev.mhc.financialassistant.security.services.interfaces;
 
-import br.dev.mhc.financialassistant.security.TokenUsageType;
-import br.dev.mhc.financialassistant.security.UserAuthenticated;
+import br.dev.mhc.financialassistant.security.enums.TokenUsageType;
+import br.dev.mhc.financialassistant.security.models.UserAuthenticated;
 
 import java.time.Instant;
 

@@ -1,4 +1,4 @@
-package br.dev.mhc.financialassistant.user;
+package br.dev.mhc.financialassistant.user.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,10 +1,13 @@
 package br.dev.mhc.financialassistant.user.services.impl;
 
+import br.dev.mhc.financialassistant.common.constants.RouteConstants;
 import br.dev.mhc.financialassistant.common.dtos.ValidationResultDTO;
-import br.dev.mhc.financialassistant.user.UserRepository;
+import br.dev.mhc.financialassistant.common.utils.URIUtils;
 import br.dev.mhc.financialassistant.user.annotations.UserDTOValidator;
 import br.dev.mhc.financialassistant.user.dtos.UserDTO;
+import br.dev.mhc.financialassistant.user.repositories.UserRepository;
 import br.dev.mhc.financialassistant.user.services.interfaces.IUserValidatorService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.stereotype.Service;
@@ -18,9 +21,11 @@ import static java.util.Objects.requireNonNull;
 public class UserValidatorServiceImpl implements IUserValidatorService, ConstraintValidator<UserDTOValidator, UserDTO> {
 
     private final UserRepository repository;
+    private final HttpServletRequest request;
 
-    public UserValidatorServiceImpl(UserRepository repository) {
+    public UserValidatorServiceImpl(UserRepository repository, HttpServletRequest request) {
         this.repository = repository;
+        this.request = request;
     }
 
     @Override
@@ -37,6 +42,8 @@ public class UserValidatorServiceImpl implements IUserValidatorService, Constrai
 
     @Override
     public boolean isValid(UserDTO userDTO, ConstraintValidatorContext constraintValidatorContext) {
+        var uri = request.getRequestURI();
+        userDTO.setId(URIUtils.findIdAfterPath(uri, RouteConstants.USERS_ROUTE));
         var validationResult = validate(userDTO);
         validationResult.getErrors().forEach(error -> {
             constraintValidatorContext.disableDefaultConstraintViolation();

@@ -1,8 +1,8 @@
 package br.dev.mhc.financialassistant.user.services.impl;
 
-import br.dev.mhc.financialassistant.user.UserMapper;
-import br.dev.mhc.financialassistant.user.UserRepository;
 import br.dev.mhc.financialassistant.user.dtos.UserDTO;
+import br.dev.mhc.financialassistant.user.mappers.UserMapper;
+import br.dev.mhc.financialassistant.user.repositories.UserRepository;
 import br.dev.mhc.financialassistant.user.services.interfaces.IFindAllUsersService;
 import org.springframework.stereotype.Service;
 

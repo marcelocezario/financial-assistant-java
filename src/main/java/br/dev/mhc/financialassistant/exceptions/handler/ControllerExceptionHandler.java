@@ -1,9 +1,11 @@
 package br.dev.mhc.financialassistant.exceptions.handler;
 
+import br.dev.mhc.financialassistant.common.dtos.FieldMessageDTO;
 import br.dev.mhc.financialassistant.common.dtos.StandardErrorDTO;
 import br.dev.mhc.financialassistant.common.logs.LogHelper;
 import br.dev.mhc.financialassistant.common.translation.TranslationKey;
 import br.dev.mhc.financialassistant.exceptions.ResourceNotFoundException;
+import br.dev.mhc.financialassistant.exceptions.ValidationException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -39,6 +41,19 @@ public class ControllerExceptionHandler {
         e.getBindingResult().getFieldErrors()
                 .stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .filter(Objects::nonNull)
+                .forEach(error::addAdditionalData);
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<StandardErrorDTO> validationException(ValidationException e,
+                                                                HttpServletRequest request) {
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+        var error = buildStandardError(request, status, EXCEPTION_METHOD_ARGUMENT_NOT_VALID);
+        e.getValidationResultDTO().getErrors()
+                .stream()
+                .map(FieldMessageDTO::getMessage)
                 .filter(Objects::nonNull)
                 .forEach(error::addAdditionalData);
         return ResponseEntity.status(status).body(error);

@@ -1,7 +1,7 @@
 package br.dev.mhc.financialassistant.security.services.impl;
 
-import br.dev.mhc.financialassistant.security.TokenUsageType;
-import br.dev.mhc.financialassistant.security.UserAuthenticated;
+import br.dev.mhc.financialassistant.security.enums.TokenUsageType;
+import br.dev.mhc.financialassistant.security.models.UserAuthenticated;
 import br.dev.mhc.financialassistant.security.services.interfaces.IBuildTokenService;
 import br.dev.mhc.financialassistant.security.utils.SecurityUtils;
 import io.jsonwebtoken.JwtBuilder;

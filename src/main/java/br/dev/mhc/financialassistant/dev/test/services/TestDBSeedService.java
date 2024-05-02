@@ -1,9 +1,10 @@
 package br.dev.mhc.financialassistant.dev.test.services;
 
+import br.dev.mhc.financialassistant.currency.repositories.CurrencyRepository;
 import br.dev.mhc.financialassistant.security.services.interfaces.IEncryptPasswordService;
-import br.dev.mhc.financialassistant.user.User;
-import br.dev.mhc.financialassistant.user.UserRepository;
-import br.dev.mhc.financialassistant.user.UserRole;
+import br.dev.mhc.financialassistant.user.entities.User;
+import br.dev.mhc.financialassistant.user.enums.UserRole;
+import br.dev.mhc.financialassistant.user.repositories.UserRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +15,14 @@ import java.util.List;
 @Service
 public class TestDBSeedService {
 
-    private final UserRepository userRepository;
     private final IEncryptPasswordService encryptPasswordService;
+    private final UserRepository userRepository;
+    private final CurrencyRepository currencyRepository;
 
-    public TestDBSeedService(UserRepository userRepository, IEncryptPasswordService encryptPasswordService) {
-        this.userRepository = userRepository;
+    public TestDBSeedService(IEncryptPasswordService encryptPasswordService, UserRepository userRepository, CurrencyRepository currencyRepository) {
         this.encryptPasswordService = encryptPasswordService;
+        this.userRepository = userRepository;
+        this.currencyRepository = currencyRepository;
     }
 
     public void databaseSeeding() {
@@ -33,7 +36,6 @@ public class TestDBSeedService {
                 .role(UserRole.BASIC.getCod())
                 .build()
         );
-
         userRepository.saveAll(users);
 
     }

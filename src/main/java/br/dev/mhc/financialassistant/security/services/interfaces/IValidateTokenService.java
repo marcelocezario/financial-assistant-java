@@ -1,6 +1,6 @@
 package br.dev.mhc.financialassistant.security.services.interfaces;
 
-import br.dev.mhc.financialassistant.security.TokenUsageType;
+import br.dev.mhc.financialassistant.security.enums.TokenUsageType;
 
 public interface IValidateTokenService {
 

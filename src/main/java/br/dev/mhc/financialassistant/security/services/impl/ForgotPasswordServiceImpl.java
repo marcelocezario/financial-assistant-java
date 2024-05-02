@@ -3,11 +3,11 @@ package br.dev.mhc.financialassistant.security.services.impl;
 import br.dev.mhc.financialassistant.common.logs.LogHelper;
 import br.dev.mhc.financialassistant.email.EmailDTO;
 import br.dev.mhc.financialassistant.email.services.interfaces.ISendEmailService;
-import br.dev.mhc.financialassistant.security.UserAuthenticated;
 import br.dev.mhc.financialassistant.security.dtos.ForgotPasswordRequestDTO;
+import br.dev.mhc.financialassistant.security.models.UserAuthenticated;
 import br.dev.mhc.financialassistant.security.services.interfaces.IBuildTokenService;
 import br.dev.mhc.financialassistant.security.services.interfaces.IForgotPasswordService;
-import br.dev.mhc.financialassistant.user.UserRepository;
+import br.dev.mhc.financialassistant.user.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -17,7 +17,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 import static br.dev.mhc.financialassistant.common.translation.TranslationKey.*;
-import static br.dev.mhc.financialassistant.security.TokenUsageType.FORGOT_PASSWORD_TOKEN;
+import static br.dev.mhc.financialassistant.security.enums.TokenUsageType.FORGOT_PASSWORD_TOKEN;
 import static java.util.Objects.requireNonNull;
 
 @Service

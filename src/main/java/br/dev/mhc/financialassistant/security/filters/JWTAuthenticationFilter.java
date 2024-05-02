@@ -2,10 +2,10 @@ package br.dev.mhc.financialassistant.security.filters;
 
 import br.dev.mhc.financialassistant.common.dtos.StandardErrorDTO;
 import br.dev.mhc.financialassistant.common.logs.LogHelper;
-import br.dev.mhc.financialassistant.security.UserAuthenticated;
 import br.dev.mhc.financialassistant.security.dtos.CredentialsDTO;
 import br.dev.mhc.financialassistant.security.dtos.TokenResponseDTO;
 import br.dev.mhc.financialassistant.security.filters.dependencies.AuthenticationDependencies;
+import br.dev.mhc.financialassistant.security.models.UserAuthenticated;
 import br.dev.mhc.financialassistant.security.services.interfaces.IGenerateAccessTokenService;
 import br.dev.mhc.financialassistant.security.services.interfaces.IRegisterLoginAttemptService;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,14 +1,17 @@
 package br.dev.mhc.financialassistant.currency.services.impl;
 
+import br.dev.mhc.financialassistant.common.constants.RouteConstants;
 import br.dev.mhc.financialassistant.common.dtos.ValidationResultDTO;
 import br.dev.mhc.financialassistant.common.logs.LogHelper;
-import br.dev.mhc.financialassistant.currency.repositories.CurrencyRepository;
+import br.dev.mhc.financialassistant.common.utils.URIUtils;
 import br.dev.mhc.financialassistant.currency.annotations.CurrencyDTOValidator;
 import br.dev.mhc.financialassistant.currency.dtos.CurrencyDTO;
+import br.dev.mhc.financialassistant.currency.repositories.CurrencyRepository;
 import br.dev.mhc.financialassistant.currency.services.interfaces.ICurrencyValidatorService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
@@ -16,6 +19,7 @@ import static br.dev.mhc.financialassistant.common.translation.TranslationKey.*;
 import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 
+@Service
 public class CurrencyValidatorServiceImpl implements ICurrencyValidatorService, ConstraintValidator<CurrencyDTOValidator, CurrencyDTO> {
 
     private final static LogHelper LOG = new LogHelper(CurrencyValidatorServiceImpl.class);
@@ -39,13 +43,16 @@ public class CurrencyValidatorServiceImpl implements ICurrencyValidatorService, 
         validateCode(validation);
         validatePriceInBRL(validation);
 
-        LOG.debug(validation.toString());
+        LOG.debug(validation);
 
         return validation;
     }
 
     @Override
     public boolean isValid(CurrencyDTO currencyDTO, ConstraintValidatorContext constraintValidatorContext) {
+        var uri = request.getRequestURI();
+        currencyDTO.setId(URIUtils.findIdAfterPath(uri, RouteConstants.CURRENCIES_ROUTE));
+
         var validationResult = validate(currencyDTO);
         validationResult.getErrors().forEach(error -> {
             constraintValidatorContext.disableDefaultConstraintViolation();

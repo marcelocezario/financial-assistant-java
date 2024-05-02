@@ -1,5 +1,6 @@
-package br.dev.mhc.financialassistant.user;
+package br.dev.mhc.financialassistant.user.controllers;
 
+import br.dev.mhc.financialassistant.common.constants.RouteConstants;
 import br.dev.mhc.financialassistant.common.utils.URIUtils;
 import br.dev.mhc.financialassistant.user.dtos.UserDTO;
 import br.dev.mhc.financialassistant.user.services.interfaces.*;
@@ -10,14 +11,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/users")
-public record UserController(
-        ICreateUserService createUser,
-        IUpdateUserService updateUser,
-        IDeleteUserService deleteUserService,
-        IFindAllUsersService findAllUsers,
-        IFindUserByIdService findUserById
-) {
+@RequestMapping(value = RouteConstants.USERS_ROUTE)
+public class UserController {
+
+    private final ICreateUserService createUser;
+    private final IUpdateUserService updateUser;
+    private final IDeleteUserService deleteUserService;
+    private final IFindAllUsersService findAllUsers;
+    private final IFindUserByIdService findUserById;
+
+    public UserController(ICreateUserService createUser, IUpdateUserService updateUser, IDeleteUserService deleteUserService, IFindAllUsersService findAllUsers, IFindUserByIdService findUserById) {
+        this.createUser = createUser;
+        this.updateUser = updateUser;
+        this.deleteUserService = deleteUserService;
+        this.findAllUsers = findAllUsers;
+        this.findUserById = findUserById;
+    }
 
     @PostMapping
     public ResponseEntity<UserDTO> create(@RequestBody @Valid UserDTO userDTO) {
@@ -26,8 +35,7 @@ public record UserController(
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody @Valid UserDTO userDTO) {
-        userDTO.setId(id);
+    public ResponseEntity<Void> update(@RequestBody @Valid UserDTO userDTO) {
         updateUser.update(userDTO);
         return ResponseEntity.noContent().build();
     }

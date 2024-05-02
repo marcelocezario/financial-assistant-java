@@ -1,7 +1,7 @@
 package br.dev.mhc.financialassistant.user.dtos;
 
-import br.dev.mhc.financialassistant.user.UserRole;
 import br.dev.mhc.financialassistant.user.annotations.UserDTOValidator;
+import br.dev.mhc.financialassistant.user.enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 

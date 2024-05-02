@@ -1,8 +1,8 @@
 package br.dev.mhc.financialassistant.user.services.impl;
 
 import br.dev.mhc.financialassistant.exceptions.ResourceNotFoundException;
-import br.dev.mhc.financialassistant.user.User;
-import br.dev.mhc.financialassistant.user.UserRepository;
+import br.dev.mhc.financialassistant.user.entities.User;
+import br.dev.mhc.financialassistant.user.repositories.UserRepository;
 import br.dev.mhc.financialassistant.user.services.interfaces.IDeleteUserService;
 import org.springframework.stereotype.Service;
 

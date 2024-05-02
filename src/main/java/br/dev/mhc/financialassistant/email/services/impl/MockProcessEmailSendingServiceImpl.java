@@ -39,23 +39,23 @@ public class MockProcessEmailSendingServiceImpl extends AbstractProcessEmailSend
             try {
                 LOG.debug("Email send simulation - html email");
                 MimeMessage mimeMessage = this.prepareHtmlEmail(emailDTO);
-                LOG.debug(emailDTO.toString());
-                LOG.debug(mimeMessage.toString());
+                LOG.debug(emailDTO);
+                LOG.debug(mimeMessage);
                 String htmlContent = getTextFromMimeContent(mimeMessage.getContent());
                 if (nonNull(htmlContent)) {
-                    LOG.debug("Html content: ", "\n".concat(htmlContent).concat("\n"));
+                    LOG.debug("Html content: ", "\n" .concat(htmlContent).concat("\n"));
                 }
             } catch (MessagingException e) {
                 LOG.debug("Email send simulation - html email sending failed, attempting to send a simple email", e.getMessage());
                 SimpleMailMessage simpleMailMessage = this.prepareSimpleEmail(emailDTO);
-                LOG.debug(simpleMailMessage.toString());
+                LOG.debug(simpleMailMessage);
             } catch (IOException e) {
                 LOG.error("Error to getting html content from MimeMessage", e);
             }
         } else {
             LOG.debug("Email send simulation - simple email");
             SimpleMailMessage simpleMailMessage = this.prepareSimpleEmail(emailDTO);
-            LOG.debug(simpleMailMessage.toString());
+            LOG.debug(simpleMailMessage);
         }
         LOG.debug("Email send simulation - end");
     }

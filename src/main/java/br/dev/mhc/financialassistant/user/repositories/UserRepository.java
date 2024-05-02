@@ -1,5 +1,6 @@
-package br.dev.mhc.financialassistant.user;
+package br.dev.mhc.financialassistant.user.repositories;
 
+import br.dev.mhc.financialassistant.user.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

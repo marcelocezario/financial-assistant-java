@@ -1,6 +1,6 @@
 package br.dev.mhc.financialassistant.security.utils;
 
-import br.dev.mhc.financialassistant.security.TokenUsageType;
+import br.dev.mhc.financialassistant.security.enums.TokenUsageType;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.stereotype.Component;

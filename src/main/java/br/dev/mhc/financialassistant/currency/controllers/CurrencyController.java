@@ -1,5 +1,6 @@
 package br.dev.mhc.financialassistant.currency.controllers;
 
+import br.dev.mhc.financialassistant.common.constants.RouteConstants;
 import br.dev.mhc.financialassistant.common.utils.URIUtils;
 import br.dev.mhc.financialassistant.currency.dtos.CurrencyDTO;
 import br.dev.mhc.financialassistant.currency.services.interfaces.ICreateCurrencyService;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/currencies")
+@RequestMapping(value = RouteConstants.CURRENCIES_ROUTE)
 public class CurrencyController {
 
     private final ICreateCurrencyService createCurrency;

@@ -1,7 +1,7 @@
 package br.dev.mhc.financialassistant.security.services.impl;
 
-import br.dev.mhc.financialassistant.security.UserAuthenticated;
 import br.dev.mhc.financialassistant.security.dtos.TokenResponseDTO;
+import br.dev.mhc.financialassistant.security.models.UserAuthenticated;
 import br.dev.mhc.financialassistant.security.services.interfaces.IBuildTokenService;
 import br.dev.mhc.financialassistant.security.services.interfaces.IGenerateAccessTokenService;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 
-import static br.dev.mhc.financialassistant.security.TokenUsageType.ACCESS_TOKEN;
-import static br.dev.mhc.financialassistant.security.TokenUsageType.REFRESH_TOKEN;
+import static br.dev.mhc.financialassistant.security.enums.TokenUsageType.ACCESS_TOKEN;
+import static br.dev.mhc.financialassistant.security.enums.TokenUsageType.REFRESH_TOKEN;
 import static java.util.Objects.requireNonNull;
 
 @Service

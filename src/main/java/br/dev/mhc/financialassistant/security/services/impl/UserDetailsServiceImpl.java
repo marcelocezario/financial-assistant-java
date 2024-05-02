@@ -1,8 +1,9 @@
-package br.dev.mhc.financialassistant.security;
+package br.dev.mhc.financialassistant.security.services.impl;
 
+import br.dev.mhc.financialassistant.security.models.UserAuthenticated;
 import br.dev.mhc.financialassistant.security.repositories.LoginAttemptRepository;
-import br.dev.mhc.financialassistant.user.User;
-import br.dev.mhc.financialassistant.user.UserRepository;
+import br.dev.mhc.financialassistant.user.entities.User;
+import br.dev.mhc.financialassistant.user.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

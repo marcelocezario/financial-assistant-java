@@ -1,6 +1,6 @@
 package br.dev.mhc.financialassistant.security.utils;
 
-import br.dev.mhc.financialassistant.security.UserAuthenticated;
+import br.dev.mhc.financialassistant.security.models.UserAuthenticated;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -1,7 +1,8 @@
 package br.dev.mhc.financialassistant.security;
 
 import br.dev.mhc.financialassistant.common.utils.Utils;
-import br.dev.mhc.financialassistant.user.UserRole;
+import br.dev.mhc.financialassistant.security.models.UserAuthenticated;
+import br.dev.mhc.financialassistant.user.enums.UserRole;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.core.Authentication;

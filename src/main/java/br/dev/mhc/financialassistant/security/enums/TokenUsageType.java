@@ -1,4 +1,4 @@
-package br.dev.mhc.financialassistant.security;
+package br.dev.mhc.financialassistant.security.enums;
 
 import java.util.Arrays;
 

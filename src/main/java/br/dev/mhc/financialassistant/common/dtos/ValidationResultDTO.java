@@ -5,6 +5,7 @@ import lombok.Getter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 @Getter
 public class ValidationResultDTO<T> implements Serializable {
@@ -18,6 +19,13 @@ public class ValidationResultDTO<T> implements Serializable {
 
     public boolean isValid() {
         return errors.isEmpty();
+    }
+
+    public <X extends Throwable> void isValidOrThrow(Function<ValidationResultDTO<T>, ? extends X> exceptionSupplier) throws X {
+        if (isValid()) {
+        } else {
+            throw exceptionSupplier.apply(this);
+        }
     }
 
     public void addError(String fieldName, Object value, String message) {

@@ -1,8 +1,8 @@
 package br.dev.mhc.financialassistant.currency.services.impl;
 
+import br.dev.mhc.financialassistant.currency.dtos.CurrencyDTO;
 import br.dev.mhc.financialassistant.currency.mappers.CurrencyMapper;
 import br.dev.mhc.financialassistant.currency.repositories.CurrencyRepository;
-import br.dev.mhc.financialassistant.currency.dtos.CurrencyDTO;
 import br.dev.mhc.financialassistant.currency.services.interfaces.IFindActiveCurrenciesService;
 import org.springframework.stereotype.Service;
 
