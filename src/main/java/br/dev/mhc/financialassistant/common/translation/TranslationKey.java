@@ -2,6 +2,18 @@ package br.dev.mhc.financialassistant.common.translation;
 
 public enum TranslationKey {
 
+    CATEGORY_VALIDATION_COLOR_IS_INVALID("category.validation.color.isInvalid"),
+    CATEGORY_VALIDATION_COLOR_MUST_HAVE_CHARACTERS("category.validation.color.mustHaveCharacters"),
+    CATEGORY_VALIDATION_ICON_URL_CANNOT_BE_LONGER_THEN_CHARACTERS("category.validation.iconUrl.cannotBeLongerThenCharacters"),
+    CATEGORY_VALIDATION_NAME_CANNOT_BE_EMPTY("category.validation.name.cannotBeEmpty"),
+    CATEGORY_VALIDATION_NAME_CANNOT_BE_LESS_THEN_CHARACTERS("category.validation.name.cannotBeLessThenCharacters"),
+    CATEGORY_VALIDATION_NAME_CANNOT_BE_LONGER_THEN_CHARACTERS("category.validation.name.cannotBeLongerThenCharacters"),
+    CATEGORY_VALIDATION_NAME_CANNOT_BE_NULL("category.validation.name.cannotBeNull"),
+    CATEGORY_VALIDATION_NAME_IS_ALREADY_USED_BY_USER("category.validation.name.isAlreadyUsedByUser"),
+    CATEGORY_VALIDATION_USER_ID_CANNOT_BE_NULL("category.validation.userId.cannotBeNull"),
+    CATEGORY_VALIDATION_USER_ID_DOES_NOT_EXIST("category.validation.userId.doesNotExist"),
+    CATEGORY_VALIDATION_USER_ID_UNAUTHORIZED("category.validation.userId.unauthorized"),
+
     COMPANY_NAME("company.name"),
 
     CURRENCY_VALIDATION_CODE_CANNOT_BE_EMPTY("currency.validation.code.cannotBeEmpty"),

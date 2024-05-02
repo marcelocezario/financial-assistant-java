@@ -43,7 +43,7 @@ public class MockProcessEmailSendingServiceImpl extends AbstractProcessEmailSend
                 LOG.debug(mimeMessage);
                 String htmlContent = getTextFromMimeContent(mimeMessage.getContent());
                 if (nonNull(htmlContent)) {
-                    LOG.debug("Html content: ", "\n" .concat(htmlContent).concat("\n"));
+                    LOG.debug("Html content: ", "\n".concat(htmlContent).concat("\n"));
                 }
             } catch (MessagingException e) {
                 LOG.debug("Email send simulation - html email sending failed, attempting to send a simple email", e.getMessage());

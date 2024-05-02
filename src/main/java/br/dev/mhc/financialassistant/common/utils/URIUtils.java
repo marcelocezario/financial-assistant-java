@@ -19,10 +19,10 @@ public class URIUtils {
         requireNonNull(url);
         requireNonNull(path);
         if (!url.startsWith("/")) {
-            url = "/" .concat(url);
+            url = "/".concat(url);
         }
         if (!path.startsWith("/")) {
-            path = "/" .concat(path);
+            path = "/".concat(path);
         }
         if (!path.endsWith("/")) {
             path = path.concat("/");
