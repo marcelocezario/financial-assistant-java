@@ -1,7 +1,7 @@
 package br.dev.mhc.financialassistant.user.services.impl;
 
+import br.dev.mhc.financialassistant.exceptions.AppValidationException;
 import br.dev.mhc.financialassistant.exceptions.ResourceNotFoundException;
-import br.dev.mhc.financialassistant.exceptions.ValidationException;
 import br.dev.mhc.financialassistant.security.services.interfaces.IEncryptPasswordService;
 import br.dev.mhc.financialassistant.user.dtos.UserDTO;
 import br.dev.mhc.financialassistant.user.entities.User;
@@ -38,7 +38,7 @@ public class UpdateUserServiceImpl implements IUpdateUserService {
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException(userDTO.getId(), User.class);
         }
-        validatorService.validate(userDTO).isValidOrThrow(ValidationException::new);
+        validatorService.validate(userDTO).isValidOrThrow(AppValidationException::new);
         userDTO = toDto(repository.save(userEntity));
         return userDTO;
     }

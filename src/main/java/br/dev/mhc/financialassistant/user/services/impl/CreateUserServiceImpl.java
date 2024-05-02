@@ -1,6 +1,6 @@
 package br.dev.mhc.financialassistant.user.services.impl;
 
-import br.dev.mhc.financialassistant.exceptions.ValidationException;
+import br.dev.mhc.financialassistant.exceptions.AppValidationException;
 import br.dev.mhc.financialassistant.security.services.interfaces.IEncryptPasswordService;
 import br.dev.mhc.financialassistant.user.dtos.UserDTO;
 import br.dev.mhc.financialassistant.user.enums.UserRole;
@@ -35,7 +35,7 @@ public class CreateUserServiceImpl implements ICreateUserService {
         userDTO.setEmail(userDTO.getEmail().toLowerCase());
         userDTO.setRoles(Set.of(UserRole.BASIC));
         userDTO.setActive(true);
-        validatorService.validate(userDTO).isValidOrThrow(ValidationException::new);
+        validatorService.validate(userDTO).isValidOrThrow(AppValidationException::new);
         encryptPassword(userDTO);
         userDTO = toDto(repository.save(toEntity(userDTO)));
         return userDTO;

@@ -4,8 +4,8 @@ import br.dev.mhc.financialassistant.common.dtos.FieldMessageDTO;
 import br.dev.mhc.financialassistant.common.dtos.StandardErrorDTO;
 import br.dev.mhc.financialassistant.common.logs.LogHelper;
 import br.dev.mhc.financialassistant.common.translation.TranslationKey;
+import br.dev.mhc.financialassistant.exceptions.AppValidationException;
 import br.dev.mhc.financialassistant.exceptions.ResourceNotFoundException;
-import br.dev.mhc.financialassistant.exceptions.ValidationException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -46,9 +46,9 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(status).body(error);
     }
 
-    @ExceptionHandler(ValidationException.class)
-    public ResponseEntity<StandardErrorDTO> validationException(ValidationException e,
-                                                                HttpServletRequest request) {
+    @ExceptionHandler(AppValidationException.class)
+    public ResponseEntity<StandardErrorDTO> appValidation(AppValidationException e,
+                                                          HttpServletRequest request) {
         HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
         var error = buildStandardError(request, status, EXCEPTION_METHOD_ARGUMENT_NOT_VALID);
         e.getValidationResultDTO().getErrors()
@@ -61,6 +61,9 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<StandardErrorDTO> genericHandler(Exception e, HttpServletRequest request) {
+        if (e.getCause() instanceof ResourceNotFoundException) {
+            return this.resourceNotFound((ResourceNotFoundException) e.getCause(), request);
+        }
         var status = HttpStatus.BAD_REQUEST;
         var error = buildStandardError(request, status, EXCEPTION_GENERIC);
         LOG.stackTrace("An unexpected error has occurred", e);
