@@ -58,6 +58,29 @@ public enum TranslationKey {
     USER_VALIDATION_PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_LETTER("user.validation.password.mustContainAtLeastOneLetter"),
     USER_VALIDATION_PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_NUMBER("user.validation.password.mustContainAtLeastOneNumber"),
     USER_VALIDATION_PASSWORD_MUST_CONTAIN_AT_LEAST_ONE_SPECIAL_CHARACTER("user.validation.password.mustContainAtLeastOneSpecialCharacter"),
+
+    WALLET_BANK_ACCOUNT_VALIDATION_CREDIT_LIMIT_CANNOT_BE_NEGATIVE("wallet.bankAccount.validation.creditLimit.cannotBeNegative"),
+    WALLET_BANK_ACCOUNT_VALIDATION_CREDIT_LIMIT_CANNOT_BE_NULL("wallet.bankAccount.validation.creditLimit.cannotBeNull"),
+    WALLET_BANK_ACCOUNT_VALIDATION_INTEREST_RATE_CANNOT_BE_NEGATIVE("wallet.bankAccount.validation.interestRate.cannotBeNegative"),
+    WALLET_BANK_ACCOUNT_VALIDATION_INTEREST_RATE_CANNOT_BE_NULL("wallet.bankAccount.validation.interestRate.cannotBeNull"),
+    WALLET_CASH_WALLET_VALIDATION_BALANCE_CANNOT_BE_NEGATIVE("wallet.cashWallet.validation.balance.cannotBeNegative"),
+    WALLET_CREDIT_CARD_VALIDATION_BILLING_CYCLE_DATE_CANNOT_BE_NULL("wallet.creditCard.validation.billingCycleDate.cannotBeNull"),
+    WALLET_CREDIT_CARD_VALIDATION_BILLING_CYCLE_DATE_IS_INVALID("wallet.creditCard.validation.billingCycleDate.isInvalid"),
+    WALLET_CREDIT_CARD_VALIDATION_CREDIT_LIMIT_CANNOT_BE_NEGATIVE("wallet.creditCard.validation.creditLimit.cannotBeNegative"),
+    WALLET_CREDIT_CARD_VALIDATION_CREDIT_LIMIT_CANNOT_BE_NULL("wallet.creditCard.validation.creditLimit.cannotBeNull"),
+    WALLET_CREDIT_CARD_VALIDATION_DUE_DATE_CANNOT_BE_NULL("wallet.creditCard.validation.dueDate.cannotBeNull"),
+    WALLET_CREDIT_CARD_VALIDATION_DUE_DATE_IS_INVALID("wallet.creditCard.validation.dueDate.isInvalid"),
+    WALLET_CRYPTO_WALLET_VALIDATION_BALANCE_CANNOT_BE_NEGATIVE("wallet.cryptoWallet.validation.balance.cannotBeNegative"),
+    WALLET_VALIDATION_BALANCE_CANNOT_BE_NULL("wallet.validation.balance.cannotBeNull"),
+    WALLET_VALIDATION_NAME_CANNOT_BE_EMPTY("wallet.validation.name.cannotBeEmpty"),
+    WALLET_VALIDATION_NAME_CANNOT_BE_LESS_THEN_CHARACTERS("wallet.validation.name.cannotBeLessThenCharacters"),
+    WALLET_VALIDATION_NAME_CANNOT_BE_LONGER_THEN_CHARACTERS("wallet.validation.name.cannotBeLongerThenCharacters"),
+    WALLET_VALIDATION_NAME_CANNOT_BE_NULL("wallet.validation.name.cannotBeNull"),
+    WALLET_VALIDATION_NAME_IS_ALREADY_USED_BY_USER("wallet.validation.name.isAlreadyUsedByUser"),
+    WALLET_VALIDATION_USER_ID_CANNOT_BE_NULL("wallet.validation.userId.cannotBeNull"),
+    WALLET_VALIDATION_USER_ID_DOES_NOT_EXIST("wallet.validation.userId.doesNotExist"),
+    WALLET_VALIDATION_USER_ID_UNAUTHORIZED("wallet.validation.userId.unauthorized"),
+
     ;
 
     private final String key;
