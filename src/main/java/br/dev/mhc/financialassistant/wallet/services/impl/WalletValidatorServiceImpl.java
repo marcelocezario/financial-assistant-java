@@ -4,6 +4,8 @@ import br.dev.mhc.financialassistant.common.constants.RouteConstants;
 import br.dev.mhc.financialassistant.common.dtos.ValidationResultDTO;
 import br.dev.mhc.financialassistant.common.logs.LogHelper;
 import br.dev.mhc.financialassistant.common.utils.URIUtils;
+import br.dev.mhc.financialassistant.currency.services.interfaces.IFindCurrencyByCodeService;
+import br.dev.mhc.financialassistant.currency.services.interfaces.IFindCurrencyByIdService;
 import br.dev.mhc.financialassistant.exceptions.ResourceNotFoundException;
 import br.dev.mhc.financialassistant.user.services.interfaces.IFindUserByIdService;
 import br.dev.mhc.financialassistant.wallet.annotations.WalletDTOValidator;
@@ -30,12 +32,16 @@ public class WalletValidatorServiceImpl implements IWalletValidatorService, Cons
     private final IFindWalletByNameAndUserIdService findWalletByNameAndUserIdService;
     private final IFindUserByIdService findUserByIdService;
     private final IFindWalletByIdAndUserIdService findWalletByIdAndUserIdService;
+    private final IFindCurrencyByCodeService findCurrencyByCodeService;
+    private final IFindCurrencyByIdService findCurrencyByIdService;
 
-    public WalletValidatorServiceImpl(HttpServletRequest request, IFindWalletByNameAndUserIdService findWalletByNameAndUserIdService, IFindUserByIdService findUserByIdService, IFindWalletByIdAndUserIdService findWalletByIdAndUserIdService) {
+    public WalletValidatorServiceImpl(HttpServletRequest request, IFindWalletByNameAndUserIdService findWalletByNameAndUserIdService, IFindUserByIdService findUserByIdService, IFindWalletByIdAndUserIdService findWalletByIdAndUserIdService, IFindCurrencyByCodeService findCurrencyByCodeService, IFindCurrencyByIdService findCurrencyByIdService) {
         this.request = request;
         this.findWalletByNameAndUserIdService = findWalletByNameAndUserIdService;
         this.findUserByIdService = findUserByIdService;
         this.findWalletByIdAndUserIdService = findWalletByIdAndUserIdService;
+        this.findCurrencyByCodeService = findCurrencyByCodeService;
+        this.findCurrencyByIdService = findCurrencyByIdService;
     }
 
     @Override
@@ -46,6 +52,7 @@ public class WalletValidatorServiceImpl implements IWalletValidatorService, Cons
 
         validateName(validation);
         validateBalance(validation);
+        validateCurrency(validation);
         validateUserId(validation);
         validateCashWallet(validation);
         validateBankAccount(validation);
@@ -55,6 +62,21 @@ public class WalletValidatorServiceImpl implements IWalletValidatorService, Cons
         LOG.debug(validation);
 
         return validation;
+    }
+
+    @Override
+    public boolean isValid(WalletDTO walletDTO, ConstraintValidatorContext constraintValidatorContext) {
+        var uri = request.getRequestURI();
+        walletDTO.setId(URIUtils.findIdAfterPath(uri, RouteConstants.WALLETS_ROUTE));
+        walletDTO.setUserId(URIUtils.findIdAfterPath(uri, RouteConstants.USERS_ROUTE));
+        var validationResult = validate(walletDTO);
+        validationResult.getErrors().forEach(error -> {
+            constraintValidatorContext.disableDefaultConstraintViolation();
+            constraintValidatorContext.buildConstraintViolationWithTemplate(error.getMessage())
+                    .addPropertyNode(error.getFieldName())
+                    .addConstraintViolation();
+        });
+        return validationResult.isValid();
     }
 
     private void validateCryptoWallet(ValidationResultDTO<WalletDTO> validation) {
@@ -164,7 +186,7 @@ public class WalletValidatorServiceImpl implements IWalletValidatorService, Cons
         final var FIELD_NAME = "balance";
         var balance = validation.getObject().getBalance();
         if (isNull(balance)) {
-            validation.addError(FIELD_NAME, balance, WALLET_VALIDATION_BALANCE_CANNOT_BE_NULL.translate());
+            validation.addError(FIELD_NAME, null, WALLET_VALIDATION_BALANCE_CANNOT_BE_NULL.translate());
             return;
         }
         if (balance.compareTo(BigDecimal.ZERO) < 0) {
@@ -194,11 +216,29 @@ public class WalletValidatorServiceImpl implements IWalletValidatorService, Cons
         }
     }
 
+    private void validateCurrency(ValidationResultDTO<WalletDTO> validation) {
+        final var FIELD_NAME = "currency";
+        var currency = validation.getObject().getCurrency();
+        if (isNull(currency) || (isNull(currency.getId()) && isNull(currency.getCode()))) {
+            validation.addError(FIELD_NAME, null, WALLET_VALIDATION_CURRENCY_CANNOT_BE_NULL.translate());
+            return;
+        }
+        try {
+            if (nonNull(currency.getCode())) {
+                findCurrencyByCodeService.find(currency.getCode());
+            } else {
+                findCurrencyByIdService.find(currency.getId());
+            }
+        } catch (ResourceNotFoundException e) {
+            validation.addError(FIELD_NAME, currency, WALLET_VALIDATION_CURRENCY_DOES_NOT_EXIST.translate());
+        }
+    }
+
     private void validateBalance(ValidationResultDTO<WalletDTO> validation) {
         final var FIELD_NAME = "balance";
         var balance = validation.getObject().getBalance();
         if (isNull(balance)) {
-            validation.addError(FIELD_NAME, balance, WALLET_VALIDATION_BALANCE_CANNOT_BE_NULL.translate());
+            validation.addError(FIELD_NAME, null, WALLET_VALIDATION_BALANCE_CANNOT_BE_NULL.translate());
         }
     }
 
@@ -233,18 +273,4 @@ public class WalletValidatorServiceImpl implements IWalletValidatorService, Cons
         }
     }
 
-    @Override
-    public boolean isValid(WalletDTO walletDTO, ConstraintValidatorContext constraintValidatorContext) {
-        var uri = request.getRequestURI();
-        walletDTO.setId(URIUtils.findIdAfterPath(uri, RouteConstants.WALLETS_ROUTE));
-        walletDTO.setUserId(URIUtils.findIdAfterPath(uri, RouteConstants.USERS_ROUTE));
-        var validationResult = validate(walletDTO);
-        validationResult.getErrors().forEach(error -> {
-            constraintValidatorContext.disableDefaultConstraintViolation();
-            constraintValidatorContext.buildConstraintViolationWithTemplate(error.getMessage())
-                    .addPropertyNode(error.getFieldName())
-                    .addConstraintViolation();
-        });
-        return validationResult.isValid();
-    }
 }

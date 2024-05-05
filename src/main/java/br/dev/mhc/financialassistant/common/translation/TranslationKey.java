@@ -72,6 +72,8 @@ public enum TranslationKey {
     WALLET_CREDIT_CARD_VALIDATION_DUE_DATE_IS_INVALID("wallet.creditCard.validation.dueDate.isInvalid"),
     WALLET_CRYPTO_WALLET_VALIDATION_BALANCE_CANNOT_BE_NEGATIVE("wallet.cryptoWallet.validation.balance.cannotBeNegative"),
     WALLET_VALIDATION_BALANCE_CANNOT_BE_NULL("wallet.validation.balance.cannotBeNull"),
+    WALLET_VALIDATION_CURRENCY_CANNOT_BE_NULL("wallet.validation.currency.cannotBeNull"),
+    WALLET_VALIDATION_CURRENCY_DOES_NOT_EXIST("wallet.validation.currency.doesNotExist"),
     WALLET_VALIDATION_NAME_CANNOT_BE_EMPTY("wallet.validation.name.cannotBeEmpty"),
     WALLET_VALIDATION_NAME_CANNOT_BE_LESS_THEN_CHARACTERS("wallet.validation.name.cannotBeLessThenCharacters"),
     WALLET_VALIDATION_NAME_CANNOT_BE_LONGER_THEN_CHARACTERS("wallet.validation.name.cannotBeLongerThenCharacters"),

@@ -3,14 +3,16 @@ create schema if not exists wallets;
 create table wallets.wallets (
     id bigserial not null,
     name varchar(255) not null,
-    balance numeric(10,2) not null,
+    balance numeric(13,6) not null,
     active boolean,
     created_at timestamp(6) with time zone,
     updated_at timestamp(6) with time zone,
+    currency_id bigint not null,
     user_id bigint not null,
     primary key (id)
 );
 
+alter table wallets.wallets add constraint fk_wallets_currencies foreign key (currency_id) references public.currencies;
 alter table wallets.wallets add constraint fk_wallets_users foreign key (user_id) references public.users;
 
 create table wallets.bank_accounts (

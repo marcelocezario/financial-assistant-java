@@ -113,7 +113,7 @@ public class UserValidatorServiceImpl implements IUserValidatorService, Constrai
         final var LENGTH_MIN = 3;
         final var LENGTH_MAX = 255;
         if (isNull(nickname)) {
-            validation.addError(FIELD_NAME, nickname, USER_VALIDATION_NICKNAME_CANNOT_BE_NULL.translate());
+            validation.addError(FIELD_NAME, null, USER_VALIDATION_NICKNAME_CANNOT_BE_NULL.translate());
             return;
         }
         if (nickname.isBlank()) {

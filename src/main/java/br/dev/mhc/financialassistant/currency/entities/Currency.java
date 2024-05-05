@@ -28,7 +28,7 @@ public class Currency implements Serializable {
     private String symbol;
     @Column(name = "code", unique = true, nullable = false)
     private String code;
-    @Column(name = "price_in_brl", precision = 13, scale = 6)
+    @Column(name = "price_in_brl", precision = 13, scale = 6, nullable = false)
     private BigDecimal priceInBRL;
     @Column(name = "active", nullable = false)
     private boolean active;

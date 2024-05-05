@@ -1,6 +1,7 @@
 package br.dev.mhc.financialassistant.wallet.mappers;
 
 import br.dev.mhc.financialassistant.common.logs.LogHelper;
+import br.dev.mhc.financialassistant.currency.mappers.CurrencyMapper;
 import br.dev.mhc.financialassistant.user.entities.User;
 import br.dev.mhc.financialassistant.wallet.dtos.*;
 import br.dev.mhc.financialassistant.wallet.dtos.WalletDTO.WalletDTOBuilder;
@@ -29,6 +30,7 @@ public class WalletMapper {
         builder.active(dto.isActive());
         builder.createdAt(dto.getCreatedAt());
         builder.updatedAt(dto.getUpdatedAt());
+        builder.currency(CurrencyMapper.toEntity(dto.getCurrency()));
         builder.user(User.builder().id(dto.getUserId()).build());
         return builder.build();
     }
@@ -51,6 +53,7 @@ public class WalletMapper {
         builder.active(entity.isActive());
         builder.createdAt(entity.getCreatedAt());
         builder.updatedAt(entity.getUpdatedAt());
+        builder.currency(CurrencyMapper.toDto(entity.getCurrency()));
         builder.userId(entity.getUser().getId());
         return builder.build();
     }
@@ -70,6 +73,7 @@ public class WalletMapper {
         return BankAccount.builder()
                 .creditLimit(dto.getCreditLimit())
                 .interestRate(dto.getInterestRate());
+        // TODO
     }
 
     private static WalletBuilder toEntityCashWalletBuilder() {

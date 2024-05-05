@@ -67,7 +67,7 @@ public class CurrencyValidatorServiceImpl implements ICurrencyValidatorService, 
         final var FIELD_NAME = "priceInBRL";
         var priceInBRL = validation.getObject().getPriceInBRL();
         if (isNull(priceInBRL)) {
-            validation.addError(FIELD_NAME, priceInBRL, CURRENCY_VALIDATION_PRICE_IN_BRL_CANNOT_BE_NULL.translate());
+            validation.addError(FIELD_NAME, null, CURRENCY_VALIDATION_PRICE_IN_BRL_CANNOT_BE_NULL.translate());
         }
         if (priceInBRL.compareTo(BigDecimal.ZERO) <= 0) {
             validation.addError(FIELD_NAME, priceInBRL, CURRENCY_VALIDATION_PRICE_IN_BRL_MUST_BE_GREATER_THAN_ZERO.translate());
@@ -79,7 +79,7 @@ public class CurrencyValidatorServiceImpl implements ICurrencyValidatorService, 
         var code = validation.getObject().getCode();
         final var LENGTH = 3;
         if (isNull(code)) {
-            validation.addError(FIELD_NAME, code, CURRENCY_VALIDATION_CODE_CANNOT_BE_NULL.translate());
+            validation.addError(FIELD_NAME, null, CURRENCY_VALIDATION_CODE_CANNOT_BE_NULL.translate());
         }
         if (code.isBlank()) {
             validation.addError(FIELD_NAME, code, CURRENCY_VALIDATION_CODE_CANNOT_BE_EMPTY.translate());
@@ -97,7 +97,7 @@ public class CurrencyValidatorServiceImpl implements ICurrencyValidatorService, 
         final var MIN_LENGTH = 1;
         final var MAX_LENGTH = 10;
         if (isNull(symbol)) {
-            validation.addError(FIELD_NAME, symbol, CURRENCY_VALIDATION_SYMBOL_CANNOT_BE_NULL.translate());
+            validation.addError(FIELD_NAME, null, CURRENCY_VALIDATION_SYMBOL_CANNOT_BE_NULL.translate());
         }
         if (symbol.isBlank()) {
             validation.addError(FIELD_NAME, symbol, CURRENCY_VALIDATION_SYMBOL_CANNOT_BE_EMPTY.translate());
@@ -116,7 +116,7 @@ public class CurrencyValidatorServiceImpl implements ICurrencyValidatorService, 
         final var MIN_LENGTH = 3;
         final var MAX_LENGTH = 255;
         if (isNull(name)) {
-            validation.addError(FIELD_NAME, name, CURRENCY_VALIDATION_NAME_CANNOT_BE_NULL.translate());
+            validation.addError(FIELD_NAME, null, CURRENCY_VALIDATION_NAME_CANNOT_BE_NULL.translate());
         }
         if (name.isBlank()) {
             validation.addError(FIELD_NAME, name, CURRENCY_VALIDATION_NAME_CANNOT_BE_EMPTY.translate());

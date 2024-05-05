@@ -5,7 +5,7 @@ import br.dev.mhc.financialassistant.common.utils.URIUtils;
 import br.dev.mhc.financialassistant.currency.dtos.CurrencyDTO;
 import br.dev.mhc.financialassistant.currency.services.interfaces.ICreateCurrencyService;
 import br.dev.mhc.financialassistant.currency.services.interfaces.IFindActiveCurrenciesService;
-import br.dev.mhc.financialassistant.currency.services.interfaces.IFindByCodeService;
+import br.dev.mhc.financialassistant.currency.services.interfaces.IFindCurrencyByCodeService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +18,9 @@ public class CurrencyController {
 
     private final ICreateCurrencyService createCurrency;
     private final IFindActiveCurrenciesService findActiveCurrencies;
-    private final IFindByCodeService findByCodeService;
+    private final IFindCurrencyByCodeService findByCodeService;
 
-    public CurrencyController(ICreateCurrencyService createCurrency, IFindActiveCurrenciesService findActiveCurrencies, IFindByCodeService findByCodeService) {
+    public CurrencyController(ICreateCurrencyService createCurrency, IFindActiveCurrenciesService findActiveCurrencies, IFindCurrencyByCodeService findByCodeService) {
         this.createCurrency = createCurrency;
         this.findActiveCurrencies = findActiveCurrencies;
         this.findByCodeService = findByCodeService;

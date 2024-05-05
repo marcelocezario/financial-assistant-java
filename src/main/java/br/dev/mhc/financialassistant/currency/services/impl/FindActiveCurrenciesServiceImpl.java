@@ -19,6 +19,6 @@ public class FindActiveCurrenciesServiceImpl implements IFindActiveCurrenciesSer
 
     @Override
     public List<CurrencyDTO> find() {
-        return repository.findByActiveTrue().stream().map(CurrencyMapper::toDTO).toList();
+        return repository.findByActiveTrue().stream().map(CurrencyMapper::toDto).toList();
     }
 }

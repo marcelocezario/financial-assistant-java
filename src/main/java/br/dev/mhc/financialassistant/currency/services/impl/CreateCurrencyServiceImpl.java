@@ -7,7 +7,7 @@ import br.dev.mhc.financialassistant.currency.services.interfaces.ICurrencyValid
 import br.dev.mhc.financialassistant.exceptions.AppValidationException;
 import org.springframework.stereotype.Service;
 
-import static br.dev.mhc.financialassistant.currency.mappers.CurrencyMapper.toDTO;
+import static br.dev.mhc.financialassistant.currency.mappers.CurrencyMapper.toDto;
 import static br.dev.mhc.financialassistant.currency.mappers.CurrencyMapper.toEntity;
 import static java.util.Objects.requireNonNull;
 
@@ -30,6 +30,6 @@ public class CreateCurrencyServiceImpl implements ICreateCurrencyService {
         validatorService.validate(currencyDTO).isValidOrThrow(AppValidationException::new);
         var currency = toEntity(currencyDTO);
         currency = repository.save(currency);
-        return toDTO(currency);
+        return toDto(currency);
     }
 }

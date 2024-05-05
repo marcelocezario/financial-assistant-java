@@ -1,5 +1,6 @@
 package br.dev.mhc.financialassistant.wallet.entities;
 
+import br.dev.mhc.financialassistant.currency.entities.Currency;
 import br.dev.mhc.financialassistant.user.entities.User;
 import br.dev.mhc.financialassistant.wallet.enums.WalletType;
 import jakarta.persistence.*;
@@ -41,11 +42,11 @@ public abstract class Wallet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     Long id;
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     String name;
-    @Column(name = "balance")
+    @Column(name = "balance", precision = 13, scale = 6, nullable = false)
     BigDecimal balance;
-    @Column(name = "active")
+    @Column(name = "active", nullable = false)
     boolean active;
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -53,6 +54,9 @@ public abstract class Wallet {
     @UpdateTimestamp
     @Column(name = "updated_at")
     Instant updatedAt;
+    @ManyToOne
+    @JoinColumn(name = "currency_id")
+    private Currency currency;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

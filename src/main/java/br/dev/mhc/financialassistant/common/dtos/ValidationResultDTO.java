@@ -22,8 +22,7 @@ public class ValidationResultDTO<T> implements Serializable {
     }
 
     public <X extends Throwable> void isValidOrThrow(Function<ValidationResultDTO<T>, ? extends X> exceptionSupplier) throws X {
-        if (isValid()) {
-        } else {
+        if (!isValid()) {
             throw exceptionSupplier.apply(this);
         }
     }

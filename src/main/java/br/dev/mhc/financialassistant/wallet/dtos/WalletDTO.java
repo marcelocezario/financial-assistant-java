@@ -1,5 +1,6 @@
 package br.dev.mhc.financialassistant.wallet.dtos;
 
+import br.dev.mhc.financialassistant.currency.dtos.CurrencyDTO;
 import br.dev.mhc.financialassistant.wallet.annotations.WalletDTOValidator;
 import br.dev.mhc.financialassistant.wallet.enums.WalletType;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -48,6 +49,7 @@ public abstract class WalletDTO implements Serializable {
     private boolean active;
     private Instant createdAt;
     private Instant updatedAt;
+    private CurrencyDTO currency;
     private Long userId;
 
     public WalletType getType() {

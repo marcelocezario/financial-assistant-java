@@ -135,7 +135,7 @@ public class CategoryValidatorServiceImpl implements ICategoryValidatorService, 
         final var MIN_LENGTH = 3;
         final var MAX_LENGTH = 255;
         if (isNull(name)) {
-            validation.addError(FIELD_NAME, name, CATEGORY_VALIDATION_NAME_CANNOT_BE_NULL.translate());
+            validation.addError(FIELD_NAME, null, CATEGORY_VALIDATION_NAME_CANNOT_BE_NULL.translate());
             return;
         }
         if (name.isBlank()) {

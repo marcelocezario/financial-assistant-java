@@ -18,7 +18,7 @@ public class CurrencyMapper {
                 .build();
     }
 
-    public static CurrencyDTO toDTO(Currency entity) {
+    public static CurrencyDTO toDto(Currency entity) {
         return CurrencyDTO.builder()
                 .id(entity.getId())
                 .name(entity.getName())
