@@ -20,6 +20,7 @@ public class Currency implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     @Column(name = "id")
     private Long id;
     @Column(name = "name", unique = true, nullable = false)

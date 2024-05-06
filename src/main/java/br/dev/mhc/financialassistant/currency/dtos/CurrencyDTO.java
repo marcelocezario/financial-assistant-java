@@ -15,6 +15,7 @@ import java.time.Instant;
 @CurrencyDTOValidator
 public class CurrencyDTO implements Serializable {
 
+    @EqualsAndHashCode.Include
     private Long id;
     private String name;
     private String symbol;

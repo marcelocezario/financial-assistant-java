@@ -1,10 +1,10 @@
 package br.dev.mhc.financialassistant.common.translation;
 
 public enum TranslationKey {
-
     CATEGORY_VALIDATION_COLOR_IS_INVALID("category.validation.color.isInvalid"),
     CATEGORY_VALIDATION_COLOR_MUST_HAVE_CHARACTERS("category.validation.color.mustHaveCharacters"),
     CATEGORY_VALIDATION_ICON_URL_CANNOT_BE_LONGER_THEN_CHARACTERS("category.validation.iconUrl.cannotBeLongerThenCharacters"),
+    CATEGORY_VALIDATION_ID_DOES_NOT_MATCH_ROUTE("category.validation.id.doesNotMatchRoute"),
     CATEGORY_VALIDATION_NAME_CANNOT_BE_EMPTY("category.validation.name.cannotBeEmpty"),
     CATEGORY_VALIDATION_NAME_CANNOT_BE_LESS_THEN_CHARACTERS("category.validation.name.cannotBeLessThenCharacters"),
     CATEGORY_VALIDATION_NAME_CANNOT_BE_LONGER_THEN_CHARACTERS("category.validation.name.cannotBeLongerThenCharacters"),
@@ -12,6 +12,7 @@ public enum TranslationKey {
     CATEGORY_VALIDATION_NAME_IS_ALREADY_USED_BY_USER("category.validation.name.isAlreadyUsedByUser"),
     CATEGORY_VALIDATION_USER_ID_CANNOT_BE_NULL("category.validation.userId.cannotBeNull"),
     CATEGORY_VALIDATION_USER_ID_DOES_NOT_EXIST("category.validation.userId.doesNotExist"),
+    CATEGORY_VALIDATION_USER_ID_DOES_NOT_MATCH_ROUTE("category.validation.userId.doesNotMatchRoute"),
     CATEGORY_VALIDATION_USER_ID_UNAUTHORIZED("category.validation.userId.unauthorized"),
 
     COMPANY_NAME("company.name"),
@@ -20,6 +21,7 @@ public enum TranslationKey {
     CURRENCY_VALIDATION_CODE_CANNOT_BE_NULL("currency.validation.code.cannotBeNull"),
     CURRENCY_VALIDATION_CODE_IS_ALREADY_USED("currency.validation.code.isAlreadyUsedByUser"),
     CURRENCY_VALIDATION_CODE_MUST_HAVE_CHARACTERS("currency.validation.code.mustHaveCharacters"),
+    CURRENCY_VALIDATION_ID_DOES_NOT_MATCH_ROUTE("currency.validation.id.doesNotMatchRoute"),
     CURRENCY_VALIDATION_NAME_CANNOT_BE_EMPTY("currency.validation.name.cannotBeEmpty"),
     CURRENCY_VALIDATION_NAME_CANNOT_BE_LESS_THEN_CHARACTERS("currency.validation.name.cannotBeLessThenCharacters"),
     CURRENCY_VALIDATION_NAME_CANNOT_BE_LONGER_THEN_CHARACTERS("currency.validation.name.cannotBeLongerThenCharacters"),
@@ -32,22 +34,47 @@ public enum TranslationKey {
     CURRENCY_VALIDATION_SYMBOL_CANNOT_BE_LONGER_THEN_CHARACTERS("currency.validation.symbol.cannotBeLongerThenCharacters"),
     CURRENCY_VALIDATION_SYMBOL_CANNOT_BE_NULL("currency.validation.symbol.cannotBeNull"),
 
-    EMAIL_GENERIC_GREETING("email.generic.greeting"),
-    EMAIL_GENERIC_COMPANY_SIGNATURE("email.generic.company.signature"),
-
-    EMAIL_FORGOT_PASSWORD_SUBJECT("email.forgotPassword.subject"),
     EMAIL_FORGOT_PASSWORD_CONTENT("email.forgotPassword.content"),
+    EMAIL_FORGOT_PASSWORD_SUBJECT("email.forgotPassword.subject"),
     EMAIL_FORGOT_PASSWORD_TOKEN_EXPIRATION("email.forgotPassword.tokenExpiration"),
+    EMAIL_GENERIC_COMPANY_SIGNATURE("email.generic.company.signature"),
+    EMAIL_GENERIC_GREETING("email.generic.greeting"),
 
     EXCEPTION_GENERIC("exceptions.generic"),
     EXCEPTION_METHOD_ARGUMENT_NOT_VALID("exceptions.methodArgumentNotValidException"),
     EXCEPTION_RESOURCE_NOT_FOUND("exceptions.resourceNotFound"),
+
+    TRANSACTION_VALIDATION_AMOUNT_CANNOT_BE_NEGATIVE("transaction.validation.amount.cannotBeNegative"),
+    TRANSACTION_VALIDATION_AMOUNT_CANNOT_BE_NULL("transaction.validation.amount.cannotBeNull"),
+    TRANSACTION_VALIDATION_CATEGORIES_AMOUNT_MUST_BE_GREATER_THAN_ZERO("transaction.validation.categories.amountMustBeGreaterThanZero"),
+    TRANSACTION_VALIDATION_CATEGORIES_CANNOT_BE_EMPTY("transaction.validation.categories.cannotBeEmpty"),
+    TRANSACTION_VALIDATION_CATEGORIES_CANNOT_BE_NULL("transaction.validation.categories.cannotBeNull"),
+    TRANSACTION_VALIDATION_CATEGORIES_CATEGORY_ID_DOES_NOT_EXIST("transaction.validation.categories.categoryIdDoesNotExist"),
+    TRANSACTION_VALIDATION_CATEGORIES_CONTAINS_CATEGORIES_WITHOUT_AMOUNT("transaction.validation.categories.containsCategoriesWithoutAmount"),
+    TRANSACTION_VALIDATION_CATEGORIES_CONTAINS_CATEGORIES_WITHOUT_CATEGORY_ID("transaction.validation.categories.containsCategoriesWithoutCategoryId"),
+    TRANSACTION_VALIDATION_CATEGORIES_CONTAINS_NULL_OBJECTS("transaction.validation.categories.containsNullObjects"),
+    TRANSACTION_VALIDATION_CATEGORIES_SUM_DOES_NOT_MATCH_WITH_TOTAL("transaction.validation.categories.sumDoesNotMatchWithTotal"),
+    TRANSACTION_VALIDATION_CURRENT_INSTALLMENT_CANNOT_BE_NULL("transaction.validation.currentInstallment.cannotBeNull"),
+    TRANSACTION_VALIDATION_CURRENT_INSTALLMENT_MUST_BE_GREATER_THAN_ZERO("transaction.validation.currentInstallment.mustBeGreaterThanZero"),
+    TRANSACTION_VALIDATION_ID_DOES_NOT_MATCH_ROUTE("transaction.validation.id.doesNotMatchRoute"),
+    TRANSACTION_VALIDATION_MOMENT_CANNOT_BE_BEFORE_DATE("transaction.validation.moment.cannotBeBeforeDate"),
+    TRANSACTION_VALIDATION_MOMENT_CANNOT_BE_NULL("transaction.validation.moment.cannotBeNull"),
+    TRANSACTION_VALIDATION_NOTES_CANNOT_BE_LONGER_THEN_CHARACTERS("transaction.validation.notes.cannotBeLongerThenCharacters"),
+    TRANSACTION_VALIDATION_TYPE_CANNOT_BE_NULL("transaction.validation.type.cannotBeNull"),
+    TRANSACTION_VALIDATION_USER_ID_CANNOT_BE_NULL("transaction.validation.userId.cannotBeNull"),
+    TRANSACTION_VALIDATION_USER_ID_DOES_NOT_EXIST("transaction.validation.userId.doesNotExist"),
+    TRANSACTION_VALIDATION_USER_ID_DOES_NOT_MATCH_ROUTE("transaction.validation.userId.doesNotMatchRoute"),
+    TRANSACTION_VALIDATION_USER_ID_UNAUTHORIZED("transaction.validation.userId.unauthorized"),
+    TRANSACTION_VALIDATION_WALLET_ID_CANNOT_BE_NULL("transaction.validation.walletId.cannotBeNull"),
+    TRANSACTION_VALIDATION_WALLET_ID_DOES_NOT_EXIST("transaction.validation.walletId.doesNotExist"),
+    TRANSACTION_VALIDATION_WALLET_ID_DOES_NOT_MATCH_ROUTE("transaction.validation.walletId.doesNotMatchRoute"),
 
     USER_VALIDATION_EMAIL_CANNOT_BE_EMPTY("user.validation.email.cannotBeEmpty"),
     USER_VALIDATION_EMAIL_CANNOT_BE_LONGER_THEN_CHARACTERS("user.validation.email.cannotBeLongerThenCharacters"),
     USER_VALIDATION_EMAIL_CANNOT_BE_NULL("user.validation.email.cannotBeNull"),
     USER_VALIDATION_EMAIL_IS_ALREADY_USED("user.validation.email.isAlreadyUsed"),
     USER_VALIDATION_EMAIL_IS_INVALID("user.validation.email.isInvalid"),
+    USER_VALIDATION_ID_DOES_NOT_MATCH_ROUTE("user.validation.id.doesNotMatchRoute"),
     USER_VALIDATION_NICKNAME_CANNOT_BE_EMPTY("user.validation.nickname.cannotBeEmpty"),
     USER_VALIDATION_NICKNAME_CANNOT_BE_LESS_THEN_CHARACTERS("user.validation.nickname.cannotBeLessThenCharacters"),
     USER_VALIDATION_NICKNAME_CANNOT_BE_LONGER_THEN_CHARACTERS("user.validation.nickname.cannotBeLongerThenCharacters"),
@@ -74,6 +101,7 @@ public enum TranslationKey {
     WALLET_VALIDATION_BALANCE_CANNOT_BE_NULL("wallet.validation.balance.cannotBeNull"),
     WALLET_VALIDATION_CURRENCY_CANNOT_BE_NULL("wallet.validation.currency.cannotBeNull"),
     WALLET_VALIDATION_CURRENCY_DOES_NOT_EXIST("wallet.validation.currency.doesNotExist"),
+    WALLET_VALIDATION_ID_DOES_NOT_MATCH_ROUTE("wallet.validation.id.doesNotMatchRoute"),
     WALLET_VALIDATION_NAME_CANNOT_BE_EMPTY("wallet.validation.name.cannotBeEmpty"),
     WALLET_VALIDATION_NAME_CANNOT_BE_LESS_THEN_CHARACTERS("wallet.validation.name.cannotBeLessThenCharacters"),
     WALLET_VALIDATION_NAME_CANNOT_BE_LONGER_THEN_CHARACTERS("wallet.validation.name.cannotBeLongerThenCharacters"),
@@ -81,8 +109,8 @@ public enum TranslationKey {
     WALLET_VALIDATION_NAME_IS_ALREADY_USED_BY_USER("wallet.validation.name.isAlreadyUsedByUser"),
     WALLET_VALIDATION_USER_ID_CANNOT_BE_NULL("wallet.validation.userId.cannotBeNull"),
     WALLET_VALIDATION_USER_ID_DOES_NOT_EXIST("wallet.validation.userId.doesNotExist"),
+    WALLET_VALIDATION_USER_ID_DOES_NOT_MATCH_ROUTE("wallet.validation.userId.doesNotMatchRoute"),
     WALLET_VALIDATION_USER_ID_UNAUTHORIZED("wallet.validation.userId.unauthorized"),
-
     ;
 
     private final String key;

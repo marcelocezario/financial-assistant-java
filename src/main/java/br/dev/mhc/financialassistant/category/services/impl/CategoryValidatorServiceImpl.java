@@ -57,10 +57,8 @@ public class CategoryValidatorServiceImpl implements ICategoryValidatorService, 
 
     @Override
     public boolean isValid(CategoryDTO categoryDTO, ConstraintValidatorContext constraintValidatorContext) {
-        var uri = request.getRequestURI();
-        categoryDTO.setId(URIUtils.findIdAfterPath(uri, RouteConstants.CATEGORIES_ROUTE));
-        categoryDTO.setUserId(URIUtils.findIdAfterPath(uri, RouteConstants.USERS_ROUTE));
         var validationResult = validate(categoryDTO);
+        validateRoute(validationResult);
         validationResult.getErrors().forEach(error -> {
             constraintValidatorContext.disableDefaultConstraintViolation();
             constraintValidatorContext.buildConstraintViolationWithTemplate(error.getMessage())
@@ -68,6 +66,19 @@ public class CategoryValidatorServiceImpl implements ICategoryValidatorService, 
                     .addConstraintViolation();
         });
         return validationResult.isValid();
+    }
+
+    private void validateRoute(ValidationResultDTO<CategoryDTO> validationResult) {
+        var uri = request.getRequestURI();
+        var categoryDTO = validationResult.getObject();
+        var categoryId = URIUtils.findIdAfterPath(uri, RouteConstants.CATEGORIES_ROUTE);
+        var userId = URIUtils.findIdAfterPath(uri, RouteConstants.USERS_ROUTE);
+        if (nonNull(categoryDTO.getId()) && !categoryDTO.getId().equals(categoryId)) {
+            validationResult.addError("id", categoryDTO.getId(), CATEGORY_VALIDATION_ID_DOES_NOT_MATCH_ROUTE.translate());
+        }
+        if (nonNull(categoryDTO.getUserId()) && !categoryDTO.getUserId().equals(userId)) {
+            validationResult.addError("userId", categoryDTO.getUserId(), CATEGORY_VALIDATION_USER_ID_DOES_NOT_MATCH_ROUTE.translate());
+        }
     }
 
     private void validateUserId(ValidationResultDTO<CategoryDTO> validation) {

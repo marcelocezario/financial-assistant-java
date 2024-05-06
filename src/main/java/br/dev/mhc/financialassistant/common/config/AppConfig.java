@@ -17,4 +17,5 @@ public class AppConfig {
                 .registerTypeAdapter(Instant.class, new InstantAdapter())
                 .create();
     }
+
 }

@@ -12,6 +12,11 @@ public class WalletMapper {
 
     private final static LogHelper LOG = new LogHelper(WalletMapper.class);
 
+    // TODO verificar se mesmo Wallets que não são CASH_WALLET vão gerar essa instância no banco
+    public static Wallet toEntity(Long walletId) {
+        return CashWallet.builder().id(walletId).build();
+    }
+
     public static Wallet toEntity(WalletDTO dto) {
         WalletBuilder builder;
         switch (dto.getType()) {
@@ -73,7 +78,6 @@ public class WalletMapper {
         return BankAccount.builder()
                 .creditLimit(dto.getCreditLimit())
                 .interestRate(dto.getInterestRate());
-        // TODO
     }
 
     private static WalletBuilder toEntityCashWalletBuilder() {

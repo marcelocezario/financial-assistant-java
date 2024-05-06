@@ -6,6 +6,10 @@ import br.dev.mhc.financialassistant.user.enums.UserRole;
 
 public class UserMapper {
 
+    public static User toEntity(Long userId) {
+        return User.builder().id(userId).build();
+    }
+
     public static User toEntity(UserDTO dto) {
         return User.builder()
                 .id(dto.getId())

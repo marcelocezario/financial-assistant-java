@@ -14,8 +14,7 @@ import org.springframework.stereotype.Service;
 
 import static br.dev.mhc.financialassistant.common.translation.TranslationKey.*;
 import static br.dev.mhc.financialassistant.common.utils.validations.ValidationUtils.*;
-import static java.util.Objects.isNull;
-import static java.util.Objects.requireNonNull;
+import static java.util.Objects.*;
 
 @Service
 public class UserValidatorServiceImpl implements IUserValidatorService, ConstraintValidator<UserDTOValidator, UserDTO> {
@@ -42,9 +41,8 @@ public class UserValidatorServiceImpl implements IUserValidatorService, Constrai
 
     @Override
     public boolean isValid(UserDTO userDTO, ConstraintValidatorContext constraintValidatorContext) {
-        var uri = request.getRequestURI();
-        userDTO.setId(URIUtils.findIdAfterPath(uri, RouteConstants.USERS_ROUTE));
         var validationResult = validate(userDTO);
+        validateRoute(validationResult);
         validationResult.getErrors().forEach(error -> {
             constraintValidatorContext.disableDefaultConstraintViolation();
             constraintValidatorContext.buildConstraintViolationWithTemplate(error.getMessage())
@@ -52,6 +50,15 @@ public class UserValidatorServiceImpl implements IUserValidatorService, Constrai
                     .addConstraintViolation();
         });
         return validationResult.isValid();
+    }
+
+    private void validateRoute(ValidationResultDTO<UserDTO> validationResult) {
+        var uri = request.getRequestURI();
+        var userDTO = validationResult.getObject();
+        var userId = URIUtils.findIdAfterPath(uri, RouteConstants.USERS_ROUTE);
+        if (nonNull(userDTO.getId()) && !userDTO.getId().equals(userId)) {
+            validationResult.addError("id", userDTO.getId(), USER_VALIDATION_ID_DOES_NOT_MATCH_ROUTE.translate());
+        }
     }
 
     private void validatePassword(ValidationResultDTO<UserDTO> validation) {

@@ -8,7 +8,6 @@ import br.dev.mhc.financialassistant.wallet.services.interfaces.IFindWalletByIdA
 import org.springframework.stereotype.Service;
 
 import static br.dev.mhc.financialassistant.wallet.mappers.WalletMapper.toDto;
-import static java.util.Objects.requireNonNull;
 
 @Service
 public class FindWalletByIdAndUserIdServiceImpl implements IFindWalletByIdAndUserIdService {
@@ -21,8 +20,6 @@ public class FindWalletByIdAndUserIdServiceImpl implements IFindWalletByIdAndUse
 
     @Override
     public WalletDTO find(Long id, Long userId) {
-        requireNonNull(id);
-        requireNonNull(userId);
         var wallet = repository.findByIdAndUserId(id, userId).orElseThrow(() -> new ResourceNotFoundException(id, Wallet.class));
         return toDto(wallet);
     }

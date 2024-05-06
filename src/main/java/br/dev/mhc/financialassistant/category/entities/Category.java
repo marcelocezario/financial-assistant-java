@@ -20,6 +20,7 @@ public class Category implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     @Column(name = "id")
     private Long id;
     @Column(name = "name", nullable = false)
@@ -39,5 +40,9 @@ public class Category implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Category(Long id) {
+        this.id = id;
+    }
 
 }

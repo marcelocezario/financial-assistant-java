@@ -25,7 +25,7 @@ import static br.dev.mhc.financialassistant.wallet.enums.WalletType.*;
 @Setter
 @SuperBuilder
 @Entity
-@Table(schema = "wallets", name = "wallets")
+@Table(name = "wallets")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Wallet {
 
@@ -63,6 +63,14 @@ public abstract class Wallet {
 
     public WalletType getType() {
         return walletTypeMap.getOrDefault(this.getClass(), CASH_WALLET);
+    }
+
+    public void adjustBalanceWithTransaction(BigDecimal value, boolean isAddition) {
+        if (isAddition) {
+            balance = balance.add(value);
+        } else {
+            balance = balance.subtract(value);
+        }
     }
 
 }

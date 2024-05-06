@@ -14,6 +14,7 @@ import java.time.Instant;
 @CategoryDTOValidator
 public class CategoryDTO implements Serializable {
 
+    @EqualsAndHashCode.Include
     private Long id;
     private String name;
     private String iconUrl;

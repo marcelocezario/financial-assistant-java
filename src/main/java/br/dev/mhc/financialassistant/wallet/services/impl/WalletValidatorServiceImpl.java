@@ -66,10 +66,8 @@ public class WalletValidatorServiceImpl implements IWalletValidatorService, Cons
 
     @Override
     public boolean isValid(WalletDTO walletDTO, ConstraintValidatorContext constraintValidatorContext) {
-        var uri = request.getRequestURI();
-        walletDTO.setId(URIUtils.findIdAfterPath(uri, RouteConstants.WALLETS_ROUTE));
-        walletDTO.setUserId(URIUtils.findIdAfterPath(uri, RouteConstants.USERS_ROUTE));
         var validationResult = validate(walletDTO);
+        validateRoute(validationResult);
         validationResult.getErrors().forEach(error -> {
             constraintValidatorContext.disableDefaultConstraintViolation();
             constraintValidatorContext.buildConstraintViolationWithTemplate(error.getMessage())
@@ -77,6 +75,19 @@ public class WalletValidatorServiceImpl implements IWalletValidatorService, Cons
                     .addConstraintViolation();
         });
         return validationResult.isValid();
+    }
+
+    private void validateRoute(ValidationResultDTO<WalletDTO> validationResult) {
+        var uri = request.getRequestURI();
+        var walletDTO = validationResult.getObject();
+        var walletId = URIUtils.findIdAfterPath(uri, RouteConstants.WALLETS_ROUTE);
+        var userId = URIUtils.findIdAfterPath(uri, RouteConstants.USERS_ROUTE);
+        if (nonNull(walletDTO.getId()) && !walletDTO.getId().equals(walletId)) {
+            validationResult.addError("id", walletDTO.getId(), WALLET_VALIDATION_ID_DOES_NOT_MATCH_ROUTE.translate());
+        }
+        if (nonNull(walletDTO.getUserId()) && !walletDTO.getUserId().equals(userId)) {
+            validationResult.addError("userId", walletDTO.getUserId(), WALLET_VALIDATION_USER_ID_DOES_NOT_MATCH_ROUTE.translate());
+        }
     }
 
     private void validateCryptoWallet(ValidationResultDTO<WalletDTO> validation) {

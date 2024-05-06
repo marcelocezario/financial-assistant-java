@@ -12,6 +12,6 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 @Entity
-@Table(schema = "wallets", name = "crypto_wallets")
+@Table(name = "crypto_wallets")
 public class CryptoWallet extends Wallet {
 }

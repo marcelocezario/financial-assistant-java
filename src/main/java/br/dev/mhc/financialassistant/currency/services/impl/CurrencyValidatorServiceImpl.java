@@ -16,8 +16,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 
 import static br.dev.mhc.financialassistant.common.translation.TranslationKey.*;
-import static java.util.Objects.isNull;
-import static java.util.Objects.requireNonNull;
+import static java.util.Objects.*;
 
 @Service
 public class CurrencyValidatorServiceImpl implements ICurrencyValidatorService, ConstraintValidator<CurrencyDTOValidator, CurrencyDTO> {
@@ -50,10 +49,8 @@ public class CurrencyValidatorServiceImpl implements ICurrencyValidatorService, 
 
     @Override
     public boolean isValid(CurrencyDTO currencyDTO, ConstraintValidatorContext constraintValidatorContext) {
-        var uri = request.getRequestURI();
-        currencyDTO.setId(URIUtils.findIdAfterPath(uri, RouteConstants.CURRENCIES_ROUTE));
-
         var validationResult = validate(currencyDTO);
+        validateRoute(validationResult);
         validationResult.getErrors().forEach(error -> {
             constraintValidatorContext.disableDefaultConstraintViolation();
             constraintValidatorContext.buildConstraintViolationWithTemplate(error.getMessage())
@@ -61,6 +58,15 @@ public class CurrencyValidatorServiceImpl implements ICurrencyValidatorService, 
                     .addConstraintViolation();
         });
         return validationResult.isValid();
+    }
+
+    private void validateRoute(ValidationResultDTO<CurrencyDTO> validationResult) {
+        var uri = request.getRequestURI();
+        var currencyDTO = validationResult.getObject();
+        var currencyId = URIUtils.findIdAfterPath(uri, RouteConstants.CURRENCIES_ROUTE);
+        if (nonNull(currencyDTO) && !currencyDTO.getId().equals(currencyId)) {
+            validationResult.addError("id", currencyDTO.getId(), CURRENCY_VALIDATION_ID_DOES_NOT_MATCH_ROUTE.translate());
+        }
     }
 
     private void validatePriceInBRL(ValidationResultDTO<CurrencyDTO> validation) {

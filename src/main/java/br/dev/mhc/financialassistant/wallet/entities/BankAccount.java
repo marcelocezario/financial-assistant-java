@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 @Setter
 @SuperBuilder
 @Entity
-@Table(schema = "wallets", name = "bank_accounts")
+@Table(name = "bank_accounts")
 public class BankAccount extends Wallet {
 
     @Column(name = "credit_limit")
