@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static br.dev.mhc.financialassistant.wallet.enums.WalletType.*;
 
@@ -39,9 +40,9 @@ public abstract class Wallet {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    Long id;
+    UUID id;
     @Column(name = "name", nullable = false)
     String name;
     @Column(name = "balance", precision = 13, scale = 6, nullable = false)

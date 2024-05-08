@@ -1,5 +1,7 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 create table users (
-    id bigserial not null,
+    id uuid not null default uuid_generate_v4(),
     nickname varchar(255),
     email varchar(255) not null unique,
     password varchar(255) not null,
@@ -11,7 +13,7 @@ create table users (
 
 create table users_roles (
     role integer not null,
-    user_id bigint not null
+    user_id uuid not null
 );
 
 alter table users_roles

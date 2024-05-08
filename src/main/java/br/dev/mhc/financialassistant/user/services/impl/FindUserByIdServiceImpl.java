@@ -7,6 +7,8 @@ import br.dev.mhc.financialassistant.user.repositories.UserRepository;
 import br.dev.mhc.financialassistant.user.services.interfaces.IFindUserByIdService;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 import static br.dev.mhc.financialassistant.user.mappers.UserMapper.toDto;
 import static java.util.Objects.requireNonNull;
 
@@ -20,7 +22,7 @@ public class FindUserByIdServiceImpl implements IFindUserByIdService {
     }
 
     @Override
-    public UserDTO find(Long id) {
+    public UserDTO find(UUID id) {
         requireNonNull(id);
         var user = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id, User.class));
         return toDto(user);

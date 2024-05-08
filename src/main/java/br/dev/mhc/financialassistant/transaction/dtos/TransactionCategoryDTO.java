@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,9 +14,9 @@ import java.math.BigDecimal;
 public class TransactionCategoryDTO implements Serializable {
 
     @EqualsAndHashCode.Include
-    private Long transactionId;
+    private UUID transactionId;
     @EqualsAndHashCode.Include
-    private Long categoryId;
+    private UUID categoryId;
     private BigDecimal amount;
 
 }

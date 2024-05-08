@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,13 +16,13 @@ import java.time.Instant;
 public class CategoryDTO implements Serializable {
 
     @EqualsAndHashCode.Include
-    private Long id;
+    private UUID id;
     private String name;
     private String iconUrl;
     private String color;
     private boolean active;
     private Instant createdAt;
     private Instant updatedAt;
-    private Long userId;
+    private UUID userId;
 
 }

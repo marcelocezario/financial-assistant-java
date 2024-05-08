@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = RouteConstants.USERS_ROUTE + "/{userId}" + RouteConstants.WALLETS_ROUTE)
@@ -42,12 +43,12 @@ public class UserWalletController {
     }
 
     @GetMapping
-    ResponseEntity<List<WalletDTO>> getByUser(@PathVariable Long userId, @RequestParam(value = "onlyActive", defaultValue = "true") boolean onlyActive) {
+    ResponseEntity<List<WalletDTO>> getByUser(@PathVariable UUID userId, @RequestParam(value = "onlyActive", defaultValue = "true") boolean onlyActive) {
         return ResponseEntity.ok(findWalletsByUserService.find(userId, onlyActive));
     }
 
     @GetMapping(value = "/{id}")
-    ResponseEntity<WalletDTO> getById(@PathVariable Long userId, @PathVariable Long id) {
+    ResponseEntity<WalletDTO> getById(@PathVariable UUID userId, @PathVariable UUID id) {
         return ResponseEntity.ok(findWalletByIdAndUserIdService.find(id, userId));
     }
 }

@@ -55,7 +55,7 @@ public class UserValidatorServiceImpl implements IUserValidatorService, Constrai
     private void validateRoute(ValidationResultDTO<UserDTO> validationResult) {
         var uri = request.getRequestURI();
         var userDTO = validationResult.getObject();
-        var userId = URIUtils.findIdAfterPath(uri, RouteConstants.USERS_ROUTE);
+        var userId = URIUtils.findUuidAfterPath(uri, RouteConstants.USERS_ROUTE);
         if (nonNull(userDTO.getId()) && !userDTO.getId().equals(userId)) {
             validationResult.addError("id", userDTO.getId(), USER_VALIDATION_ID_DOES_NOT_MATCH_ROUTE.translate());
         }

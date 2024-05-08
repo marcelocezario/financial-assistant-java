@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 import static java.util.Objects.requireNonNull;
 
@@ -22,7 +23,7 @@ public class FindWalletsByUserIdServiceImpl implements IFindWalletsByUserIdServi
     }
 
     @Override
-    public List<WalletDTO> find(Long userId, boolean onlyActive) {
+    public List<WalletDTO> find(UUID userId, boolean onlyActive) {
         requireNonNull(userId);
         List<Wallet> wallets;
         if (onlyActive) {

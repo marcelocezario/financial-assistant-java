@@ -6,9 +6,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
+import java.util.UUID;
 
-public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-    Page<Transaction> findByUserId(Long userId, Pageable pageable);
+public interface TransactionRepository extends JpaRepository<Transaction, UUID> {
+    Page<Transaction> findByUserId(UUID userId, Pageable pageable);
 
-    Optional<Transaction> findByIdAndUserId(Long id, Long userId);
+    Optional<Transaction> findByIdAndUserId(UUID id, UUID userId);
 }

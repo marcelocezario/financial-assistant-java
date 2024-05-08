@@ -71,8 +71,8 @@ public class CategoryValidatorServiceImpl implements ICategoryValidatorService, 
     private void validateRoute(ValidationResultDTO<CategoryDTO> validationResult) {
         var uri = request.getRequestURI();
         var categoryDTO = validationResult.getObject();
-        var categoryId = URIUtils.findIdAfterPath(uri, RouteConstants.CATEGORIES_ROUTE);
-        var userId = URIUtils.findIdAfterPath(uri, RouteConstants.USERS_ROUTE);
+        var categoryId = URIUtils.findUuidAfterPath(uri, RouteConstants.CATEGORIES_ROUTE);
+        var userId = URIUtils.findUuidAfterPath(uri, RouteConstants.USERS_ROUTE);
         if (nonNull(categoryDTO.getId()) && !categoryDTO.getId().equals(categoryId)) {
             validationResult.addError("id", categoryDTO.getId(), CATEGORY_VALIDATION_ID_DOES_NOT_MATCH_ROUTE.translate());
         }

@@ -8,12 +8,14 @@ import br.dev.mhc.financialassistant.wallet.dtos.WalletDTO.WalletDTOBuilder;
 import br.dev.mhc.financialassistant.wallet.entities.*;
 import br.dev.mhc.financialassistant.wallet.entities.Wallet.WalletBuilder;
 
+import java.util.UUID;
+
 public class WalletMapper {
 
     private final static LogHelper LOG = new LogHelper(WalletMapper.class);
 
     // TODO verificar se mesmo Wallets que não são CASH_WALLET vão gerar essa instância no banco
-    public static Wallet toEntity(Long walletId) {
+    public static Wallet toEntity(UUID walletId) {
         return CashWallet.builder().id(walletId).build();
     }
 

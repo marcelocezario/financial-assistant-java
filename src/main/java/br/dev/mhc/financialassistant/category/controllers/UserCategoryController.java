@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = RouteConstants.USERS_ROUTE + "/{userId}" + RouteConstants.CATEGORIES_ROUTE)
@@ -42,12 +43,12 @@ public class UserCategoryController {
     }
 
     @GetMapping
-    ResponseEntity<List<CategoryDTO>> getByUser(@PathVariable Long userId, @RequestParam(value = "onlyActive", defaultValue = "true") boolean onlyActive) {
+    ResponseEntity<List<CategoryDTO>> getByUser(@PathVariable UUID userId, @RequestParam(value = "onlyActive", defaultValue = "true") boolean onlyActive) {
         return ResponseEntity.ok(findCategoriesByUserService.find(userId, onlyActive));
     }
 
     @GetMapping(value = "/{id}")
-    ResponseEntity<CategoryDTO> getById(@PathVariable Long userId, @PathVariable Long id) {
+    ResponseEntity<CategoryDTO> getById(@PathVariable UUID userId, @PathVariable UUID id) {
         return ResponseEntity.ok(findCategoryByIdAndUserIdService.find(id, userId));
     }
 }

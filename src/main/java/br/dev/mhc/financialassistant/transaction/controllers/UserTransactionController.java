@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 import static br.dev.mhc.financialassistant.common.constants.RouteConstants.TRANSACTIONS_ROUTE;
 import static br.dev.mhc.financialassistant.common.constants.RouteConstants.USERS_ROUTE;
 
@@ -44,13 +46,13 @@ public class UserTransactionController {
     }
 
     @DeleteMapping(value = "/{id}")
-    ResponseEntity<Void> delete(@PathVariable Long userId, @PathVariable Long id) {
+    ResponseEntity<Void> delete(@PathVariable UUID userId, @PathVariable UUID id) {
         deleteTransactionByIdAndUserIdService.delete(id, userId);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping
-    ResponseEntity<Page<TransactionDTO>> getByUser(@PathVariable Long userId, Pageable pageable) {
+    ResponseEntity<Page<TransactionDTO>> getByUser(@PathVariable UUID userId, Pageable pageable) {
         return ResponseEntity.ok(findUserTransactionsService.findPageable(userId, pageable));
     }
 

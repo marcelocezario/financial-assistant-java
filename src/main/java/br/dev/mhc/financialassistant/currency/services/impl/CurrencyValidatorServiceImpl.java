@@ -63,7 +63,7 @@ public class CurrencyValidatorServiceImpl implements ICurrencyValidatorService, 
     private void validateRoute(ValidationResultDTO<CurrencyDTO> validationResult) {
         var uri = request.getRequestURI();
         var currencyDTO = validationResult.getObject();
-        var currencyId = URIUtils.findIdAfterPath(uri, RouteConstants.CURRENCIES_ROUTE);
+        var currencyId = URIUtils.findUuidAfterPath(uri, RouteConstants.CURRENCIES_ROUTE);
         if (nonNull(currencyDTO) && !currencyDTO.getId().equals(currencyId)) {
             validationResult.addError("id", currencyDTO.getId(), CURRENCY_VALIDATION_ID_DOES_NOT_MATCH_ROUTE.translate());
         }

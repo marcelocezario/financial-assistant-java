@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,7 +21,7 @@ import java.util.Set;
 public class TransactionDTO implements Serializable {
 
     @EqualsAndHashCode.Include
-    private Long id;
+    private UUID id;
     private BigDecimal amount;
     private LocalDateTime moment;
     private String notes;
@@ -29,8 +30,8 @@ public class TransactionDTO implements Serializable {
     private boolean active;
     private Instant createdAt;
     private Instant updatedAt;
-    private Long userId;
-    private Long walletId;
+    private UUID userId;
+    private UUID walletId;
     @Setter(AccessLevel.NONE)
     @Builder.Default
     private Set<TransactionCategoryDTO> categories = new HashSet<>();

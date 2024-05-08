@@ -9,6 +9,8 @@ import br.dev.mhc.financialassistant.wallet.services.interfaces.IWalletTransacti
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 import static java.util.Objects.requireNonNull;
 
 @Service
@@ -24,7 +26,7 @@ public class DeleteTransactionByIdAndUserIdServiceImpl implements IDeleteTransac
 
     @Transactional
     @Override
-    public void delete(Long transactionId, Long userId) {
+    public void delete(UUID transactionId, UUID userId) {
         requireNonNull(transactionId);
         var transaction = repository.findByIdAndUserId(transactionId, userId)
                 .orElseThrow(() -> new ResourceNotFoundException(transactionId, Transaction.class));

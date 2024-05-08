@@ -3,14 +3,19 @@ package br.dev.mhc.financialassistant.common.utils;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.UUID;
 
-import static br.dev.mhc.financialassistant.common.utils.Utils.isIntegerNumber;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 
 public class URIUtils {
 
     public static URI buildUri(Long id) {
+        requireNonNull(id);
+        return ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
+    }
+
+    public static URI buildUri(UUID id) {
         requireNonNull(id);
         return ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
     }
@@ -35,10 +40,10 @@ public class URIUtils {
         return subPath.split("/")[0];
     }
 
-    public static Long findIdAfterPath(String url, String path) {
+    public static UUID findUuidAfterPath(String url, String path) {
         var id = findNextSegmentAfterPath(url, path);
-        if (nonNull(id) && isIntegerNumber(id)) {
-            return Long.parseLong(id);
+        if (nonNull(id)) {
+            return UUID.fromString(id);
         }
         return null;
     }

@@ -83,9 +83,9 @@ public class TransactionValidatorServiceImpl implements ITransactionValidatorSer
     private void validateRoute(ValidationResultDTO<TransactionDTO> validationResult) {
         var uri = request.getRequestURI();
         var transactionDTO = validationResult.getObject();
-        var transactionId = URIUtils.findIdAfterPath(uri, RouteConstants.TRANSACTIONS_ROUTE);
-        var userId = URIUtils.findIdAfterPath(uri, RouteConstants.USERS_ROUTE);
-        var walletId = URIUtils.findIdAfterPath(uri, RouteConstants.WALLETS_ROUTE);
+        var transactionId = URIUtils.findUuidAfterPath(uri, RouteConstants.TRANSACTIONS_ROUTE);
+        var userId = URIUtils.findUuidAfterPath(uri, RouteConstants.USERS_ROUTE);
+        var walletId = URIUtils.findUuidAfterPath(uri, RouteConstants.WALLETS_ROUTE);
         if (nonNull(transactionDTO.getId()) && !transactionDTO.getId().equals(transactionId)) {
             validationResult.addError("id", transactionDTO.getId(), TRANSACTION_VALIDATION_ID_DOES_NOT_MATCH_ROUTE.translate());
         }

@@ -7,6 +7,8 @@ import br.dev.mhc.financialassistant.wallet.repositories.WalletRepository;
 import br.dev.mhc.financialassistant.wallet.services.interfaces.IFindWalletByNameAndUserIdService;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 import static br.dev.mhc.financialassistant.wallet.mappers.WalletMapper.toDto;
 import static java.util.Objects.requireNonNull;
 
@@ -20,7 +22,7 @@ public class FindWalletByNameAndUserIdServiceImpl implements IFindWalletByNameAn
     }
 
     @Override
-    public WalletDTO find(String walletName, Long userId) {
+    public WalletDTO find(String walletName, UUID userId) {
         requireNonNull(walletName);
         requireNonNull(userId);
         var wallet = repository.findByNameAndUserId(walletName, userId)

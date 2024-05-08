@@ -7,6 +7,8 @@ import br.dev.mhc.financialassistant.category.services.interfaces.IFindCategoryB
 import br.dev.mhc.financialassistant.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 import static br.dev.mhc.financialassistant.category.mappers.CategoryMapper.toDto;
 import static java.util.Objects.requireNonNull;
 
@@ -20,7 +22,7 @@ public class FindCategoryByIdAndUserIdServiceImpl implements IFindCategoryByIdAn
     }
 
     @Override
-    public CategoryDTO find(Long id, Long userId) {
+    public CategoryDTO find(UUID id, UUID userId) {
         requireNonNull(id);
         requireNonNull(userId);
         var category = repository.findByIdAndUserId(id, userId).orElseThrow(() -> new ResourceNotFoundException(id, Category.class));

@@ -5,13 +5,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-public interface WalletRepository extends JpaRepository<Wallet, Long> {
-    Optional<Wallet> findByIdAndUserId(Long id, Long userId);
+public interface WalletRepository extends JpaRepository<Wallet, UUID> {
+    Optional<Wallet> findByIdAndUserId(UUID id, UUID userId);
 
-    List<Wallet> findByUserId(Long userId);
+    List<Wallet> findByUserId(UUID userId);
 
-    List<Wallet> findByUserIdAndActiveTrue(Long userId);
+    List<Wallet> findByUserIdAndActiveTrue(UUID userId);
 
-    Optional<Wallet> findByNameAndUserId(String walletName, Long userId);
+    Optional<Wallet> findByNameAndUserId(String walletName, UUID userId);
 }

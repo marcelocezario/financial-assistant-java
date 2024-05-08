@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 import static java.util.Objects.requireNonNull;
 
 @Service
@@ -20,7 +22,7 @@ public class FindTransactionsByUserIdServiceImpl implements IFindTransactionsByU
     }
 
     @Override
-    public Page<TransactionDTO> findPageable(Long userId, Pageable pageable) {
+    public Page<TransactionDTO> findPageable(UUID userId, Pageable pageable) {
         requireNonNull(userId);
         requireNonNull(pageable);
         return repository.findByUserId(userId, pageable).map(TransactionMapper::toDto);

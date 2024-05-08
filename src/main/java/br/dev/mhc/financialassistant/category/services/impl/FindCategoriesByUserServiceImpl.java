@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 import static java.util.Objects.requireNonNull;
 
@@ -22,7 +23,7 @@ public class FindCategoriesByUserServiceImpl implements IFindCategoriesByUserSer
     }
 
     @Override
-    public List<CategoryDTO> find(Long userId, boolean onlyActive) {
+    public List<CategoryDTO> find(UUID userId, boolean onlyActive) {
         requireNonNull(userId);
         List<Category> categories;
         if (onlyActive) {

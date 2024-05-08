@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static br.dev.mhc.financialassistant.wallet.enums.WalletType.*;
 
@@ -43,14 +44,14 @@ public abstract class WalletDTO implements Serializable {
         walletTypeMap.put(CryptoWalletDTO.class, CRYPTO_WALLET);
     }
 
-    private Long id;
+    private UUID id;
     private String name;
     private BigDecimal balance;
     private boolean active;
     private Instant createdAt;
     private Instant updatedAt;
     private CurrencyDTO currency;
-    private Long userId;
+    private UUID userId;
 
     public WalletType getType() {
         return walletTypeMap.getOrDefault(this.getClass(), CASH_WALLET);

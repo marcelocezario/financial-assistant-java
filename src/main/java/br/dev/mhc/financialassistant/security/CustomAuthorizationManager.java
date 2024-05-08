@@ -1,6 +1,5 @@
 package br.dev.mhc.financialassistant.security;
 
-import br.dev.mhc.financialassistant.common.utils.Utils;
 import br.dev.mhc.financialassistant.security.models.UserAuthenticated;
 import br.dev.mhc.financialassistant.user.enums.UserRole;
 import org.springframework.security.authorization.AuthorizationDecision;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Supplier;
 
 @Component
@@ -40,10 +40,8 @@ public class CustomAuthorizationManager implements AuthorizationManager<RequestA
         int indexUsers = uriParts.indexOf("users");
         if (indexUsers >= 0 && indexUsers + 1 < uriParts.size()) {
             String childPath = uriParts.get(indexUsers + 1);
-            if (Utils.isIntegerNumber(childPath)) {
-                long childId = Long.parseLong(childPath);
-                isAuthorized = userAuthenticated.getId() == childId;
-            }
+            UUID childId = UUID.fromString(childPath);
+            isAuthorized = userAuthenticated.getId() == childId;
         }
         return isAuthorized;
     }

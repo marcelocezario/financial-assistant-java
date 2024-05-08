@@ -7,6 +7,8 @@ import br.dev.mhc.financialassistant.transaction.repositories.TransactionReposit
 import br.dev.mhc.financialassistant.transaction.services.interfaces.IFindTransactionByIdAndUserIdService;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 import static br.dev.mhc.financialassistant.transaction.mappers.TransactionMapper.toDto;
 import static java.util.Objects.requireNonNull;
 
@@ -20,7 +22,7 @@ public class FindTransactionByIdAndUserIdServiceImpl implements IFindTransaction
     }
 
     @Override
-    public TransactionDTO find(Long id, Long userId) {
+    public TransactionDTO find(UUID id, UUID userId) {
         requireNonNull(id);
         requireNonNull(userId);
         var transaction = repository.findByIdAndUserId(id, userId)

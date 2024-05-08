@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.util.UUID;
 
 import static java.util.Objects.nonNull;
 
@@ -23,7 +24,7 @@ public class SecurityUtils {
         }
     }
 
-    public static Long getIdAuthenticatedUser() {
+    public static UUID getIdAuthenticatedUser() {
         UserAuthenticated userAuthenticated = getAuthenticatedUser();
         return nonNull(userAuthenticated) ? userAuthenticated.getId() : null;
     }
