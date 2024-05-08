@@ -1,6 +1,8 @@
 package br.dev.mhc.financialassistant.user.services.interfaces;
 
+import java.util.UUID;
+
 public interface IDeleteUserService {
 
-    void delete(Long id);
+    void delete(UUID uuid);
 }

@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,10 +20,10 @@ import java.time.Instant;
 public class Currency implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @EqualsAndHashCode.Include
-    @Column(name = "id")
-    private Long id;
+    @Column(name = "uuid")
+    private UUID uuid;
     @Column(name = "name", unique = true, nullable = false)
     private String name;
     @Column(name = "symbol", nullable = false)

@@ -1,5 +1,5 @@
 create table transactions (
-    id bigserial not null,
+    id uuid not null default RANDOM_UUID(),
     amount numeric(13,6) not null,
     moment timestamp without time zone not null,
     notes varchar(255) not null,
@@ -16,7 +16,7 @@ create table transactions (
 );
 
 create table transactions_categories (
-    transaction_id bigint not null,
+    transaction_id uuid not null,
     category_id bigint not null,
     amount numeric(13,6) not null,
     primary key (transaction_id, category_id),

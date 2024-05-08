@@ -2,7 +2,9 @@ package br.dev.mhc.financialassistant.category.services.interfaces;
 
 import br.dev.mhc.financialassistant.category.dtos.CategoryDTO;
 
-public interface IFindCategoryByIdAndUserIdService {
+import java.util.UUID;
 
-    CategoryDTO find(Long id, Long userId);
+public interface IFindCategoryByUuidAndUserUuidService {
+
+    CategoryDTO find(UUID uuid, UUID userUuid);
 }

@@ -2,6 +2,8 @@ package br.dev.mhc.financialassistant.exceptions;
 
 import lombok.Getter;
 
+import java.util.UUID;
+
 import static java.util.Objects.isNull;
 
 @Getter
@@ -13,6 +15,12 @@ public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(Long id, Class<?> classType) {
         super("Resource not found, id [" + id.toString() + "], class name: [" + classType.getSimpleName() + "]");
         this.term = id.toString();
+        this.classType = classType;
+    }
+
+    public ResourceNotFoundException(UUID uuid, Class<?> classType) {
+        super("Resource not found, uuid [" + uuid.toString() + "], class name: [" + classType.getSimpleName() + "]");
+        this.term = uuid.toString();
         this.classType = classType;
     }
 

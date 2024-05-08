@@ -6,6 +6,7 @@ import lombok.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,7 +17,7 @@ import java.time.Instant;
 public class CurrencyDTO implements Serializable {
 
     @EqualsAndHashCode.Include
-    private Long id;
+    private UUID uuid;
     private String name;
     private String symbol;
     private String code;

@@ -5,13 +5,13 @@ import br.dev.mhc.financialassistant.common.dtos.ValidationResultDTO;
 import br.dev.mhc.financialassistant.common.logs.LogHelper;
 import br.dev.mhc.financialassistant.common.utils.URIUtils;
 import br.dev.mhc.financialassistant.currency.services.interfaces.IFindCurrencyByCodeService;
-import br.dev.mhc.financialassistant.currency.services.interfaces.IFindCurrencyByIdService;
+import br.dev.mhc.financialassistant.currency.services.interfaces.IFindCurrencyByUuidService;
 import br.dev.mhc.financialassistant.exceptions.ResourceNotFoundException;
-import br.dev.mhc.financialassistant.user.services.interfaces.IFindUserByIdService;
+import br.dev.mhc.financialassistant.user.services.interfaces.IFindUserByUuidService;
 import br.dev.mhc.financialassistant.wallet.annotations.WalletDTOValidator;
 import br.dev.mhc.financialassistant.wallet.dtos.*;
-import br.dev.mhc.financialassistant.wallet.services.interfaces.IFindWalletByIdAndUserIdService;
-import br.dev.mhc.financialassistant.wallet.services.interfaces.IFindWalletByNameAndUserIdService;
+import br.dev.mhc.financialassistant.wallet.services.interfaces.IFindWalletByUuidAndUserUuidService;
+import br.dev.mhc.financialassistant.wallet.services.interfaces.IFindWalletByNameAndUserUuidService;
 import br.dev.mhc.financialassistant.wallet.services.interfaces.IWalletValidatorService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintValidator;
@@ -29,13 +29,13 @@ public class WalletValidatorServiceImpl implements IWalletValidatorService, Cons
     private final static LogHelper LOG = new LogHelper(WalletValidatorServiceImpl.class);
 
     private final HttpServletRequest request;
-    private final IFindWalletByNameAndUserIdService findWalletByNameAndUserIdService;
-    private final IFindUserByIdService findUserByIdService;
-    private final IFindWalletByIdAndUserIdService findWalletByIdAndUserIdService;
+    private final IFindWalletByNameAndUserUuidService findWalletByNameAndUserIdService;
+    private final IFindUserByUuidService findUserByIdService;
+    private final IFindWalletByUuidAndUserUuidService findWalletByIdAndUserIdService;
     private final IFindCurrencyByCodeService findCurrencyByCodeService;
-    private final IFindCurrencyByIdService findCurrencyByIdService;
+    private final IFindCurrencyByUuidService findCurrencyByIdService;
 
-    public WalletValidatorServiceImpl(HttpServletRequest request, IFindWalletByNameAndUserIdService findWalletByNameAndUserIdService, IFindUserByIdService findUserByIdService, IFindWalletByIdAndUserIdService findWalletByIdAndUserIdService, IFindCurrencyByCodeService findCurrencyByCodeService, IFindCurrencyByIdService findCurrencyByIdService) {
+    public WalletValidatorServiceImpl(HttpServletRequest request, IFindWalletByNameAndUserUuidService findWalletByNameAndUserIdService, IFindUserByUuidService findUserByIdService, IFindWalletByUuidAndUserUuidService findWalletByIdAndUserIdService, IFindCurrencyByCodeService findCurrencyByCodeService, IFindCurrencyByUuidService findCurrencyByIdService) {
         this.request = request;
         this.findWalletByNameAndUserIdService = findWalletByNameAndUserIdService;
         this.findUserByIdService = findUserByIdService;
@@ -85,8 +85,8 @@ public class WalletValidatorServiceImpl implements IWalletValidatorService, Cons
         if (nonNull(walletDTO.getId()) && !walletDTO.getId().equals(walletId)) {
             validationResult.addError("id", walletDTO.getId(), WALLET_VALIDATION_ID_DOES_NOT_MATCH_ROUTE.translate());
         }
-        if (nonNull(walletDTO.getUserId()) && !walletDTO.getUserId().equals(userId)) {
-            validationResult.addError("userId", walletDTO.getUserId(), WALLET_VALIDATION_USER_ID_DOES_NOT_MATCH_ROUTE.translate());
+        if (nonNull(walletDTO.getUserUuid()) && !walletDTO.getUserUuid().equals(userId)) {
+            validationResult.addError("userId", walletDTO.getUserUuid(), WALLET_VALIDATION_USER_ID_DOES_NOT_MATCH_ROUTE.translate());
         }
     }
 
@@ -207,7 +207,7 @@ public class WalletValidatorServiceImpl implements IWalletValidatorService, Cons
 
     private void validateUserId(ValidationResultDTO<WalletDTO> validation) {
         final var FIELD_NAME = "userId";
-        var userId = validation.getObject().getUserId();
+        var userId = validation.getObject().getUserUuid();
         if (isNull(userId)) {
             validation.addError(FIELD_NAME, null, WALLET_VALIDATION_USER_ID_CANNOT_BE_NULL.translate());
             return;
@@ -256,7 +256,7 @@ public class WalletValidatorServiceImpl implements IWalletValidatorService, Cons
     private void validateName(ValidationResultDTO<WalletDTO> validation) {
         final var FIELD_NAME = "name";
         var name = validation.getObject().getName();
-        var userId = validation.getObject().getUserId();
+        var userId = validation.getObject().getUserUuid();
         final var MIN_LENGTH = 3;
         final var MAX_LENGTH = 255;
         if (isNull(name)) {

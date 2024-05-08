@@ -28,12 +28,12 @@ public class UpdateCategoryServiceImpl implements IUpdateCategoryService {
     @Override
     public CategoryDTO update(CategoryDTO categoryDTO) {
         requireNonNull(categoryDTO);
-        requireNonNull(categoryDTO.getId());
-        Category categoryEntity = repository.getReferenceById(categoryDTO.getId());
+        requireNonNull(categoryDTO.getUuid());
+        Category categoryEntity = repository.getReferenceById(categoryDTO.getUuid());
         try {
             updateData(categoryEntity, categoryDTO);
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException(categoryDTO.getId(), User.class);
+            throw new ResourceNotFoundException(categoryDTO.getUuid(), User.class);
         }
         validatorService.validate(categoryDTO).isValidOrThrow(AppValidationException::new);
         categoryDTO = toDto(repository.save(categoryEntity));

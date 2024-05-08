@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +19,7 @@ import java.util.Set;
 @UserDTOValidator
 public class UserDTO implements Serializable {
 
-    private Long id;
+    private UUID uuid;
     private String nickname;
     private String email;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

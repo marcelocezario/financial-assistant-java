@@ -36,7 +36,7 @@ public class WalletMapper {
         builder.createdAt(dto.getCreatedAt());
         builder.updatedAt(dto.getUpdatedAt());
         builder.currency(CurrencyMapper.toEntity(dto.getCurrency()));
-        builder.user(User.builder().id(dto.getUserId()).build());
+        builder.user(User.builder().uuid(dto.getUserUuid()).build());
         return builder.build();
     }
 
@@ -59,7 +59,7 @@ public class WalletMapper {
         builder.createdAt(entity.getCreatedAt());
         builder.updatedAt(entity.getUpdatedAt());
         builder.currency(CurrencyMapper.toDto(entity.getCurrency()));
-        builder.userId(entity.getUser().getId());
+        builder.userUuid(entity.getUser().getUuid());
         return builder.build();
     }
 

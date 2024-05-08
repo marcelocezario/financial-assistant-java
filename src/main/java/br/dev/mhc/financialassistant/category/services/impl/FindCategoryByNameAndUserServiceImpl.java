@@ -23,7 +23,7 @@ public class FindCategoryByNameAndUserServiceImpl implements IFindCategoryByName
     public CategoryDTO find(String categoryName, Long userId) {
         requireNonNull(categoryName);
         requireNonNull(userId);
-        var category = repository.findByNameAndUserId(categoryName, userId)
+        var category = repository.findByNameAndUserUuid(categoryName, userId)
                 .orElseThrow(() -> new ResourceNotFoundException(categoryName, Category.class));
         return toDto(category);
     }

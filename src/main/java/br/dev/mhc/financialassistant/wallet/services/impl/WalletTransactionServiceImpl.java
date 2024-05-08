@@ -24,13 +24,13 @@ public class WalletTransactionServiceImpl implements IWalletTransactionService {
     @Override
     public WalletDTO adjustBalance(TransactionDTO transactionDTO, boolean isAddition) {
         requireNonNull(transactionDTO);
-        requireNonNull(transactionDTO.getWalletId());
-        var wallet = repository.getReferenceById(transactionDTO.getWalletId());
+        requireNonNull(transactionDTO.getWalletUuid());
+        var wallet = repository.getReferenceById(transactionDTO.getWalletUuid());
         try {
             wallet.adjustBalanceWithTransaction(transactionDTO.getAmount(), isAddition);
             wallet = repository.save(wallet);
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException(transactionDTO.getWalletId(), Wallet.class);
+            throw new ResourceNotFoundException(transactionDTO.getWalletUuid(), Wallet.class);
         }
         return toDto(wallet);
     }

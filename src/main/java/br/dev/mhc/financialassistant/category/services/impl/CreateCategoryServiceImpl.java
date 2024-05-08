@@ -26,7 +26,7 @@ public class CreateCategoryServiceImpl implements ICreateCategoryService {
     public CategoryDTO create(CategoryDTO categoryDTO) {
         requireNonNull(categoryDTO);
         validatorService.validate(categoryDTO).isValidOrThrow(AppValidationException::new);
-        categoryDTO.setId(null);
+        categoryDTO.setUuid(null);
         categoryDTO.setActive(true);
         var category = toEntity(categoryDTO);
         category = repository.save(category);

@@ -56,8 +56,8 @@ public class UserValidatorServiceImpl implements IUserValidatorService, Constrai
         var uri = request.getRequestURI();
         var userDTO = validationResult.getObject();
         var userId = URIUtils.findIdAfterPath(uri, RouteConstants.USERS_ROUTE);
-        if (nonNull(userDTO.getId()) && !userDTO.getId().equals(userId)) {
-            validationResult.addError("id", userDTO.getId(), USER_VALIDATION_ID_DOES_NOT_MATCH_ROUTE.translate());
+        if (nonNull(userDTO.getUuid()) && !userDTO.getUuid().equals(userId)) {
+            validationResult.addError("id", userDTO.getUuid(), USER_VALIDATION_ID_DOES_NOT_MATCH_ROUTE.translate());
         }
     }
 
@@ -66,7 +66,7 @@ public class UserValidatorServiceImpl implements IUserValidatorService, Constrai
         var password = validation.getObject().getPassword();
         final var LENGTH_MIN = 8;
         if (isNull(password)) {
-            if (isNull(validation.getObject().getId())) {
+            if (isNull(validation.getObject().getUuid())) {
                 validation.addError(FIELD_NAME, null, USER_VALIDATION_PASSWORD_CANNOT_BE_NULL.translate());
             }
             return;
@@ -108,7 +108,7 @@ public class UserValidatorServiceImpl implements IUserValidatorService, Constrai
         var userOpt = repository.findByEmailIgnoreCase(email);
         if (userOpt.isPresent()) {
             var userByEmail = userOpt.get();
-            if (!userByEmail.getId().equals(validation.getObject().getId())) {
+            if (!userByEmail.getUuid().equals(validation.getObject().getUuid())) {
                 validation.addError(FIELD_NAME, email, USER_VALIDATION_EMAIL_IS_ALREADY_USED.translate());
             }
         }

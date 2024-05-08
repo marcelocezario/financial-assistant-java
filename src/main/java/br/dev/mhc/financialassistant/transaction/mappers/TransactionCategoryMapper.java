@@ -9,16 +9,16 @@ public class TransactionCategoryMapper {
 
     public static TransactionCategory toEntity(TransactionCategoryDTO dto) {
         return TransactionCategory.builder()
-                .transaction(Transaction.builder().id(dto.getTransactionId()).build())
-                .category(Category.builder().id(dto.getCategoryId()).build())
+                .transaction(Transaction.builder().id(dto.getTransactionUuid()).build())
+                .category(Category.builder().uuid(dto.getCategoryUuid()).build())
                 .amount(dto.getAmount())
                 .build();
     }
 
     public static TransactionCategoryDTO toDto(TransactionCategory entity) {
         return TransactionCategoryDTO.builder()
-                .transactionId(entity.getId().getTransaction().getId())
-                .categoryId(entity.getId().getCategory().getId())
+                .transactionUuid(entity.getId().getTransaction().getId())
+                .categoryUuid(entity.getId().getCategory().getUuid())
                 .amount(entity.getAmount())
                 .build();
     }

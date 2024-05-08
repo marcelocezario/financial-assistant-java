@@ -2,7 +2,9 @@ package br.dev.mhc.financialassistant.transaction.services.interfaces;
 
 import br.dev.mhc.financialassistant.transaction.dtos.TransactionDTO;
 
-public interface IFindTransactionByIdAndUserIdService {
+import java.util.UUID;
 
-    TransactionDTO find(Long id, Long userId);
+public interface IFindTransactionByUuidAndUserUuidService {
+
+    TransactionDTO find(UUID id, UUID userUuid);
 }

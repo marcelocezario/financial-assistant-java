@@ -4,8 +4,8 @@ import br.dev.mhc.financialassistant.common.constants.RouteConstants;
 import br.dev.mhc.financialassistant.common.utils.URIUtils;
 import br.dev.mhc.financialassistant.wallet.dtos.WalletDTO;
 import br.dev.mhc.financialassistant.wallet.services.interfaces.ICreateWalletService;
-import br.dev.mhc.financialassistant.wallet.services.interfaces.IFindWalletByIdAndUserIdService;
-import br.dev.mhc.financialassistant.wallet.services.interfaces.IFindWalletsByUserIdService;
+import br.dev.mhc.financialassistant.wallet.services.interfaces.IFindWalletByUuidAndUserUuidService;
+import br.dev.mhc.financialassistant.wallet.services.interfaces.IFindWalletsByUserUuidService;
 import br.dev.mhc.financialassistant.wallet.services.interfaces.IUpdateWalletService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +19,10 @@ public class UserWalletController {
 
     private final ICreateWalletService createWallet;
     private final IUpdateWalletService updateWalletService;
-    private final IFindWalletsByUserIdService findWalletsByUserService;
-    private final IFindWalletByIdAndUserIdService findWalletByIdAndUserIdService;
+    private final IFindWalletsByUserUuidService findWalletsByUserService;
+    private final IFindWalletByUuidAndUserUuidService findWalletByIdAndUserIdService;
 
-    public UserWalletController(ICreateWalletService createWallet, IUpdateWalletService updateWalletService, IFindWalletsByUserIdService findWalletsByUserService, IFindWalletByIdAndUserIdService findWalletByIdAndUserIdService) {
+    public UserWalletController(ICreateWalletService createWallet, IUpdateWalletService updateWalletService, IFindWalletsByUserUuidService findWalletsByUserService, IFindWalletByUuidAndUserUuidService findWalletByIdAndUserIdService) {
         this.createWallet = createWallet;
         this.updateWalletService = updateWalletService;
         this.findWalletsByUserService = findWalletsByUserService;

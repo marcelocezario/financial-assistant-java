@@ -2,7 +2,9 @@ package br.dev.mhc.financialassistant.wallet.services.interfaces;
 
 import br.dev.mhc.financialassistant.wallet.dtos.WalletDTO;
 
-public interface IFindWalletByIdAndUserIdService {
+import java.util.UUID;
 
-    WalletDTO find(Long id, Long userId);
+public interface IFindWalletByUuidAndUserUuidService {
+
+    WalletDTO find(UUID uuid, UUID userUuid);
 }

@@ -31,12 +31,12 @@ public class UpdateUserServiceImpl implements IUpdateUserService {
     @Override
     public UserDTO update(UserDTO userDTO) {
         requireNonNull(userDTO);
-        requireNonNull(userDTO.getId());
-        User userEntity = repository.getReferenceById(userDTO.getId());
+        requireNonNull(userDTO.getUuid());
+        User userEntity = repository.getReferenceById(userDTO.getUuid());
         try {
             updateData(userEntity, userDTO);
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException(userDTO.getId(), User.class);
+            throw new ResourceNotFoundException(userDTO.getUuid(), User.class);
         }
         validatorService.validate(userDTO).isValidOrThrow(AppValidationException::new);
         userDTO = toDto(repository.save(userEntity));

@@ -8,11 +8,11 @@ public class CategoryMapper {
 
     public static Category toEntity(CategoryDTO dto) {
         return Category.builder()
-                .id(dto.getId())
+                .uuid(dto.getUuid())
                 .name(dto.getName())
                 .iconUrl(dto.getIconUrl())
                 .color(dto.getColor())
-                .user(User.builder().id(dto.getUserId()).build())
+                .user(User.builder().uuid(dto.getUserUuid()).build())
                 .active(dto.isActive())
                 .createdAt(dto.getCreatedAt())
                 .updatedAt(dto.getUpdatedAt())
@@ -21,11 +21,11 @@ public class CategoryMapper {
 
     public static CategoryDTO toDto(Category entity) {
         return CategoryDTO.builder()
-                .id(entity.getId())
+                .uuid(entity.getUuid())
                 .name(entity.getName())
                 .iconUrl(entity.getIconUrl())
                 .color(entity.getColor())
-                .userId(entity.getUser().getId())
+                .userUuid(entity.getUser().getUuid())
                 .active(entity.isActive())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())

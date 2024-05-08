@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static br.dev.mhc.financialassistant.wallet.enums.WalletType.*;
 
@@ -50,7 +51,7 @@ public abstract class WalletDTO implements Serializable {
     private Instant createdAt;
     private Instant updatedAt;
     private CurrencyDTO currency;
-    private Long userId;
+    private UUID userUuid;
 
     public WalletType getType() {
         return walletTypeMap.getOrDefault(this.getClass(), CASH_WALLET);

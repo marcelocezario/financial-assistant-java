@@ -9,13 +9,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.UUID;
 
 public class UserAuthenticated implements UserDetails {
 
     private final static int MAX_FAILED_LOGIN_ATTEMPTS = 3;
 
     @Getter
-    private final long id;
+    private final UUID uuid;
     private final String username;
     private final String password;
     private final boolean active;
@@ -26,7 +27,7 @@ public class UserAuthenticated implements UserDetails {
 
     private UserAuthenticated(UserAuthenticatedBuilder builder) {
         super();
-        id = builder.user.getId();
+        uuid = builder.user.getUuid();
         username = builder.user.getEmail();
         password = builder.user.getPassword();
         active = builder.user.isActive();

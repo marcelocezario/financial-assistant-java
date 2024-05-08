@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,7 +23,7 @@ public class Category implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     @Column(name = "id")
-    private Long id;
+    private UUID uuid;
     @Column(name = "name", nullable = false)
     private String name;
     @Column(name = "icon_url")
@@ -41,8 +42,8 @@ public class Category implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Category(Long id) {
-        this.id = id;
+    public Category(UUID uuid) {
+        this.uuid = uuid;
     }
 
 }

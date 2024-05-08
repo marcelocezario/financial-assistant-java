@@ -31,7 +31,7 @@ public class CreateUserServiceImpl implements ICreateUserService {
     @Override
     public UserDTO create(UserDTO userDTO) {
         requireNonNull(userDTO);
-        userDTO.setId(null);
+        userDTO.setUuid(null);
         userDTO.setEmail(userDTO.getEmail().toLowerCase());
         userDTO.setRoles(Set.of(UserRole.BASIC));
         userDTO.setActive(true);

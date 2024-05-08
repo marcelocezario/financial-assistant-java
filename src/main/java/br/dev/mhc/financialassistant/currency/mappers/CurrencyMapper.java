@@ -7,7 +7,7 @@ public class CurrencyMapper {
 
     public static Currency toEntity(CurrencyDTO dto) {
         return Currency.builder()
-                .id(dto.getId())
+                .uuid(dto.getUuid())
                 .name(dto.getName())
                 .symbol(dto.getSymbol())
                 .code(dto.getCode())
@@ -20,7 +20,7 @@ public class CurrencyMapper {
 
     public static CurrencyDTO toDto(Currency entity) {
         return CurrencyDTO.builder()
-                .id(entity.getId())
+                .uuid(entity.getUuid())
                 .name(entity.getName())
                 .symbol(entity.getSymbol())
                 .code(entity.getCode())

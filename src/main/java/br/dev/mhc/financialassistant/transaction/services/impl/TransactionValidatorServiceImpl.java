@@ -1,6 +1,6 @@
 package br.dev.mhc.financialassistant.transaction.services.impl;
 
-import br.dev.mhc.financialassistant.category.services.interfaces.IFindCategoryByIdAndUserIdService;
+import br.dev.mhc.financialassistant.category.services.interfaces.IFindCategoryByUuidAndUserUuidService;
 import br.dev.mhc.financialassistant.common.constants.RouteConstants;
 import br.dev.mhc.financialassistant.common.dtos.ValidationResultDTO;
 import br.dev.mhc.financialassistant.common.logs.LogHelper;
@@ -9,10 +9,10 @@ import br.dev.mhc.financialassistant.exceptions.ResourceNotFoundException;
 import br.dev.mhc.financialassistant.transaction.annotations.TransactionDTOValidator;
 import br.dev.mhc.financialassistant.transaction.dtos.TransactionCategoryDTO;
 import br.dev.mhc.financialassistant.transaction.dtos.TransactionDTO;
-import br.dev.mhc.financialassistant.transaction.services.interfaces.IFindTransactionByIdAndUserIdService;
+import br.dev.mhc.financialassistant.transaction.services.interfaces.IFindTransactionByUuidAndUserUuidService;
 import br.dev.mhc.financialassistant.transaction.services.interfaces.ITransactionValidatorService;
-import br.dev.mhc.financialassistant.user.services.interfaces.IFindUserByIdService;
-import br.dev.mhc.financialassistant.wallet.services.interfaces.IFindWalletByIdAndUserIdService;
+import br.dev.mhc.financialassistant.user.services.interfaces.IFindUserByUuidService;
+import br.dev.mhc.financialassistant.wallet.services.interfaces.IFindWalletByUuidAndUserUuidService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -34,12 +34,12 @@ public class TransactionValidatorServiceImpl implements ITransactionValidatorSer
     private final LogHelper LOG = new LogHelper(TransactionValidatorServiceImpl.class);
 
     private final HttpServletRequest request;
-    private final IFindUserByIdService findUserByIdService;
-    private final IFindTransactionByIdAndUserIdService findTransactionByIdAndUserIdService;
-    private final IFindWalletByIdAndUserIdService findWalletByIdAndUserIdService;
-    private final IFindCategoryByIdAndUserIdService findCategoryByIdAndUserIdService;
+    private final IFindUserByUuidService findUserByIdService;
+    private final IFindTransactionByUuidAndUserUuidService findTransactionByIdAndUserIdService;
+    private final IFindWalletByUuidAndUserUuidService findWalletByIdAndUserIdService;
+    private final IFindCategoryByUuidAndUserUuidService findCategoryByIdAndUserIdService;
 
-    public TransactionValidatorServiceImpl(HttpServletRequest request, IFindUserByIdService findUserByIdService, IFindTransactionByIdAndUserIdService findTransactionByIdAndUserIdService, IFindWalletByIdAndUserIdService findWalletByIdAndUserIdService, IFindCategoryByIdAndUserIdService findCategoryByIdAndUserIdService) {
+    public TransactionValidatorServiceImpl(HttpServletRequest request, IFindUserByUuidService findUserByIdService, IFindTransactionByUuidAndUserUuidService findTransactionByIdAndUserIdService, IFindWalletByUuidAndUserUuidService findWalletByIdAndUserIdService, IFindCategoryByUuidAndUserUuidService findCategoryByIdAndUserIdService) {
         this.request = request;
         this.findUserByIdService = findUserByIdService;
         this.findTransactionByIdAndUserIdService = findTransactionByIdAndUserIdService;
@@ -89,8 +89,8 @@ public class TransactionValidatorServiceImpl implements ITransactionValidatorSer
         if (nonNull(transactionDTO.getId()) && !transactionDTO.getId().equals(transactionId)) {
             validationResult.addError("id", transactionDTO.getId(), TRANSACTION_VALIDATION_ID_DOES_NOT_MATCH_ROUTE.translate());
         }
-        if (nonNull(transactionDTO.getUserId()) && !transactionDTO.getUserId().equals(userId)) {
-            validationResult.addError("userId", transactionDTO.getUserId(), TRANSACTION_VALIDATION_USER_ID_DOES_NOT_MATCH_ROUTE.translate());
+        if (nonNull(transactionDTO.getUserUuid()) && !transactionDTO.getUserUuid().equals(userId)) {
+            validationResult.addError("userId", transactionDTO.getUserUuid(), TRANSACTION_VALIDATION_USER_ID_DOES_NOT_MATCH_ROUTE.translate());
         }
 //        if (nonNull(transactionDTO.getWalletId()) && !transactionDTO.getWalletId().equals(walletId)) {
 //            validationResult.addError("walletId", transactionDTO.getWalletId(), TRANSACTION_VALIDATION_WALLET_ID_DOES_NOT_MATCH_ROUTE.translate());
@@ -119,19 +119,19 @@ public class TransactionValidatorServiceImpl implements ITransactionValidatorSer
         List<TransactionCategoryDTO> withoutAmount = new ArrayList<>();
         AtomicReference<BigDecimal> totalAmount = new AtomicReference<>(BigDecimal.ZERO);
         categories.forEach(category -> {
-            if (isNull(category.getCategoryId())) {
+            if (isNull(category.getCategoryUuid())) {
                 withoutCategoryId.add(category);
                 try {
-                    findCategoryByIdAndUserIdService.find(category.getCategoryId(), validation.getObject().getUserId());
+                    findCategoryByIdAndUserIdService.find(category.getCategoryUuid(), validation.getObject().getUserUuid());
                 } catch (ResourceNotFoundException e) {
-                    validation.addError(FIELD_NAME, categories, TRANSACTION_VALIDATION_CATEGORIES_CATEGORY_ID_DOES_NOT_EXIST.translate(category.getCategoryId(), category.getAmount()));
+                    validation.addError(FIELD_NAME, categories, TRANSACTION_VALIDATION_CATEGORIES_CATEGORY_ID_DOES_NOT_EXIST.translate(category.getCategoryUuid(), category.getAmount()));
                 }
             }
             if (isNull(category.getAmount())) {
                 withoutAmount.add(category);
             } else {
                 if (category.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
-                    validation.addError(FIELD_NAME, categories, TRANSACTION_VALIDATION_CATEGORIES_AMOUNT_MUST_BE_GREATER_THAN_ZERO.translate(category.getCategoryId()));
+                    validation.addError(FIELD_NAME, categories, TRANSACTION_VALIDATION_CATEGORIES_AMOUNT_MUST_BE_GREATER_THAN_ZERO.translate(category.getCategoryUuid()));
                 }
                 BigDecimal currentTotal;
                 BigDecimal newTotal;
@@ -154,37 +154,37 @@ public class TransactionValidatorServiceImpl implements ITransactionValidatorSer
 
     private void validateWalledId(ValidationResultDTO<TransactionDTO> validation) {
         final var FIELD_NAME = "walletId";
-        var walletId = validation.getObject().getWalletId();
-        var userId = validation.getObject().getUserId();
-        if (isNull(walletId)) {
+        var walletUuid = validation.getObject().getWalletUuid();
+        var userId = validation.getObject().getUserUuid();
+        if (isNull(walletUuid)) {
             validation.addError(FIELD_NAME, null, TRANSACTION_VALIDATION_WALLET_ID_CANNOT_BE_NULL.translate());
             return;
         }
         try {
-            findWalletByIdAndUserIdService.find(walletId, userId);
+            findWalletByIdAndUserIdService.find(walletUuid, userId);
         } catch (ResourceNotFoundException e) {
-            validation.addError(FIELD_NAME, walletId, TRANSACTION_VALIDATION_WALLET_ID_DOES_NOT_EXIST.translate());
+            validation.addError(FIELD_NAME, walletUuid, TRANSACTION_VALIDATION_WALLET_ID_DOES_NOT_EXIST.translate());
         }
     }
 
     private void validateUserId(ValidationResultDTO<TransactionDTO> validation) {
         final var FIELD_NAME = "userId";
-        var userId = validation.getObject().getUserId();
-        if (isNull(userId)) {
+        var userUuid = validation.getObject().getUserUuid();
+        if (isNull(userUuid)) {
             validation.addError(FIELD_NAME, null, TRANSACTION_VALIDATION_USER_ID_CANNOT_BE_NULL.translate());
             return;
         }
         try {
-            findUserByIdService.find(userId);
+            findUserByIdService.find(userUuid);
         } catch (ResourceNotFoundException e) {
-            validation.addError(FIELD_NAME, userId, TRANSACTION_VALIDATION_USER_ID_DOES_NOT_EXIST.translate());
+            validation.addError(FIELD_NAME, userUuid, TRANSACTION_VALIDATION_USER_ID_DOES_NOT_EXIST.translate());
         }
-        var walletId = validation.getObject().getId();
-        if (nonNull(walletId)) {
+        var transactionId = validation.getObject().getId();
+        if (nonNull(transactionId)) {
             try {
-                findTransactionByIdAndUserIdService.find(walletId, userId);
+                findTransactionByIdAndUserIdService.find(transactionId, userUuid);
             } catch (ResourceNotFoundException e) {
-                validation.addError(FIELD_NAME, userId, TRANSACTION_VALIDATION_USER_ID_UNAUTHORIZED.translate());
+                validation.addError(FIELD_NAME, userUuid, TRANSACTION_VALIDATION_USER_ID_UNAUTHORIZED.translate());
             }
         }
     }

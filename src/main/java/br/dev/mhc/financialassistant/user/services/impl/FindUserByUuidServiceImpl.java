@@ -4,25 +4,27 @@ import br.dev.mhc.financialassistant.exceptions.ResourceNotFoundException;
 import br.dev.mhc.financialassistant.user.dtos.UserDTO;
 import br.dev.mhc.financialassistant.user.entities.User;
 import br.dev.mhc.financialassistant.user.repositories.UserRepository;
-import br.dev.mhc.financialassistant.user.services.interfaces.IFindUserByIdService;
+import br.dev.mhc.financialassistant.user.services.interfaces.IFindUserByUuidService;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 import static br.dev.mhc.financialassistant.user.mappers.UserMapper.toDto;
 import static java.util.Objects.requireNonNull;
 
 @Service
-public class FindUserByIdServiceImpl implements IFindUserByIdService {
+public class FindUserByUuidServiceImpl implements IFindUserByUuidService {
 
     private final UserRepository repository;
 
-    public FindUserByIdServiceImpl(UserRepository repository) {
+    public FindUserByUuidServiceImpl(UserRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public UserDTO find(Long id) {
-        requireNonNull(id);
-        var user = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id, User.class));
+    public UserDTO find(UUID uuid) {
+        requireNonNull(uuid);
+        var user = repository.findById(uuid).orElseThrow(() -> new ResourceNotFoundException(uuid, User.class));
         return toDto(user);
     }
 

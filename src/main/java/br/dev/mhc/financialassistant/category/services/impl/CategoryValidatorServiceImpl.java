@@ -3,14 +3,14 @@ package br.dev.mhc.financialassistant.category.services.impl;
 import br.dev.mhc.financialassistant.category.annotations.CategoryDTOValidator;
 import br.dev.mhc.financialassistant.category.dtos.CategoryDTO;
 import br.dev.mhc.financialassistant.category.services.interfaces.ICategoryValidatorService;
-import br.dev.mhc.financialassistant.category.services.interfaces.IFindCategoryByIdAndUserIdService;
+import br.dev.mhc.financialassistant.category.services.interfaces.IFindCategoryByUuidAndUserUuidService;
 import br.dev.mhc.financialassistant.category.services.interfaces.IFindCategoryByNameAndUserService;
 import br.dev.mhc.financialassistant.common.constants.RouteConstants;
 import br.dev.mhc.financialassistant.common.dtos.ValidationResultDTO;
 import br.dev.mhc.financialassistant.common.logs.LogHelper;
 import br.dev.mhc.financialassistant.common.utils.URIUtils;
 import br.dev.mhc.financialassistant.exceptions.ResourceNotFoundException;
-import br.dev.mhc.financialassistant.user.services.interfaces.IFindUserByIdService;
+import br.dev.mhc.financialassistant.user.services.interfaces.IFindUserByUuidService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -28,11 +28,11 @@ public class CategoryValidatorServiceImpl implements ICategoryValidatorService, 
     private final static LogHelper LOG = new LogHelper(CategoryValidatorServiceImpl.class);
 
     private final IFindCategoryByNameAndUserService findCategoryByNameAndUser;
-    private final IFindCategoryByIdAndUserIdService findCategoryByIdAndUserIdService;
-    private final IFindUserByIdService findUserByIdService;
+    private final IFindCategoryByUuidAndUserUuidService findCategoryByIdAndUserIdService;
+    private final IFindUserByUuidService findUserByIdService;
     private final HttpServletRequest request;
 
-    public CategoryValidatorServiceImpl(IFindCategoryByNameAndUserService findCategoryByNameAndUser, IFindCategoryByIdAndUserIdService findCategoryByIdAndUserIdService, IFindUserByIdService findUserByIdService, HttpServletRequest request) {
+    public CategoryValidatorServiceImpl(IFindCategoryByNameAndUserService findCategoryByNameAndUser, IFindCategoryByUuidAndUserUuidService findCategoryByIdAndUserIdService, IFindUserByUuidService findUserByIdService, HttpServletRequest request) {
         this.findCategoryByNameAndUser = findCategoryByNameAndUser;
         this.findCategoryByIdAndUserIdService = findCategoryByIdAndUserIdService;
         this.findUserByIdService = findUserByIdService;
@@ -73,32 +73,32 @@ public class CategoryValidatorServiceImpl implements ICategoryValidatorService, 
         var categoryDTO = validationResult.getObject();
         var categoryId = URIUtils.findIdAfterPath(uri, RouteConstants.CATEGORIES_ROUTE);
         var userId = URIUtils.findIdAfterPath(uri, RouteConstants.USERS_ROUTE);
-        if (nonNull(categoryDTO.getId()) && !categoryDTO.getId().equals(categoryId)) {
-            validationResult.addError("id", categoryDTO.getId(), CATEGORY_VALIDATION_ID_DOES_NOT_MATCH_ROUTE.translate());
+        if (nonNull(categoryDTO.getUuid()) && !categoryDTO.getUuid().equals(categoryId)) {
+            validationResult.addError("id", categoryDTO.getUuid(), CATEGORY_VALIDATION_ID_DOES_NOT_MATCH_ROUTE.translate());
         }
-        if (nonNull(categoryDTO.getUserId()) && !categoryDTO.getUserId().equals(userId)) {
-            validationResult.addError("userId", categoryDTO.getUserId(), CATEGORY_VALIDATION_USER_ID_DOES_NOT_MATCH_ROUTE.translate());
+        if (nonNull(categoryDTO.getUserUuid()) && !categoryDTO.getUserUuid().equals(userId)) {
+            validationResult.addError("userId", categoryDTO.getUserUuid(), CATEGORY_VALIDATION_USER_ID_DOES_NOT_MATCH_ROUTE.translate());
         }
     }
 
     private void validateUserId(ValidationResultDTO<CategoryDTO> validation) {
-        final var FIELD_NAME = "userId";
-        var userId = validation.getObject().getUserId();
-        if (isNull(userId)) {
+        final var FIELD_NAME = "userUuid";
+        var userUuid = validation.getObject().getUserUuid();
+        if (isNull(userUuid)) {
             validation.addError(FIELD_NAME, null, CATEGORY_VALIDATION_USER_ID_CANNOT_BE_NULL.translate());
             return;
         }
         try {
-            findUserByIdService.find(userId);
+            findUserByIdService.find(userUuid);
         } catch (ResourceNotFoundException e) {
-            validation.addError(FIELD_NAME, userId, CATEGORY_VALIDATION_USER_ID_DOES_NOT_EXIST.translate());
+            validation.addError(FIELD_NAME, userUuid, CATEGORY_VALIDATION_USER_ID_DOES_NOT_EXIST.translate());
         }
-        var categoryId = validation.getObject().getId();
+        var categoryId = validation.getObject().getUuid();
         if (nonNull(categoryId)) {
             try {
-                findCategoryByIdAndUserIdService.find(categoryId, userId);
+                findCategoryByIdAndUserIdService.find(categoryId, userUuid);
             } catch (ResourceNotFoundException e) {
-                validation.addError(FIELD_NAME, userId, CATEGORY_VALIDATION_USER_ID_UNAUTHORIZED.translate());
+                validation.addError(FIELD_NAME, userUuid, CATEGORY_VALIDATION_USER_ID_UNAUTHORIZED.translate());
             }
         }
     }
@@ -142,7 +142,7 @@ public class CategoryValidatorServiceImpl implements ICategoryValidatorService, 
     private void validateName(ValidationResultDTO<CategoryDTO> validation) {
         final var FIELD_NAME = "name";
         var name = validation.getObject().getName();
-        var userId = validation.getObject().getUserId();
+        var userId = validation.getObject().getUserUuid();
         final var MIN_LENGTH = 3;
         final var MAX_LENGTH = 255;
         if (isNull(name)) {
@@ -161,7 +161,7 @@ public class CategoryValidatorServiceImpl implements ICategoryValidatorService, 
         if (nonNull(userId)) {
             try {
                 var category = findCategoryByNameAndUser.find(name, userId);
-                if (!category.getId().equals(validation.getObject().getId())) {
+                if (!category.getUuid().equals(validation.getObject().getUuid())) {
                     validation.addError(FIELD_NAME, name, CATEGORY_VALIDATION_NAME_IS_ALREADY_USED_BY_USER.translate());
                 }
             } catch (ResourceNotFoundException e) {

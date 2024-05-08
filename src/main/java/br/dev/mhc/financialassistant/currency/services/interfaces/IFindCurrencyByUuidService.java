@@ -2,7 +2,9 @@ package br.dev.mhc.financialassistant.currency.services.interfaces;
 
 import br.dev.mhc.financialassistant.currency.dtos.CurrencyDTO;
 
-public interface IFindCurrencyByIdService {
+import java.util.UUID;
 
-    CurrencyDTO find(Long id);
+public interface IFindCurrencyByUuidService {
+
+    CurrencyDTO find(UUID uuid);
 }

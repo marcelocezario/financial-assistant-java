@@ -4,7 +4,7 @@ import br.dev.mhc.financialassistant.wallet.dtos.WalletDTO;
 import br.dev.mhc.financialassistant.wallet.entities.Wallet;
 import br.dev.mhc.financialassistant.wallet.mappers.WalletMapper;
 import br.dev.mhc.financialassistant.wallet.repositories.WalletRepository;
-import br.dev.mhc.financialassistant.wallet.services.interfaces.IFindWalletsByUserIdService;
+import br.dev.mhc.financialassistant.wallet.services.interfaces.IFindWalletsByUserUuidService;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -13,11 +13,11 @@ import java.util.List;
 import static java.util.Objects.requireNonNull;
 
 @Service
-public class FindWalletsByUserIdServiceImpl implements IFindWalletsByUserIdService {
+public class FindWalletsByUserUuidServiceImpl implements IFindWalletsByUserUuidService {
 
     private final WalletRepository repository;
 
-    public FindWalletsByUserIdServiceImpl(WalletRepository repository) {
+    public FindWalletsByUserUuidServiceImpl(WalletRepository repository) {
         this.repository = repository;
     }
 
@@ -26,9 +26,9 @@ public class FindWalletsByUserIdServiceImpl implements IFindWalletsByUserIdServi
         requireNonNull(userId);
         List<Wallet> wallets;
         if (onlyActive) {
-            wallets = repository.findByUserIdAndActiveTrue(userId);
+            wallets = repository.findByUserUuidAndActiveTrue(userId);
         } else {
-            wallets = repository.findByUserId(userId);
+            wallets = repository.findByUserUuid(userId);
         }
         return wallets.stream()
                 .sorted(Comparator.comparing(Wallet::getUpdatedAt).reversed())

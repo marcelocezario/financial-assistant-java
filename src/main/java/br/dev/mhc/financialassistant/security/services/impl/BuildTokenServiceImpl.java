@@ -24,7 +24,7 @@ public class BuildTokenServiceImpl implements IBuildTokenService {
                 .claim("token_usage", tokenUsageType);
         if (TokenUsageType.ACCESS_TOKEN.equals(tokenUsageType)) {
             jwtBuilder
-                    .claim("userId", userAuthenticated.getId())
+                    .claim("userUuid", userAuthenticated.getUuid())
                     .claim("nickname", userAuthenticated.getNickname())
                     .claim("roles", userAuthenticated.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList());
         }

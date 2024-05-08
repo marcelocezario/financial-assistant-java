@@ -23,6 +23,6 @@ public class FindTransactionsByUserIdServiceImpl implements IFindTransactionsByU
     public Page<TransactionDTO> findPageable(Long userId, Pageable pageable) {
         requireNonNull(userId);
         requireNonNull(pageable);
-        return repository.findByUserId(userId, pageable).map(TransactionMapper::toDto);
+        return repository.findByUserUuid(userId, pageable).map(TransactionMapper::toDto);
     }
 }

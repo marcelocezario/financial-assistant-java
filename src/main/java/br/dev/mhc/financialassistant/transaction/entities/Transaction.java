@@ -15,6 +15,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,10 +27,10 @@ import java.util.Set;
 public class Transaction implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @EqualsAndHashCode.Include
     @Column(name = "id")
-    private Long id;
+    private UUID id;
     @Column(name = "amount")
     private BigDecimal amount;
     @Column(name = "moment")

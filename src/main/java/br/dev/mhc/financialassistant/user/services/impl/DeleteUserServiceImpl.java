@@ -6,6 +6,8 @@ import br.dev.mhc.financialassistant.user.repositories.UserRepository;
 import br.dev.mhc.financialassistant.user.services.interfaces.IDeleteUserService;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 import static java.util.Objects.requireNonNull;
 
 @Service
@@ -18,10 +20,10 @@ public class DeleteUserServiceImpl implements IDeleteUserService {
     }
 
     @Override
-    public void delete(Long id) {
-        requireNonNull(id);
-        repository.findById(id).ifPresentOrElse(repository::delete, () -> {
-            throw new ResourceNotFoundException(id, User.class);
+    public void delete(UUID uuid) {
+        requireNonNull(uuid);
+        repository.findById(uuid).ifPresentOrElse(repository::delete, () -> {
+            throw new ResourceNotFoundException(uuid, User.class);
         });
     }
 }

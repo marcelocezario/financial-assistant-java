@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
@@ -27,7 +28,7 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private UUID uuid;
     @Column(name = "nickname")
     private String nickname;
     @ColumnTransformer(write = "LOWER(?)")
@@ -50,6 +51,10 @@ public class User implements Serializable {
     @CollectionTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
     private Set<Integer> roles = new HashSet<>();
+
+    public User (UUID uuid) {
+        this.uuid = uuid;
+    }
 
     public Set<UserRole> getRoles() {
         if (isNull(roles)) {
