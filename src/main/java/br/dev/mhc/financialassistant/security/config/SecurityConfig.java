@@ -22,8 +22,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import static br.dev.mhc.financialassistant.common.constants.RouteConstants.*;
@@ -52,7 +54,16 @@ public class SecurityConfig {
         if (Arrays.asList(environment.getActiveProfiles()).contains("test")) {
             http
                     .headers(headersConfigurer -> headersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
-                    .authorizeHttpRequests(authorize -> authorize.requestMatchers(PathRequest.toH2Console()).permitAll());
+                    .authorizeHttpRequests(authorize -> authorize.requestMatchers(PathRequest.toH2Console()).permitAll())
+                    .cors(cors -> cors
+                            .configurationSource(request -> {
+                                CorsConfiguration config = new CorsConfiguration();
+                                config.setAllowedOrigins(List.of("http://localhost:4200"));
+                                config.setAllowedOrigins(List.of("*"));
+                                config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+                                config.setAllowedHeaders(List.of("*"));
+                                return config;
+                            }));
         }
         var authenticationManager = authenticationManager(http);
         http
@@ -90,6 +101,5 @@ public class SecurityConfig {
     private RequestMatcher buildRequestMatcher(String... patterns) {
         return this.buildRequestMatcher(null, patterns);
     }
-
 
 }
