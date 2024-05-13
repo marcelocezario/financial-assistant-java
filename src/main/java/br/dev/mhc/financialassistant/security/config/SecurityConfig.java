@@ -33,6 +33,7 @@ import static br.dev.mhc.financialassistant.common.constants.RouteConstants.*;
 public class SecurityConfig {
 
     private final static String NUMBER_REGEX = "/(\\d+)";
+    private final static String UUID_REGEX = "^/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$";
     private final static String ANY_SUB_ROUTE_REGEX = "/(.*)";
     private final static String ANY_ROUTE_REGEX = "?(/.*)?";
     private final Environment environment;
@@ -64,7 +65,7 @@ public class SecurityConfig {
                         .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, CATEGORIES_ROUTE)).authenticated()
                         .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, CURRENCIES_ROUTE + "/**")).authenticated()
                         .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, USERS_ROUTE)).permitAll()
-                        .requestMatchers(buildRequestMatcher(USERS_ROUTE, NUMBER_REGEX, ANY_ROUTE_REGEX)).access(customAuthorizationManager)
+                        .requestMatchers(buildRequestMatcher(USERS_ROUTE, UUID_REGEX, ANY_ROUTE_REGEX)).access(customAuthorizationManager)
                         .anyRequest().hasAnyRole(UserRole.ADMIN.getDescription())
                 )
                 .addFilter(new JWTAuthenticationFilter(authenticationManager, authenticationDependencies))
