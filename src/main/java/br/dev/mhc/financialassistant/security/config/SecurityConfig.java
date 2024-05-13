@@ -32,10 +32,10 @@ import static br.dev.mhc.financialassistant.common.constants.RouteConstants.*;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final static String NUMBER_REGEX = "/(\\d+)";
-    private final static String UUID_REGEX = "^/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$";
-    private final static String ANY_SUB_ROUTE_REGEX = "/(.*)";
     private final static String ANY_ROUTE_REGEX = "?(/.*)?";
+    private final static String ANY_SUB_ROUTE_REGEX = "(/.*)";
+    private final static String NUMBER_REGEX = "(/\\d+)";
+    private final static String UUID_REGEX = "(/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})";
     private final Environment environment;
     private final CustomAuthorizationManager customAuthorizationManager;
     private final AuthenticationDependencies authenticationDependencies;
