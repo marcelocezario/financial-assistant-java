@@ -41,7 +41,7 @@ public class CustomAuthorizationManager implements AuthorizationManager<RequestA
         if (indexUsers >= 0 && indexUsers + 1 < uriParts.size()) {
             String childPath = uriParts.get(indexUsers + 1);
             UUID childId = UUID.fromString(childPath);
-            isAuthorized = userAuthenticated.getId() == childId;
+            isAuthorized = userAuthenticated.getId().equals(childId);
         }
         return isAuthorized;
     }
