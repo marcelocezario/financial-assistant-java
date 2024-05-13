@@ -46,7 +46,7 @@ public class CategoryValidatorServiceImpl implements ICategoryValidatorService, 
         var validation = new ValidationResultDTO<>(categoryDTO);
 
         validateName(validation);
-        validateIconUrl(validation);
+        validateIcon(validation);
         validateColor(validation);
         validateUserId(validation);
 
@@ -124,18 +124,18 @@ public class CategoryValidatorServiceImpl implements ICategoryValidatorService, 
         return matcher.matches();
     }
 
-    private void validateIconUrl(ValidationResultDTO<CategoryDTO> validation) {
-        final var FIELD_NAME = "iconUrl";
-        var iconUrl = validation.getObject().getIconUrl();
+    private void validateIcon(ValidationResultDTO<CategoryDTO> validation) {
+        final var FIELD_NAME = "icon";
+        var icon = validation.getObject().getIcon();
         final var MAX_LENGTH = 255;
-        if (isNull(iconUrl)) {
+        if (isNull(icon)) {
             return;
         }
-        if (iconUrl.isBlank()) {
+        if (icon.isBlank()) {
             return;
         }
-        if (iconUrl.length() > MAX_LENGTH) {
-            validation.addError(FIELD_NAME, iconUrl, CATEGORY_VALIDATION_ICON_URL_CANNOT_BE_LONGER_THEN_CHARACTERS.translate(MAX_LENGTH));
+        if (icon.length() > MAX_LENGTH) {
+            validation.addError(FIELD_NAME, icon, CATEGORY_VALIDATION_ICON_CANNOT_BE_LONGER_THEN_CHARACTERS.translate(MAX_LENGTH));
         }
     }
 

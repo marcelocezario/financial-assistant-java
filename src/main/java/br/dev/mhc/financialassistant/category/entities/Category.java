@@ -26,8 +26,8 @@ public class Category implements Serializable {
     private UUID id;
     @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "icon_url")
-    private String iconUrl;
+    @Column(name = "icon")
+    private String icon;
     @Column(name = "color")
     private String color;
     @Column(name = "active", nullable = false)

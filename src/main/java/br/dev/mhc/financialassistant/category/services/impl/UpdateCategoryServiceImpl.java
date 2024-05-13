@@ -42,7 +42,7 @@ public class UpdateCategoryServiceImpl implements IUpdateCategoryService {
 
     private void updateData(Category categoryEntity, CategoryDTO categoryDTO) {
         categoryEntity.setName(categoryDTO.getName());
-        categoryEntity.setIconUrl(categoryDTO.getIconUrl());
+        categoryEntity.setIcon(categoryDTO.getIcon());
         categoryEntity.setColor(categoryDTO.getColor());
     }
 }

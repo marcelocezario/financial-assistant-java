@@ -3,7 +3,7 @@ package br.dev.mhc.financialassistant.common.translation;
 public enum TranslationKey {
     CATEGORY_VALIDATION_COLOR_IS_INVALID("category.validation.color.isInvalid"),
     CATEGORY_VALIDATION_COLOR_MUST_HAVE_CHARACTERS("category.validation.color.mustHaveCharacters"),
-    CATEGORY_VALIDATION_ICON_URL_CANNOT_BE_LONGER_THEN_CHARACTERS("category.validation.iconUrl.cannotBeLongerThenCharacters"),
+    CATEGORY_VALIDATION_ICON_CANNOT_BE_LONGER_THEN_CHARACTERS("category.validation.icon.cannotBeLongerThenCharacters"),
     CATEGORY_VALIDATION_ID_DOES_NOT_MATCH_ROUTE("category.validation.id.doesNotMatchRoute"),
     CATEGORY_VALIDATION_NAME_CANNOT_BE_EMPTY("category.validation.name.cannotBeEmpty"),
     CATEGORY_VALIDATION_NAME_CANNOT_BE_LESS_THEN_CHARACTERS("category.validation.name.cannotBeLessThenCharacters"),

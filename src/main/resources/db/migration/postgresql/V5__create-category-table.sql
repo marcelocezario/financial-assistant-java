@@ -1,7 +1,7 @@
 create table categories (
     id uuid not null default uuid_generate_v4(),
     name varchar(255) not null,
-    icon_url varchar(255),
+    icon varchar(255),
     color varchar(7),
     active boolean not null,
     created_at timestamp(6) with time zone,

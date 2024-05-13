@@ -18,7 +18,7 @@ public class CategoryDTO implements Serializable {
     @EqualsAndHashCode.Include
     private UUID id;
     private String name;
-    private String iconUrl;
+    private String icon;
     private String color;
     private boolean active;
     private Instant createdAt;

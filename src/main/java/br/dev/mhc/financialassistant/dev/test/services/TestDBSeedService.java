@@ -64,7 +64,13 @@ public class TestDBSeedService {
         userRepository.findAll().forEach(user -> {
             var categories = Arrays
                     .stream(getCategoryNames())
-                    .map(name -> Category.builder().name(name).user(user).active(new Random().nextBoolean()).build())
+                    .map(name -> Category.builder()
+                            .name(name)
+                            .color(getRandomHexColor())
+                            .icon(getRandomIcon())
+                            .user(user)
+                            .active(new Random().nextBoolean())
+                            .build())
                     .toList();
             categoryRepository.saveAll(categories);
 
@@ -113,6 +119,22 @@ public class TestDBSeedService {
                 "Education", "Entertainment", "Clothing and Accessories", "Personal Expenses", "Income",
                 "Investments", "Taxes", "Debts and Loans", "Savings", "Gifts and Donations", "Technology",
                 "Insurance", "Pets", "Travel", "Financial Services", "Others"};
+    }
+
+    private String getRandomHexColor() {
+        Random random = new Random();
+        int red = random.nextInt(256);
+        int green = random.nextInt(256);
+        int blue = random.nextInt(256);
+        return String.format("#%02X%02X%02X", red, green, blue);
+    }
+
+    private String getRandomIcon() {
+        Random random = new Random();
+        int number = random.nextInt(10);
+        String[] icons = {"home", "apartment", "favorite", "account_balance", "construction", "savings",
+                "local_gas_station", "school", "flight", "restaurant_menu"};
+        return icons[number];
     }
 
 }
