@@ -23,14 +23,12 @@ public class Currency implements Serializable {
     @EqualsAndHashCode.Include
     @Column(name = "id")
     private Long id;
-    @Column(name = "name", unique = true, nullable = false)
-    private String name;
-    @Column(name = "symbol", nullable = false)
-    private String symbol;
     @Column(name = "code", unique = true, nullable = false)
     private String code;
-    @Column(name = "price_in_brl", precision = 13, scale = 6, nullable = false)
-    private BigDecimal priceInBRL;
+    @Column(name = "symbol", nullable = false)
+    private String symbol;
+    @Column(name = "brl_rate", precision = 13, scale = 6, nullable = false)
+    private BigDecimal brlRate;
     @Column(name = "active", nullable = false)
     private boolean active;
     @CreationTimestamp

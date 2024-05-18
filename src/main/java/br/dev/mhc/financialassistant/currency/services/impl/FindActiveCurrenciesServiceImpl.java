@@ -1,6 +1,7 @@
 package br.dev.mhc.financialassistant.currency.services.impl;
 
 import br.dev.mhc.financialassistant.currency.dtos.CurrencyDTO;
+import br.dev.mhc.financialassistant.currency.entities.Currency;
 import br.dev.mhc.financialassistant.currency.mappers.CurrencyMapper;
 import br.dev.mhc.financialassistant.currency.repositories.CurrencyRepository;
 import br.dev.mhc.financialassistant.currency.services.interfaces.IFindActiveCurrenciesService;
@@ -18,7 +19,13 @@ public class FindActiveCurrenciesServiceImpl implements IFindActiveCurrenciesSer
     }
 
     @Override
-    public List<CurrencyDTO> find() {
-        return repository.findByActiveTrue().stream().map(CurrencyMapper::toDto).toList();
+    public List<CurrencyDTO> find(boolean onlyActive) {
+        List<Currency> currencies;
+        if (onlyActive) {
+            currencies = repository.findByActiveTrue();
+        } else {
+            currencies = repository.findAll();
+        }
+        return currencies.stream().map(CurrencyMapper::toDto).toList();
     }
 }

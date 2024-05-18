@@ -37,9 +37,8 @@ public class CurrencyValidatorServiceImpl implements ICurrencyValidatorService, 
 
         var validation = new ValidationResultDTO<>(currencyDTO);
 
-        validateName(validation);
-        validateSymbol(validation);
         validateCode(validation);
+        validateSymbol(validation);
         validatePriceInBRL(validation);
 
         LOG.debug(validation);
@@ -71,30 +70,13 @@ public class CurrencyValidatorServiceImpl implements ICurrencyValidatorService, 
 
     private void validatePriceInBRL(ValidationResultDTO<CurrencyDTO> validation) {
         final var FIELD_NAME = "priceInBRL";
-        var priceInBRL = validation.getObject().getPriceInBRL();
+        var priceInBRL = validation.getObject().getBrlRate();
         if (isNull(priceInBRL)) {
             validation.addError(FIELD_NAME, null, CURRENCY_VALIDATION_PRICE_IN_BRL_CANNOT_BE_NULL.translate());
         }
         if (priceInBRL.compareTo(BigDecimal.ZERO) <= 0) {
             validation.addError(FIELD_NAME, priceInBRL, CURRENCY_VALIDATION_PRICE_IN_BRL_MUST_BE_GREATER_THAN_ZERO.translate());
         }
-    }
-
-    private void validateCode(ValidationResultDTO<CurrencyDTO> validation) {
-        final var FIELD_NAME = "code";
-        var code = validation.getObject().getCode();
-        final var LENGTH = 3;
-        if (isNull(code)) {
-            validation.addError(FIELD_NAME, null, CURRENCY_VALIDATION_CODE_CANNOT_BE_NULL.translate());
-        }
-        if (code.isBlank()) {
-            validation.addError(FIELD_NAME, code, CURRENCY_VALIDATION_CODE_CANNOT_BE_EMPTY.translate());
-        }
-        if (code.length() != LENGTH) {
-            validation.addError(FIELD_NAME, code, CURRENCY_VALIDATION_CODE_MUST_HAVE_CHARACTERS.translate(LENGTH));
-        }
-        repository.findByCodeIgnoreCase(code)
-                .ifPresent(c -> validation.addError(FIELD_NAME, code, CURRENCY_VALIDATION_CODE_IS_ALREADY_USED.translate()));
     }
 
     private void validateSymbol(ValidationResultDTO<CurrencyDTO> validation) {
@@ -116,26 +98,21 @@ public class CurrencyValidatorServiceImpl implements ICurrencyValidatorService, 
         }
     }
 
-    private void validateName(ValidationResultDTO<CurrencyDTO> validation) {
-        final var FIELD_NAME = "name";
-        var name = validation.getObject().getName();
-        final var MIN_LENGTH = 3;
-        final var MAX_LENGTH = 255;
-        if (isNull(name)) {
-            validation.addError(FIELD_NAME, null, CURRENCY_VALIDATION_NAME_CANNOT_BE_NULL.translate());
+    private void validateCode(ValidationResultDTO<CurrencyDTO> validation) {
+        final var FIELD_NAME = "code";
+        var code = validation.getObject().getCode();
+        final var LENGTH = 3;
+        if (isNull(code)) {
+            validation.addError(FIELD_NAME, null, CURRENCY_VALIDATION_CODE_CANNOT_BE_NULL.translate());
         }
-        if (name.isBlank()) {
-            validation.addError(FIELD_NAME, name, CURRENCY_VALIDATION_NAME_CANNOT_BE_EMPTY.translate());
+        if (code.isBlank()) {
+            validation.addError(FIELD_NAME, code, CURRENCY_VALIDATION_CODE_CANNOT_BE_EMPTY.translate());
         }
-        if (name.length() < MIN_LENGTH) {
-            validation.addError(FIELD_NAME, name, CURRENCY_VALIDATION_NAME_CANNOT_BE_LESS_THEN_CHARACTERS.translate(MIN_LENGTH));
+        if (code.length() != LENGTH) {
+            validation.addError(FIELD_NAME, code, CURRENCY_VALIDATION_CODE_MUST_HAVE_CHARACTERS.translate(LENGTH));
         }
-        if (name.length() > MAX_LENGTH) {
-            validation.addError(FIELD_NAME, name, CURRENCY_VALIDATION_NAME_CANNOT_BE_LONGER_THEN_CHARACTERS.translate(MAX_LENGTH));
-        }
-        repository.findByNameIgnoreCase(name)
-                .ifPresent(c -> validation.addError(FIELD_NAME, name, CURRENCY_VALIDATION_NAME_IS_ALREADY_USED.translate()));
+        repository.findByCodeIgnoreCase(code)
+                .ifPresent(c -> validation.addError(FIELD_NAME, code, CURRENCY_VALIDATION_CODE_IS_ALREADY_USED.translate()));
     }
-
 
 }

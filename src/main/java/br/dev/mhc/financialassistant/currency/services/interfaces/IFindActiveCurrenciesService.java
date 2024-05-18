@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface IFindActiveCurrenciesService {
 
-    List<CurrencyDTO> find();
+    List<CurrencyDTO> find(boolean onlyActive);
 }

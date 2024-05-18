@@ -17,10 +17,9 @@ public class CurrencyDTO implements Serializable {
 
     @EqualsAndHashCode.Include
     private Long id;
-    private String name;
-    private String symbol;
     private String code;
-    private BigDecimal priceInBRL;
+    private String symbol;
+    private BigDecimal brlRate;
     private boolean active;
     private Instant createdAt;
     private Instant updatedAt;

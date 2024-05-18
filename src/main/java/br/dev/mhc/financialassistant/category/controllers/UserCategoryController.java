@@ -1,10 +1,7 @@
 package br.dev.mhc.financialassistant.category.controllers;
 
 import br.dev.mhc.financialassistant.category.dtos.CategoryDTO;
-import br.dev.mhc.financialassistant.category.services.interfaces.ICreateCategoryService;
-import br.dev.mhc.financialassistant.category.services.interfaces.IFindCategoriesByUserService;
-import br.dev.mhc.financialassistant.category.services.interfaces.IFindCategoryByIdAndUserIdService;
-import br.dev.mhc.financialassistant.category.services.interfaces.IUpdateCategoryService;
+import br.dev.mhc.financialassistant.category.services.interfaces.*;
 import br.dev.mhc.financialassistant.common.constants.RouteConstants;
 import br.dev.mhc.financialassistant.common.utils.URIUtils;
 import jakarta.validation.Valid;
@@ -20,12 +17,14 @@ public class UserCategoryController {
 
     private final ICreateCategoryService createCategoryService;
     private final IUpdateCategoryService updateCategoryService;
+    private final IDeleteCategoryService deleteCategoryService;
     private final IFindCategoriesByUserService findCategoriesByUserService;
     private final IFindCategoryByIdAndUserIdService findCategoryByIdAndUserIdService;
 
-    public UserCategoryController(ICreateCategoryService createCategoryService, IUpdateCategoryService updateCategoryService, IFindCategoriesByUserService findCategoriesByUserService, IFindCategoryByIdAndUserIdService findCategoryByIdAndUserIdService) {
+    public UserCategoryController(ICreateCategoryService createCategoryService, IUpdateCategoryService updateCategoryService, IDeleteCategoryService deleteCategoryService, IFindCategoriesByUserService findCategoriesByUserService, IFindCategoryByIdAndUserIdService findCategoryByIdAndUserIdService) {
         this.createCategoryService = createCategoryService;
         this.updateCategoryService = updateCategoryService;
+        this.deleteCategoryService = deleteCategoryService;
         this.findCategoriesByUserService = findCategoriesByUserService;
         this.findCategoryByIdAndUserIdService = findCategoryByIdAndUserIdService;
     }
@@ -40,6 +39,12 @@ public class UserCategoryController {
     ResponseEntity<CategoryDTO> update(@RequestBody @Valid CategoryDTO categoryDTO) {
         categoryDTO = updateCategoryService.update(categoryDTO);
         return ResponseEntity.ok(categoryDTO);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    ResponseEntity<Void> delete(@PathVariable UUID userId, @PathVariable UUID id) {
+        deleteCategoryService.delete(id, userId);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping
