@@ -40,8 +40,9 @@ public enum TranslationKey {
     EMAIL_GENERIC_COMPANY_SIGNATURE("email.generic.company.signature"),
     EMAIL_GENERIC_GREETING("email.generic.greeting"),
 
+    EXCEPTION_DATA_INTEGRITY_VIOLATION("exceptions.dataIntegrityViolation"),
     EXCEPTION_GENERIC("exceptions.generic"),
-    EXCEPTION_METHOD_ARGUMENT_NOT_VALID("exceptions.methodArgumentNotValidException"),
+    EXCEPTION_METHOD_ARGUMENT_NOT_VALID("exceptions.methodArgumentNotValid"),
     EXCEPTION_RESOURCE_NOT_FOUND("exceptions.resourceNotFound"),
 
     TRANSACTION_VALIDATION_AMOUNT_CANNOT_BE_NEGATIVE("transaction.validation.amount.cannotBeNegative"),

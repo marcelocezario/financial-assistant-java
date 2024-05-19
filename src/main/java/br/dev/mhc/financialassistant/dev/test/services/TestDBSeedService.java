@@ -60,6 +60,8 @@ public class TestDBSeedService {
         var currencyBRL = currencyRepository.findByCodeIgnoreCase("BRL").get();
         var currencyUSD = currencyRepository.findByCodeIgnoreCase("USD").get();
         var currencyBTC = currencyRepository.findByCodeIgnoreCase("BTC").get();
+        var currencyJPY = currencyRepository.findByCodeIgnoreCase("JPY").get();
+        var currencyCHF = currencyRepository.findByCodeIgnoreCase("CHF").get();
 
         userRepository.findAll().forEach(user -> {
             var categories = Arrays
@@ -80,6 +82,8 @@ public class TestDBSeedService {
                     BankAccount.builder().name("Nubank").balance(BigDecimal.TEN).currency(currencyBRL).creditLimit(new BigDecimal("0.00")).interestRate(new BigDecimal("8.00")).active(true).user(user).build(),
                     BankAccount.builder().name("Inter").balance(new BigDecimal("150.00")).currency(currencyBRL).creditLimit(new BigDecimal("500.00")).interestRate(new BigDecimal("8.00")).active(true).user(user).build(),
                     BankAccount.builder().name("Inter USD").balance(new BigDecimal("500.00")).currency(currencyUSD).creditLimit(new BigDecimal("1000.00")).interestRate(new BigDecimal("8.00")).active(true).user(user).build(),
+                    BankAccount.builder().name("Iene").balance(new BigDecimal("500.00")).currency(currencyJPY).creditLimit(new BigDecimal("1000.00")).interestRate(new BigDecimal("8.00")).active(true).user(user).build(),
+                    BankAccount.builder().name("Franco Suíço").balance(new BigDecimal("500.00")).currency(currencyCHF).creditLimit(new BigDecimal("1000.00")).interestRate(new BigDecimal("8.00")).active(true).user(user).build(),
                     CreditCard.builder().name("Nubank 1234").balance(new BigDecimal("-460.00")).currency(currencyBRL).creditLimit(new BigDecimal("2000.00")).billingCycleDate(10).dueDate(20).active(true).user(user).build(),
                     CryptoWallet.builder().name("Bitcoin").balance(new BigDecimal("0.15689")).currency(currencyBTC).active(true).user(user).active(true).user(user).build()
             );

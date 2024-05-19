@@ -8,6 +8,7 @@ import br.dev.mhc.financialassistant.exceptions.AppValidationException;
 import br.dev.mhc.financialassistant.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -56,6 +57,14 @@ public class ControllerExceptionHandler {
                 .map(FieldMessageDTO::getMessage)
                 .filter(Objects::nonNull)
                 .forEach(error::addAdditionalData);
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<StandardErrorDTO> dataIntegrityViolationException(DataIntegrityViolationException e,
+                                                                            HttpServletRequest request) {
+        HttpStatus status = HttpStatus.CONFLICT;
+        var error = buildStandardError(request, status, EXCEPTION_DATA_INTEGRITY_VIOLATION);
         return ResponseEntity.status(status).body(error);
     }
 

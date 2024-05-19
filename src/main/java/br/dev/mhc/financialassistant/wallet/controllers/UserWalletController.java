@@ -3,10 +3,7 @@ package br.dev.mhc.financialassistant.wallet.controllers;
 import br.dev.mhc.financialassistant.common.constants.RouteConstants;
 import br.dev.mhc.financialassistant.common.utils.URIUtils;
 import br.dev.mhc.financialassistant.wallet.dtos.WalletDTO;
-import br.dev.mhc.financialassistant.wallet.services.interfaces.ICreateWalletService;
-import br.dev.mhc.financialassistant.wallet.services.interfaces.IFindWalletByIdAndUserIdService;
-import br.dev.mhc.financialassistant.wallet.services.interfaces.IFindWalletsByUserIdService;
-import br.dev.mhc.financialassistant.wallet.services.interfaces.IUpdateWalletService;
+import br.dev.mhc.financialassistant.wallet.services.interfaces.*;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,12 +17,14 @@ public class UserWalletController {
 
     private final ICreateWalletService createWallet;
     private final IUpdateWalletService updateWalletService;
+    private final IDeleteWalletService deleteWalletService;
     private final IFindWalletsByUserIdService findWalletsByUserService;
     private final IFindWalletByIdAndUserIdService findWalletByIdAndUserIdService;
 
-    public UserWalletController(ICreateWalletService createWallet, IUpdateWalletService updateWalletService, IFindWalletsByUserIdService findWalletsByUserService, IFindWalletByIdAndUserIdService findWalletByIdAndUserIdService) {
+    public UserWalletController(ICreateWalletService createWallet, IUpdateWalletService updateWalletService, IDeleteWalletService deleteWalletService, IFindWalletsByUserIdService findWalletsByUserService, IFindWalletByIdAndUserIdService findWalletByIdAndUserIdService) {
         this.createWallet = createWallet;
         this.updateWalletService = updateWalletService;
+        this.deleteWalletService = deleteWalletService;
         this.findWalletsByUserService = findWalletsByUserService;
         this.findWalletByIdAndUserIdService = findWalletByIdAndUserIdService;
     }
@@ -40,6 +39,12 @@ public class UserWalletController {
     ResponseEntity<WalletDTO> update(@RequestBody @Valid WalletDTO walletDTO) {
         walletDTO = updateWalletService.update(walletDTO);
         return ResponseEntity.ok(walletDTO);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    ResponseEntity<Void> delete(@PathVariable UUID userId, @PathVariable UUID id) {
+        deleteWalletService.delete(id, userId);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping
