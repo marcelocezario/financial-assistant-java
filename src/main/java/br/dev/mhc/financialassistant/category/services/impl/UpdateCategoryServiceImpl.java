@@ -7,7 +7,6 @@ import br.dev.mhc.financialassistant.category.services.interfaces.ICategoryValid
 import br.dev.mhc.financialassistant.category.services.interfaces.IUpdateCategoryService;
 import br.dev.mhc.financialassistant.exceptions.AppValidationException;
 import br.dev.mhc.financialassistant.exceptions.ResourceNotFoundException;
-import br.dev.mhc.financialassistant.user.entities.User;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +32,7 @@ public class UpdateCategoryServiceImpl implements IUpdateCategoryService {
         try {
             updateData(categoryEntity, categoryDTO);
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException(categoryDTO.getId(), User.class);
+            throw new ResourceNotFoundException(categoryDTO.getId(), Category.class);
         }
         validatorService.validate(categoryDTO).isValidOrThrow(AppValidationException::new);
         categoryDTO = toDto(repository.save(categoryEntity));

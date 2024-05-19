@@ -25,6 +25,8 @@ public class Currency implements Serializable {
     private Long id;
     @Column(name = "code", unique = true, nullable = false)
     private String code;
+    @Column(name = "name", unique = true, nullable = false)
+    private String name;
     @Column(name = "symbol", nullable = false)
     private String symbol;
     @Column(name = "brl_rate", precision = 13, scale = 6, nullable = false)

@@ -10,4 +10,6 @@ public interface CurrencyRepository extends JpaRepository<Currency, Long> {
     List<Currency> findByActiveTrue();
 
     Optional<Currency> findByCodeIgnoreCase(String code);
+
+    Optional<Currency> findByNameIgnoreCase(String name);
 }

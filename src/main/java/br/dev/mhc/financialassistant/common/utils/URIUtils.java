@@ -5,6 +5,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.UUID;
 
+import static br.dev.mhc.financialassistant.common.utils.Utils.isIntegerNumber;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 
@@ -38,6 +39,14 @@ public class URIUtils {
         int index = url.indexOf(path);
         String subPath = url.substring(index + path.length());
         return subPath.split("/")[0];
+    }
+
+    public static Long findIdAfterPath(String url, String path) {
+        var id = findNextSegmentAfterPath(url, path);
+        if (nonNull(id) && isIntegerNumber(id)) {
+            return Long.parseLong(id);
+        }
+        return null;
     }
 
     public static UUID findUuidAfterPath(String url, String path) {

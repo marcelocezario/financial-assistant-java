@@ -38,6 +38,7 @@ public class CurrencyValidatorServiceImpl implements ICurrencyValidatorService, 
         var validation = new ValidationResultDTO<>(currencyDTO);
 
         validateCode(validation);
+        validateName(validation);
         validateSymbol(validation);
         validatePriceInBRL(validation);
 
@@ -62,8 +63,8 @@ public class CurrencyValidatorServiceImpl implements ICurrencyValidatorService, 
     private void validateRoute(ValidationResultDTO<CurrencyDTO> validationResult) {
         var uri = request.getRequestURI();
         var currencyDTO = validationResult.getObject();
-        var currencyId = URIUtils.findUuidAfterPath(uri, RouteConstants.CURRENCIES_ROUTE);
-        if (nonNull(currencyDTO) && !currencyDTO.getId().equals(currencyId)) {
+        var currencyId = URIUtils.findIdAfterPath(uri, RouteConstants.CURRENCIES_ROUTE);
+        if (nonNull(currencyDTO.getId()) && !currencyDTO.getId().equals(currencyId)) {
             validationResult.addError("id", currencyDTO.getId(), CURRENCY_VALIDATION_ID_DOES_NOT_MATCH_ROUTE.translate());
         }
     }
@@ -98,6 +99,31 @@ public class CurrencyValidatorServiceImpl implements ICurrencyValidatorService, 
         }
     }
 
+    private void validateName(ValidationResultDTO<CurrencyDTO> validation) {
+        final var FIELD_NAME = "name";
+        var name = validation.getObject().getName();
+        final var MIN_LENGTH = 3;
+        final var MAX_LENGTH = 255;
+        if (isNull(name)) {
+            validation.addError(FIELD_NAME, null, CURRENCY_VALIDATION_NAME_CANNOT_BE_NULL.translate());
+        }
+        if (name.isBlank()) {
+            validation.addError(FIELD_NAME, name, CURRENCY_VALIDATION_NAME_CANNOT_BE_EMPTY.translate());
+        }
+        if (name.length() < MIN_LENGTH) {
+            validation.addError(FIELD_NAME, name, CURRENCY_VALIDATION_NAME_CANNOT_BE_LESS_THEN_CHARACTERS.translate(MIN_LENGTH));
+        }
+        if (name.length() > MAX_LENGTH) {
+            validation.addError(FIELD_NAME, name, CURRENCY_VALIDATION_NAME_CANNOT_BE_LONGER_THEN_CHARACTERS.translate(MAX_LENGTH));
+        }
+        repository.findByNameIgnoreCase(name)
+                .ifPresent(c -> {
+                    if (!c.getId().equals(validation.getObject().getId())) {
+                        validation.addError(FIELD_NAME, name, CURRENCY_VALIDATION_NAME_IS_ALREADY_USED.translate());
+                    }
+                });
+    }
+
     private void validateCode(ValidationResultDTO<CurrencyDTO> validation) {
         final var FIELD_NAME = "code";
         var code = validation.getObject().getCode();
@@ -112,7 +138,11 @@ public class CurrencyValidatorServiceImpl implements ICurrencyValidatorService, 
             validation.addError(FIELD_NAME, code, CURRENCY_VALIDATION_CODE_MUST_HAVE_CHARACTERS.translate(LENGTH));
         }
         repository.findByCodeIgnoreCase(code)
-                .ifPresent(c -> validation.addError(FIELD_NAME, code, CURRENCY_VALIDATION_CODE_IS_ALREADY_USED.translate()));
+                .ifPresent(c -> {
+                    if (!c.getId().equals(validation.getObject().getId())) {
+                        validation.addError(FIELD_NAME, code, CURRENCY_VALIDATION_CODE_IS_ALREADY_USED.translate());
+                    }
+                });
     }
 
 }
