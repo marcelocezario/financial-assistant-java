@@ -1,6 +1,7 @@
 package br.dev.mhc.financialassistant.wallet.entities;
 
 import br.dev.mhc.financialassistant.currency.entities.Currency;
+import br.dev.mhc.financialassistant.transaction.enums.TransactionMethod;
 import br.dev.mhc.financialassistant.user.entities.User;
 import br.dev.mhc.financialassistant.wallet.enums.WalletType;
 import jakarta.persistence.*;
@@ -14,11 +15,10 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static br.dev.mhc.financialassistant.wallet.enums.WalletType.*;
+import static java.util.Objects.isNull;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -73,5 +73,7 @@ public abstract class Wallet {
             balance = balance.subtract(value);
         }
     }
+
+    public abstract List<TransactionMethod> getAvailableTransactionMethods();
 
 }

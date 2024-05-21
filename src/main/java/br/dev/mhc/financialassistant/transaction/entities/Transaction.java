@@ -1,6 +1,7 @@
 package br.dev.mhc.financialassistant.transaction.entities;
 
 import br.dev.mhc.financialassistant.category.entities.Category;
+import br.dev.mhc.financialassistant.transaction.enums.TransactionMethod;
 import br.dev.mhc.financialassistant.transaction.enums.TransactionType;
 import br.dev.mhc.financialassistant.user.entities.User;
 import br.dev.mhc.financialassistant.wallet.entities.Wallet;
@@ -13,9 +14,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -40,6 +39,9 @@ public class Transaction implements Serializable {
     @Getter(AccessLevel.NONE)
     @Column(name = "type")
     private Integer type;
+    @Getter(AccessLevel.NONE)
+    @Column(name = "method")
+    private Integer method;
     @Column(name = "current_installment")
     private Integer currentInstallment;
     @Column(name = "active")
@@ -68,4 +70,9 @@ public class Transaction implements Serializable {
     public TransactionType getType() {
         return TransactionType.toEnum(this.type);
     }
+
+    public TransactionMethod getMethod() {
+        return TransactionMethod.toEnum(this.method);
+    }
+
 }

@@ -79,6 +79,7 @@ public class TestDBSeedService {
             var wallets = Arrays.asList(
                     CashWallet.builder().name("Money").balance(BigDecimal.ZERO).currency(currencyBRL).active(true).user(user).build(),
                     CashWallet.builder().name("Money USD").balance(BigDecimal.ZERO).currency(currencyUSD).active(true).user(user).build(),
+                    CashWallet.builder().name("Money JPY").balance(new BigDecimal("500.00")).currency(currencyJPY).active(true).user(user).build(),
                     BankAccount.builder().name("Nubank").balance(BigDecimal.TEN).currency(currencyBRL).creditLimit(new BigDecimal("0.00")).interestRate(new BigDecimal("8.00")).active(true).user(user).build(),
                     BankAccount.builder().name("Inter").balance(new BigDecimal("150.00")).currency(currencyBRL).creditLimit(new BigDecimal("500.00")).interestRate(new BigDecimal("8.00")).active(true).user(user).build(),
                     BankAccount.builder().name("Inter USD").balance(new BigDecimal("500.00")).currency(currencyUSD).creditLimit(new BigDecimal("1000.00")).interestRate(new BigDecimal("8.00")).active(true).user(user).build(),
@@ -98,6 +99,7 @@ public class TestDBSeedService {
                         .currentInstallment(1)
                         .wallet(wallet)
                         .user(user)
+                        .method(wallet.getAvailableTransactionMethods().getFirst().getCod())
                         .build();
                 transaction1.setCategories(Set.of(TransactionCategory.builder().amount(transaction1.getAmount()).transaction(transaction1).category(categories.getFirst()).build()));
                 var transaction1Dto = TransactionMapper.toDto(transaction1);
@@ -111,6 +113,7 @@ public class TestDBSeedService {
                         .currentInstallment(1)
                         .wallet(wallet)
                         .user(user)
+                        .method(wallet.getAvailableTransactionMethods().getFirst().getCod())
                         .build();
                 transaction2.setCategories(Set.of(TransactionCategory.builder().amount(transaction2.getAmount()).transaction(transaction2).category(categories.getLast()).build()));
                 createTransactionService.create(TransactionMapper.toDto(transaction2));

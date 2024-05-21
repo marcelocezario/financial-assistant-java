@@ -1,22 +1,18 @@
 package br.dev.mhc.financialassistant.wallet.dtos;
 
 import br.dev.mhc.financialassistant.currency.dtos.CurrencyDTO;
+import br.dev.mhc.financialassistant.transaction.enums.TransactionMethod;
 import br.dev.mhc.financialassistant.wallet.annotations.WalletDTOValidator;
 import br.dev.mhc.financialassistant.wallet.enums.WalletType;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static br.dev.mhc.financialassistant.wallet.enums.WalletType.*;
 
@@ -52,6 +48,7 @@ public abstract class WalletDTO implements Serializable {
     private Instant updatedAt;
     private CurrencyDTO currency;
     private UUID userId;
+    private List<TransactionMethod> availableTransactionMethods;
 
     public WalletType getType() {
         return walletTypeMap.getOrDefault(this.getClass(), CASH_WALLET);

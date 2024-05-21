@@ -32,7 +32,7 @@ public class UpdateWalletServiceImpl implements IUpdateWalletService {
     public WalletDTO update(WalletDTO walletDTO) {
         requireNonNull(walletDTO);
         requireNonNull(walletDTO.getId());
-        Wallet walletEntity = repository.getReferenceById(walletDTO.getUserId());
+        Wallet walletEntity = repository.getReferenceById(walletDTO.getId());
         try {
             updateData(walletEntity, walletDTO);
         } catch (EntityNotFoundException e) {
@@ -45,6 +45,7 @@ public class UpdateWalletServiceImpl implements IUpdateWalletService {
 
     private void updateData(Wallet walletEntity, WalletDTO walletDTO) {
         walletEntity.setName(walletDTO.getName());
+        walletEntity.setBalance(walletDTO.getBalance());
         walletEntity.setActive(walletDTO.isActive());
         switch (walletEntity.getType()) {
             case BANK_ACCOUNT -> updateDataBankAccount((BankAccount) walletEntity, (BankAccountDTO) walletDTO);

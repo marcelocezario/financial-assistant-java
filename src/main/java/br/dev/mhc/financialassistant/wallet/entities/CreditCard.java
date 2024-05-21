@@ -1,5 +1,6 @@
 package br.dev.mhc.financialassistant.wallet.entities;
 
+import br.dev.mhc.financialassistant.transaction.enums.TransactionMethod;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -10,6 +11,10 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
+import java.util.List;
+
+import static br.dev.mhc.financialassistant.transaction.enums.TransactionMethod.*;
+import static br.dev.mhc.financialassistant.transaction.enums.TransactionMethod.OTHERS;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,5 +31,11 @@ public class CreditCard extends Wallet {
     private Integer billingCycleDate;
     @Column(name = "due_date")
     private Integer dueDate;
+
+    @Override
+    public List<TransactionMethod> getAvailableTransactionMethods() {
+        return List.of(CREDIT_CARD, AUTOMATIC_DEBIT, OTHERS);
+    }
+
 
 }

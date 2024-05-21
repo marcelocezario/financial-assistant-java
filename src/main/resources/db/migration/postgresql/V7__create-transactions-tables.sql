@@ -4,6 +4,7 @@ create table transactions (
     moment timestamp without time zone not null,
     notes varchar(255) not null,
     type numeric(1) not null,
+    method numeric(1) not null,
     current_installment numeric(2) not null,
     active boolean not null,
     created_at timestamp(6) with time zone,

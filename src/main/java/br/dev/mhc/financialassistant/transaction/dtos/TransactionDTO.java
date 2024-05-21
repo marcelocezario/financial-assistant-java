@@ -1,6 +1,7 @@
 package br.dev.mhc.financialassistant.transaction.dtos;
 
 import br.dev.mhc.financialassistant.transaction.annotations.TransactionDTOValidator;
+import br.dev.mhc.financialassistant.transaction.enums.TransactionMethod;
 import br.dev.mhc.financialassistant.transaction.enums.TransactionType;
 import lombok.*;
 
@@ -26,6 +27,7 @@ public class TransactionDTO implements Serializable {
     private LocalDateTime moment;
     private String notes;
     private TransactionType type;
+    private TransactionMethod method;
     private Integer currentInstallment;
     private boolean active;
     private Instant createdAt;

@@ -87,24 +87,28 @@ public class WalletMapper {
     }
 
     private static WalletDTOBuilder toDtoCryptoWallet(CryptoWallet entity) {
-        return CryptoWalletDTO.builder();
+        return CryptoWalletDTO.builder()
+                .availableTransactionMethods(entity.getAvailableTransactionMethods());
     }
 
     private static WalletDTOBuilder toDtoCreditCardBuilder(CreditCard entity) {
         return CreditCardDTO.builder()
                 .creditLimit(entity.getCreditLimit())
                 .billingCycleDate(entity.getBillingCycleDate())
-                .dueDate(entity.getDueDate());
+                .dueDate(entity.getDueDate())
+                .availableTransactionMethods(entity.getAvailableTransactionMethods());
     }
 
     private static WalletDTOBuilder toDtoBankAccountBuilder(BankAccount entity) {
         return BankAccountDTO.builder()
                 .creditLimit(entity.getCreditLimit())
-                .interestRate(entity.getInterestRate());
+                .interestRate(entity.getInterestRate())
+                .availableTransactionMethods(entity.getAvailableTransactionMethods());
     }
 
     private static WalletDTOBuilder toDtoCashWalletBuilder(CashWallet entity) {
-        return CashWalletDTO.builder();
+        return CashWalletDTO.builder()
+                .availableTransactionMethods(entity.getAvailableTransactionMethods());
     }
 
 }

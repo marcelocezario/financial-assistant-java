@@ -57,6 +57,7 @@ public class TransactionValidatorServiceImpl implements ITransactionValidatorSer
         validateMoment(validation);
         validateNotes(validation);
         validateType(validation);
+        validateMethod(validation);
         validateCurrentInstallment(validation);
         validateUserId(validation);
         validateWalledId(validation);
@@ -198,6 +199,22 @@ public class TransactionValidatorServiceImpl implements ITransactionValidatorSer
         }
         if (currentInstallment < 1) {
             validation.addError(FIELD_NAME, currentInstallment, TRANSACTION_VALIDATION_CURRENT_INSTALLMENT_MUST_BE_GREATER_THAN_ZERO.translate());
+        }
+    }
+
+    private void validateMethod(ValidationResultDTO<TransactionDTO> validation) {
+        final var FIELD_NAME = "method";
+        var method = validation.getObject().getMethod();
+        if (isNull(method)) {
+            validation.addError(FIELD_NAME, null, TRANSACTION_VALIDATION_METHOD_CANNOT_BE_NULL.translate());
+        }
+        try {
+            var wallet = findWalletByIdAndUserIdService.find(validation.getObject().getWalletId(), validation.getObject().getUserId());
+            if (wallet.getAvailableTransactionMethods().stream().noneMatch(m -> m.equals(method))) {
+                validation.addError(FIELD_NAME, method, TRANSACTION_VALIDATION_METHOD_IS_NOT_ACCEPTED_BY_WALLET.translate());
+            }
+        } catch (ResourceNotFoundException e) {
+            return;
         }
     }
 

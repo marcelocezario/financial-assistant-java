@@ -58,6 +58,8 @@ public enum TranslationKey {
     TRANSACTION_VALIDATION_CURRENT_INSTALLMENT_CANNOT_BE_NULL("transaction.validation.currentInstallment.cannotBeNull"),
     TRANSACTION_VALIDATION_CURRENT_INSTALLMENT_MUST_BE_GREATER_THAN_ZERO("transaction.validation.currentInstallment.mustBeGreaterThanZero"),
     TRANSACTION_VALIDATION_ID_DOES_NOT_MATCH_ROUTE("transaction.validation.id.doesNotMatchRoute"),
+    TRANSACTION_VALIDATION_METHOD_CANNOT_BE_NULL("transaction.validation.method.cannotBeNull"),
+    TRANSACTION_VALIDATION_METHOD_IS_NOT_ACCEPTED_BY_WALLET("transaction.validation.method.isNotAcceptedByWallet"),
     TRANSACTION_VALIDATION_MOMENT_CANNOT_BE_BEFORE_DATE("transaction.validation.moment.cannotBeBeforeDate"),
     TRANSACTION_VALIDATION_MOMENT_CANNOT_BE_NULL("transaction.validation.moment.cannotBeNull"),
     TRANSACTION_VALIDATION_NOTES_CANNOT_BE_LONGER_THEN_CHARACTERS("transaction.validation.notes.cannotBeLongerThenCharacters"),
