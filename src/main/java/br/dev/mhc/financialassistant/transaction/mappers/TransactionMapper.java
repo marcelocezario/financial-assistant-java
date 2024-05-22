@@ -1,6 +1,7 @@
 package br.dev.mhc.financialassistant.transaction.mappers;
 
 import br.dev.mhc.financialassistant.category.entities.Category;
+import br.dev.mhc.financialassistant.category.mappers.CategoryMapper;
 import br.dev.mhc.financialassistant.transaction.dtos.TransactionDTO;
 import br.dev.mhc.financialassistant.transaction.entities.Transaction;
 import br.dev.mhc.financialassistant.user.entities.User;
@@ -23,10 +24,10 @@ public class TransactionMapper {
                 .createdAt(dto.getCreatedAt())
                 .updatedAt(dto.getUpdatedAt())
                 .user(new User(dto.getUserId()))
-                .wallet(WalletMapper.toEntity(dto.getWalletId()))
+                .wallet(WalletMapper.toEntity(dto.getWallet()))
                 .build();
         dto.getCategories()
-                .forEach(category -> entity.addCategory(new Category(category.getCategoryId()), category.getAmount()));
+                .forEach(category -> entity.addCategory(CategoryMapper.toEntity(category.getCategory()), category.getAmount()));
         return entity;
     }
 
@@ -43,7 +44,7 @@ public class TransactionMapper {
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .userId(entity.getUser().getId())
-                .walletId(entity.getWallet().getId())
+                .wallet(WalletMapper.toDto(entity.getWallet()))
                 .categories(entity.getCategories().stream().map(TransactionCategoryMapper::toDto).collect(Collectors.toSet()))
                 .build();
     }

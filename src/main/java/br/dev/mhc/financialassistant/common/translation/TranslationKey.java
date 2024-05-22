@@ -68,9 +68,9 @@ public enum TranslationKey {
     TRANSACTION_VALIDATION_USER_ID_DOES_NOT_EXIST("transaction.validation.userId.doesNotExist"),
     TRANSACTION_VALIDATION_USER_ID_DOES_NOT_MATCH_ROUTE("transaction.validation.userId.doesNotMatchRoute"),
     TRANSACTION_VALIDATION_USER_ID_UNAUTHORIZED("transaction.validation.userId.unauthorized"),
-    TRANSACTION_VALIDATION_WALLET_ID_CANNOT_BE_NULL("transaction.validation.walletId.cannotBeNull"),
-    TRANSACTION_VALIDATION_WALLET_ID_DOES_NOT_EXIST("transaction.validation.walletId.doesNotExist"),
-    TRANSACTION_VALIDATION_WALLET_ID_DOES_NOT_MATCH_ROUTE("transaction.validation.walletId.doesNotMatchRoute"),
+    TRANSACTION_VALIDATION_WALLET_CANNOT_BE_NULL("transaction.validation.wallet.cannotBeNull"),
+    TRANSACTION_VALIDATION_WALLET_DOES_NOT_EXIST("transaction.validation.wallet.doesNotExist"),
+    TRANSACTION_VALIDATION_WALLET_DOES_NOT_MATCH_ROUTE("transaction.validation.wallet.doesNotMatchRoute"),
 
     USER_VALIDATION_EMAIL_CANNOT_BE_EMPTY("user.validation.email.cannotBeEmpty"),
     USER_VALIDATION_EMAIL_CANNOT_BE_LONGER_THEN_CHARACTERS("user.validation.email.cannotBeLongerThenCharacters"),

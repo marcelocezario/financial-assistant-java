@@ -1,5 +1,6 @@
 package br.dev.mhc.financialassistant.transaction.dtos;
 
+import br.dev.mhc.financialassistant.category.dtos.CategoryDTO;
 import lombok.*;
 
 import java.io.Serializable;
@@ -16,7 +17,7 @@ public class TransactionCategoryDTO implements Serializable {
     @EqualsAndHashCode.Include
     private UUID transactionId;
     @EqualsAndHashCode.Include
-    private UUID categoryId;
+    private CategoryDTO category;
     private BigDecimal amount;
 
 }

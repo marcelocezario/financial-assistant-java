@@ -1,6 +1,7 @@
 package br.dev.mhc.financialassistant.transaction.mappers;
 
 import br.dev.mhc.financialassistant.category.entities.Category;
+import br.dev.mhc.financialassistant.category.mappers.CategoryMapper;
 import br.dev.mhc.financialassistant.transaction.dtos.TransactionCategoryDTO;
 import br.dev.mhc.financialassistant.transaction.entities.Transaction;
 import br.dev.mhc.financialassistant.transaction.entities.TransactionCategory;
@@ -10,7 +11,7 @@ public class TransactionCategoryMapper {
     public static TransactionCategory toEntity(TransactionCategoryDTO dto) {
         return TransactionCategory.builder()
                 .transaction(Transaction.builder().id(dto.getTransactionId()).build())
-                .category(Category.builder().id(dto.getCategoryId()).build())
+                .category(CategoryMapper.toEntity(dto.getCategory()))
                 .amount(dto.getAmount())
                 .build();
     }
@@ -18,7 +19,7 @@ public class TransactionCategoryMapper {
     public static TransactionCategoryDTO toDto(TransactionCategory entity) {
         return TransactionCategoryDTO.builder()
                 .transactionId(entity.getId().getTransaction().getId())
-                .categoryId(entity.getId().getCategory().getId())
+                .category(CategoryMapper.toDto(entity.getId().getCategory()))
                 .amount(entity.getAmount())
                 .build();
     }

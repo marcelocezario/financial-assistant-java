@@ -120,19 +120,19 @@ public class TransactionValidatorServiceImpl implements ITransactionValidatorSer
         List<TransactionCategoryDTO> withoutAmount = new ArrayList<>();
         AtomicReference<BigDecimal> totalAmount = new AtomicReference<>(BigDecimal.ZERO);
         categories.forEach(category -> {
-            if (isNull(category.getCategoryId())) {
+            if (isNull(category.getCategory()) || isNull(category.getCategory().getId())) {
                 withoutCategoryId.add(category);
                 try {
-                    findCategoryByIdAndUserIdService.find(category.getCategoryId(), validation.getObject().getUserId());
+                    findCategoryByIdAndUserIdService.find(category.getCategory().getId(), validation.getObject().getUserId());
                 } catch (ResourceNotFoundException e) {
-                    validation.addError(FIELD_NAME, categories, TRANSACTION_VALIDATION_CATEGORIES_CATEGORY_ID_DOES_NOT_EXIST.translate(category.getCategoryId(), category.getAmount()));
+                    validation.addError(FIELD_NAME, categories, TRANSACTION_VALIDATION_CATEGORIES_CATEGORY_ID_DOES_NOT_EXIST.translate(category.getCategory().getId(), category.getAmount()));
                 }
             }
             if (isNull(category.getAmount())) {
                 withoutAmount.add(category);
             } else {
                 if (category.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
-                    validation.addError(FIELD_NAME, categories, TRANSACTION_VALIDATION_CATEGORIES_AMOUNT_MUST_BE_GREATER_THAN_ZERO.translate(category.getCategoryId()));
+                    validation.addError(FIELD_NAME, categories, TRANSACTION_VALIDATION_CATEGORIES_AMOUNT_MUST_BE_GREATER_THAN_ZERO.translate(category.getCategory().getId()));
                 }
                 BigDecimal currentTotal;
                 BigDecimal newTotal;
@@ -154,17 +154,17 @@ public class TransactionValidatorServiceImpl implements ITransactionValidatorSer
     }
 
     private void validateWalledId(ValidationResultDTO<TransactionDTO> validation) {
-        final var FIELD_NAME = "walletId";
-        var walletId = validation.getObject().getWalletId();
+        final var FIELD_NAME = "wallet";
+        var wallet = validation.getObject().getWallet();
         var userId = validation.getObject().getUserId();
-        if (isNull(walletId)) {
-            validation.addError(FIELD_NAME, null, TRANSACTION_VALIDATION_WALLET_ID_CANNOT_BE_NULL.translate());
+        if (isNull(wallet)) {
+            validation.addError(FIELD_NAME, null, TRANSACTION_VALIDATION_WALLET_CANNOT_BE_NULL.translate());
             return;
         }
         try {
-            findWalletByIdAndUserIdService.find(walletId, userId);
+            findWalletByIdAndUserIdService.find(wallet.getId(), userId);
         } catch (ResourceNotFoundException e) {
-            validation.addError(FIELD_NAME, walletId, TRANSACTION_VALIDATION_WALLET_ID_DOES_NOT_EXIST.translate());
+            validation.addError(FIELD_NAME, wallet, TRANSACTION_VALIDATION_WALLET_DOES_NOT_EXIST.translate());
         }
     }
 
@@ -209,7 +209,10 @@ public class TransactionValidatorServiceImpl implements ITransactionValidatorSer
             validation.addError(FIELD_NAME, null, TRANSACTION_VALIDATION_METHOD_CANNOT_BE_NULL.translate());
         }
         try {
-            var wallet = findWalletByIdAndUserIdService.find(validation.getObject().getWalletId(), validation.getObject().getUserId());
+            if (isNull(validation.getObject().getWallet())) {
+                return;
+            }
+            var wallet = findWalletByIdAndUserIdService.find(validation.getObject().getWallet().getId(), validation.getObject().getUserId());
             if (wallet.getAvailableTransactionMethods().stream().noneMatch(m -> m.equals(method))) {
                 validation.addError(FIELD_NAME, method, TRANSACTION_VALIDATION_METHOD_IS_NOT_ACCEPTED_BY_WALLET.translate());
             }

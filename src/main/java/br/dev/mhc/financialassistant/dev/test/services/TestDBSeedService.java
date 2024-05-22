@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Profile("test")
 @Service
@@ -90,11 +91,13 @@ public class TestDBSeedService {
             );
             walletRepository.saveAll(wallets);
 
+            AtomicInteger count = new AtomicInteger(1);
+
             wallets.forEach(wallet -> {
                 var transaction1 = Transaction.builder()
                         .amount(new BigDecimal("100.00"))
                         .moment(LocalDate.now().atStartOfDay())
-                        .notes("Only test transaction")
+                        .notes("Only test transaction " + count.getAndIncrement())
                         .type(TransactionType.CREDIT.getCod())
                         .currentInstallment(1)
                         .wallet(wallet)
@@ -108,7 +111,7 @@ public class TestDBSeedService {
                 var transaction2 = Transaction.builder()
                         .amount(new BigDecimal("50.00"))
                         .moment(LocalDate.now().atStartOfDay())
-                        .notes("Only test transaction")
+                        .notes("Only test transaction " + count.getAndIncrement())
                         .type(TransactionType.DEBIT.getCod())
                         .currentInstallment(1)
                         .wallet(wallet)
