@@ -9,6 +9,8 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
+import static java.util.Objects.isNull;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -27,6 +29,13 @@ public class TransactionCategory {
     public TransactionCategory(Transaction transaction, Category category, BigDecimal amount) {
         this.id = new TransactionCategoryPK(transaction, category);
         this.amount = amount;
+    }
+
+    public Category getCategory() {
+        if (isNull(id)) {
+            return null;
+        }
+        return id.getCategory();
     }
 
 }

@@ -15,10 +15,12 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import static br.dev.mhc.financialassistant.wallet.enums.WalletType.*;
-import static java.util.Objects.isNull;
 
 @NoArgsConstructor
 @AllArgsConstructor

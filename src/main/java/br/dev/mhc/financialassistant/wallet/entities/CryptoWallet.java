@@ -10,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
-import static br.dev.mhc.financialassistant.transaction.enums.TransactionMethod.*;
+import static br.dev.mhc.financialassistant.transaction.enums.TransactionMethod.CRYPTO;
 import static br.dev.mhc.financialassistant.transaction.enums.TransactionMethod.OTHERS;
 
 @NoArgsConstructor

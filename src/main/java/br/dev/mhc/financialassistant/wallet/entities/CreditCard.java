@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static br.dev.mhc.financialassistant.transaction.enums.TransactionMethod.*;
-import static br.dev.mhc.financialassistant.transaction.enums.TransactionMethod.OTHERS;
 
 @NoArgsConstructor
 @AllArgsConstructor

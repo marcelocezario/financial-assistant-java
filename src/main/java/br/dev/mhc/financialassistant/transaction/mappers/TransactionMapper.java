@@ -1,6 +1,5 @@
 package br.dev.mhc.financialassistant.transaction.mappers;
 
-import br.dev.mhc.financialassistant.category.entities.Category;
 import br.dev.mhc.financialassistant.category.mappers.CategoryMapper;
 import br.dev.mhc.financialassistant.transaction.dtos.TransactionDTO;
 import br.dev.mhc.financialassistant.transaction.entities.Transaction;

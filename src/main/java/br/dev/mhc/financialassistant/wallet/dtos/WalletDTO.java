@@ -6,13 +6,19 @@ import br.dev.mhc.financialassistant.wallet.annotations.WalletDTOValidator;
 import br.dev.mhc.financialassistant.wallet.enums.WalletType;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import static br.dev.mhc.financialassistant.wallet.enums.WalletType.*;
 
