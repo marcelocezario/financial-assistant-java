@@ -149,7 +149,7 @@ public class TransactionValidatorServiceImpl implements ITransactionValidatorSer
             validation.addError(FIELD_NAME, withoutAmount, TRANSACTION_VALIDATION_CATEGORIES_CONTAINS_CATEGORIES_WITHOUT_AMOUNT.translate());
         }
         if (totalAmount.get().compareTo(transactionAmount) != 0) {
-            validation.addError(FIELD_NAME, withoutAmount, TRANSACTION_VALIDATION_CATEGORIES_SUM_DOES_NOT_MATCH_WITH_TOTAL.translate(totalAmount, transactionAmount));
+            validation.addError(FIELD_NAME, withoutAmount, TRANSACTION_VALIDATION_CATEGORIES_SUM_DOES_NOT_MATCH_WITH_TOTAL.translate(totalAmount.toString(), transactionAmount.toString()));
         }
     }
 

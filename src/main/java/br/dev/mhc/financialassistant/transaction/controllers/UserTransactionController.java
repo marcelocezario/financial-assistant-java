@@ -2,10 +2,7 @@ package br.dev.mhc.financialassistant.transaction.controllers;
 
 import br.dev.mhc.financialassistant.common.utils.URIUtils;
 import br.dev.mhc.financialassistant.transaction.dtos.TransactionDTO;
-import br.dev.mhc.financialassistant.transaction.services.interfaces.ICreateTransactionService;
-import br.dev.mhc.financialassistant.transaction.services.interfaces.IDeleteTransactionByIdAndUserIdService;
-import br.dev.mhc.financialassistant.transaction.services.interfaces.IFindTransactionsByUserIdService;
-import br.dev.mhc.financialassistant.transaction.services.interfaces.IUpdateTransactionService;
+import br.dev.mhc.financialassistant.transaction.services.interfaces.*;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,12 +22,14 @@ public class UserTransactionController {
     private final IUpdateTransactionService updateTransactionService;
     private final IDeleteTransactionByIdAndUserIdService deleteTransactionByIdAndUserIdService;
     private final IFindTransactionsByUserIdService findUserTransactionsService;
+    private final IFindTransactionByIdAndUserIdService findTransactionByIdAndUserIdService;
 
-    public UserTransactionController(ICreateTransactionService createTransactionService, IUpdateTransactionService updateTransactionService, IDeleteTransactionByIdAndUserIdService deleteTransactionByIdAndUserIdService, IFindTransactionsByUserIdService findUserTransactionsService) {
+    public UserTransactionController(ICreateTransactionService createTransactionService, IUpdateTransactionService updateTransactionService, IDeleteTransactionByIdAndUserIdService deleteTransactionByIdAndUserIdService, IFindTransactionsByUserIdService findUserTransactionsService, IFindTransactionByIdAndUserIdService findTransactionByIdAndUserIdService) {
         this.createTransactionService = createTransactionService;
         this.updateTransactionService = updateTransactionService;
         this.deleteTransactionByIdAndUserIdService = deleteTransactionByIdAndUserIdService;
         this.findUserTransactionsService = findUserTransactionsService;
+        this.findTransactionByIdAndUserIdService = findTransactionByIdAndUserIdService;
     }
 
     @PostMapping
@@ -54,6 +53,11 @@ public class UserTransactionController {
     @GetMapping
     ResponseEntity<Page<TransactionDTO>> getByUser(@PathVariable UUID userId, Pageable pageable) {
         return ResponseEntity.ok(findUserTransactionsService.findPageable(userId, pageable));
+    }
+
+    @GetMapping(value = "/{id}")
+    ResponseEntity<TransactionDTO> getById(@PathVariable UUID userId, @PathVariable UUID id) {
+        return ResponseEntity.ok(findTransactionByIdAndUserIdService.find(id, userId));
     }
 
 }

@@ -166,7 +166,7 @@ public class TestDBSeedService {
                 .balance(TestUtils.generateRandomBigDecimal(0, 1000, 2))
                 .currency(currency)
                 .name(Utils.capitalizeFirstLetter(type.name() + " " + currency.getCode() + " " + TestUtils.generateRandomInteger(0, 1000)))
-                .active(true)
+                .active(new Random().nextBoolean())
                 .user(user)
                 .build();
     }
