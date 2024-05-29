@@ -53,6 +53,7 @@ public enum TranslationKey {
     TRANSACTION_VALIDATION_CATEGORIES_CATEGORY_ID_DOES_NOT_EXIST("transaction.validation.categories.categoryIdDoesNotExist"),
     TRANSACTION_VALIDATION_CATEGORIES_CONTAINS_CATEGORIES_WITHOUT_AMOUNT("transaction.validation.categories.containsCategoriesWithoutAmount"),
     TRANSACTION_VALIDATION_CATEGORIES_CONTAINS_CATEGORIES_WITHOUT_CATEGORY_ID("transaction.validation.categories.containsCategoriesWithoutCategoryId"),
+    TRANSACTION_VALIDATION_CATEGORIES_CONTAINS_DUPLICATE_OBJECTS("transaction.validation.categories.containsDuplicateObjects"),
     TRANSACTION_VALIDATION_CATEGORIES_CONTAINS_NULL_OBJECTS("transaction.validation.categories.containsNullObjects"),
     TRANSACTION_VALIDATION_CATEGORIES_SUM_DOES_NOT_MATCH_WITH_TOTAL("transaction.validation.categories.sumDoesNotMatchWithTotal"),
     TRANSACTION_VALIDATION_CURRENT_INSTALLMENT_CANNOT_BE_NULL("transaction.validation.currentInstallment.cannotBeNull"),

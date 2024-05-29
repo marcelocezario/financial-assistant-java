@@ -116,6 +116,10 @@ public class TransactionValidatorServiceImpl implements ITransactionValidatorSer
             validation.addError(FIELD_NAME, categories, TRANSACTION_VALIDATION_CATEGORIES_CONTAINS_NULL_OBJECTS.translate());
             return;
         }
+        if (categories.stream().map(c -> c.getCategory().getId()).distinct().count() != categories.size()) {
+            validation.addError(FIELD_NAME, categories, TRANSACTION_VALIDATION_CATEGORIES_CONTAINS_DUPLICATE_OBJECTS.translate());
+        }
+
         List<TransactionCategoryDTO> withoutCategoryId = new ArrayList<>();
         List<TransactionCategoryDTO> withoutAmount = new ArrayList<>();
         AtomicReference<BigDecimal> totalAmount = new AtomicReference<>(BigDecimal.ZERO);

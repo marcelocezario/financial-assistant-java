@@ -8,6 +8,7 @@ import jakarta.persistence.Table;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import static java.util.Objects.isNull;
 
@@ -29,6 +30,16 @@ public class TransactionCategory {
     public TransactionCategory(Transaction transaction, Category category, BigDecimal amount) {
         this.id = new TransactionCategoryPK(transaction, category);
         this.amount = amount;
+    }
+
+    public UUID getCategoryId() {
+        if (isNull(id)) {
+            return null;
+        }
+        if (isNull(id.getCategory())) {
+            return null;
+        }
+        return id.getCategory().getId();
     }
 
     public Category getCategory() {

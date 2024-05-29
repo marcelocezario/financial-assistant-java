@@ -1,6 +1,5 @@
 package br.dev.mhc.financialassistant.transaction.entities;
 
-import br.dev.mhc.financialassistant.category.entities.Category;
 import br.dev.mhc.financialassistant.transaction.enums.TransactionMethod;
 import br.dev.mhc.financialassistant.transaction.enums.TransactionType;
 import br.dev.mhc.financialassistant.user.entities.User;
@@ -60,13 +59,28 @@ public class Transaction implements Serializable {
     @ManyToOne
     @JoinColumn(name = "wallet_id")
     private Wallet wallet;
+    @Setter(AccessLevel.NONE)
     @Builder.Default
-    @OneToMany(mappedBy = "id.transaction", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "id.transaction", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TransactionCategory> categories = new HashSet<>();
 
-    public void addCategory(Category category, BigDecimal amount) {
-        var transactionCategory = TransactionCategory.builder().category(category).transaction(this).amount(amount).build();
-        categories.add(transactionCategory);
+    public void setCategories(Set<TransactionCategory> categories) {
+        this.categories.forEach(
+                category ->
+                        categories.stream()
+                                .filter(c -> c.getCategoryId().equals(category.getCategoryId()))
+                                .findFirst()
+                                .ifPresent(c -> category.setAmount(c.getAmount()))
+        );
+        this.categories.removeIf(category ->
+                categories.stream().noneMatch(c -> c.getCategoryId().equals(category.getCategoryId()))
+        );
+        categories.stream()
+                .filter(category -> this.categories.stream().noneMatch(c -> c.getCategoryId().equals(category.getCategoryId())))
+                .forEach(category -> {
+                    category.getId().setTransaction(this);
+                    this.categories.add(category);
+                });
     }
 
     public TransactionType getType() {
