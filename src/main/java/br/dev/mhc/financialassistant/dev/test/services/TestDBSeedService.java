@@ -174,7 +174,7 @@ public class TestDBSeedService {
     private Transaction getRandomTransaction(Wallet wallet, List<Category> categories) {
         Transaction transaction = Transaction.builder()
                 .amount(TestUtils.generateRandomBigDecimal(10, 1500, 2))
-                .moment(TestUtils.generateRandomLocalDateTime(2023, 2024))
+                .moment(TestUtils.generateRandomLocalDateTime(2023, 2023))
                 .notes(TestUtils.generateLoremIpsum(TestUtils.generateRandomInteger(0, 20)))
                 .type(getRandomTransactionType().getCod())
                 .currentInstallment(1)

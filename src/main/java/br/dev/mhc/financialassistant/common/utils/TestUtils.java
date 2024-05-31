@@ -29,8 +29,8 @@ public class TestUtils {
     }
 
     public static LocalDateTime generateRandomLocalDateTime(int startYear, int endYear) {
-        if (startYear >= endYear) {
-            throw new IllegalArgumentException("Ano inicial deve ser menor que ano final");
+        if (startYear > endYear) {
+            throw new IllegalArgumentException("Start year must be greater than end year");
         }
         int year = random.nextInt(endYear - startYear + 1) + startYear;
         int month = random.nextInt(12) + 1;
