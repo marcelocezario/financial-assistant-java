@@ -59,8 +59,17 @@ public class SecurityConfig {
                     .cors(cors -> cors
                             .configurationSource(request -> {
                                 CorsConfiguration config = new CorsConfiguration();
-                                config.setAllowedOrigins(List.of("http://localhost:4200"));
                                 config.setAllowedOrigins(List.of("*"));
+                                config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+                                config.setAllowedHeaders(List.of("*"));
+                                return config;
+                            }));
+        } else if (Arrays.asList(environment.getActiveProfiles()).contains("heroku")) {
+            http
+                    .cors(cors -> cors
+                            .configurationSource(request -> {
+                                CorsConfiguration config = new CorsConfiguration();
+                                config.setAllowedOrigins(List.of("https://mhc-financas.netlify.app"));
                                 config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
                                 config.setAllowedHeaders(List.of("*"));
                                 return config;
