@@ -2,7 +2,7 @@ create table transactions (
     id uuid not null default RANDOM_UUID(),
     amount numeric(13,6) not null,
     moment timestamp without time zone not null,
-    notes varchar(255) not null,
+    notes varchar(255),
     type numeric(1) not null,
     method numeric(1) not null,
     current_installment numeric(2) not null,
