@@ -221,7 +221,6 @@ public class TransactionValidatorServiceImpl implements ITransactionValidatorSer
                 validation.addError(FIELD_NAME, method, TRANSACTION_VALIDATION_METHOD_IS_NOT_ACCEPTED_BY_WALLET.translate());
             }
         } catch (ResourceNotFoundException e) {
-            return;
         }
     }
 

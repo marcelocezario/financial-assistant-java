@@ -5,6 +5,8 @@ import br.dev.mhc.financialassistant.category.repositories.CategoryRepository;
 import br.dev.mhc.financialassistant.common.utils.TestUtils;
 import br.dev.mhc.financialassistant.common.utils.Utils;
 import br.dev.mhc.financialassistant.currency.repositories.CurrencyRepository;
+import br.dev.mhc.financialassistant.featuresrequests.entities.FeatureRequest;
+import br.dev.mhc.financialassistant.featuresrequests.repositories.FeatureRequestRepository;
 import br.dev.mhc.financialassistant.transaction.entities.Transaction;
 import br.dev.mhc.financialassistant.transaction.entities.TransactionCategory;
 import br.dev.mhc.financialassistant.transaction.enums.TransactionMethod;
@@ -31,17 +33,55 @@ public class TestDBSeedService {
     private final CategoryRepository categoryRepository;
     private final WalletRepository walletRepository;
     private final TransactionRepository transactionRepository;
+    private final FeatureRequestRepository featureRequestRepository;
 
-    public TestDBSeedService(UserRepository userRepository, CurrencyRepository currencyRepository, CategoryRepository categoryRepository, WalletRepository walletRepository, TransactionRepository transactionRepository) {
+    public TestDBSeedService(UserRepository userRepository, CurrencyRepository currencyRepository, CategoryRepository categoryRepository, WalletRepository walletRepository, TransactionRepository transactionRepository, FeatureRequestRepository featureRequestRepository) {
         this.userRepository = userRepository;
         this.currencyRepository = currencyRepository;
         this.categoryRepository = categoryRepository;
         this.walletRepository = walletRepository;
         this.transactionRepository = transactionRepository;
+        this.featureRequestRepository = featureRequestRepository;
     }
 
     public void databaseSeeding() {
         userRepository.findAll().forEach(this::seedUserData);
+        seedFeatureRequestsData();
+    }
+
+    private void seedFeatureRequestsData() {
+        List<FeatureRequest> featureRequests = new ArrayList<>();
+        var request1 = FeatureRequest.builder()
+                .description("Habilitar envio de e-mail")
+                .rating(5)
+                .developed(false)
+                .approved(false)
+                .active(false)
+                .build();
+        request1.addTranslation(
+                "pt-br",
+                "Habilitar envio de e-mail",
+                "Habilitar envio de e-mail para criação de usuário e recuperação de senha"
+        );
+        request1.addTranslation(
+                "en-us",
+                "Enable email sending",
+                "Enable email sending for user creation and password recovery"
+        );
+        featureRequests.add(request1);
+
+        var request2 = FeatureRequest.builder()
+                .description("Teste de aprovação")
+                .rating(0)
+                .developed(false)
+                .approved(false)
+                .active(true)
+                .build();
+        request2.addTranslation("pt-br", "Teste aprovação", "Testando aprovação");
+        request2.addTranslation("en-us", "Testing approval", "Testing approval");
+        featureRequests.add(request2);
+
+        featureRequests = featureRequestRepository.saveAll(featureRequests);
     }
 
     private void seedUserData(User user) {
