@@ -12,6 +12,7 @@ public class TransactionCategoryMapper {
                 .transaction(Transaction.builder().id(dto.getTransactionId()).build())
                 .category(CategoryMapper.toEntity(dto.getCategory()))
                 .amount(dto.getAmount())
+                .type(dto.getType())
                 .build();
     }
 
@@ -20,6 +21,7 @@ public class TransactionCategoryMapper {
                 .transactionId(entity.getId().getTransaction().getId())
                 .category(CategoryMapper.toDto(entity.getId().getCategory()))
                 .amount(entity.getAmount())
+                .type(entity.getType())
                 .build();
     }
 }

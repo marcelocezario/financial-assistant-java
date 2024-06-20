@@ -1,5 +1,5 @@
 create table users (
-    id uuid not null default RANDOM_UUID(),
+    id uuid not null default random_uuid(),
     nickname varchar(255),
     email varchar(255) not null unique,
     password varchar(255) not null,

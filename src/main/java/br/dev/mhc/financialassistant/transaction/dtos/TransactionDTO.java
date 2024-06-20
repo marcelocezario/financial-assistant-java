@@ -9,6 +9,7 @@ import lombok.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +26,8 @@ public class TransactionDTO implements Serializable {
     @EqualsAndHashCode.Include
     private UUID id;
     private BigDecimal amount;
-    private LocalDateTime moment;
+    private LocalDate dueDate;
+    private LocalDateTime paymentMoment;
     private String notes;
     private TransactionType type;
     private TransactionMethod method;
@@ -34,6 +36,7 @@ public class TransactionDTO implements Serializable {
     private Instant createdAt;
     private Instant updatedAt;
     private UUID userId;
+    private UUID parentId;
     private WalletDTO wallet;
     @Setter(AccessLevel.NONE)
     @Builder.Default

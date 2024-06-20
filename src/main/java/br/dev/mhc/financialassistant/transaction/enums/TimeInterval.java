@@ -6,27 +6,30 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 @Getter
-public enum TransactionType {
+public enum TimeInterval {
 
-    INCOME(1, "income"),
-    EXPENSE(2, "expense");
+    DAILY(1, "daily"),
+    WEEKLY(2, "weekly"),
+    BIWEEKLY(3, "biweekly"),
+    MONTHLY(4, "monthly"),
+    YEARLY(5, "yearly"),
+    ;
 
     final int cod;
     final String description;
 
-    TransactionType(int cod, String description) {
+    TimeInterval(int cod, String description) {
         this.cod = cod;
         this.description = description;
     }
 
-    public static TransactionType toEnum(Integer cod) {
+    public static TimeInterval toEnum(Integer cod) {
         if (Objects.isNull(cod)) {
             return null;
         }
-        return Stream.of(TransactionType.values())
+        return Stream.of(TimeInterval.values())
                 .filter(r -> r.getCod() == cod)
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new);
     }
-
 }

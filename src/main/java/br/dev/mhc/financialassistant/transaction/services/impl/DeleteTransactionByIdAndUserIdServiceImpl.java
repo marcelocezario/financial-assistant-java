@@ -30,7 +30,7 @@ public class DeleteTransactionByIdAndUserIdServiceImpl implements IDeleteTransac
         requireNonNull(transactionId);
         var transaction = repository.findByIdAndUserId(transactionId, userId)
                 .orElseThrow(() -> new ResourceNotFoundException(transactionId, Transaction.class));
-        walletTransactionService.adjustBalance(transaction.getWallet().getId(), transaction.getAmount(), TransactionType.DEBIT.equals(transaction.getType()));
+        walletTransactionService.adjustBalance(transaction.getWallet().getId(), transaction.getAmount(), TransactionType.EXPENSE.equals(transaction.getType()));
         repository.delete(transaction);
     }
 }

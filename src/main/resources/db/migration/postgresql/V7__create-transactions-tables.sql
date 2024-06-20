@@ -20,6 +20,7 @@ create table transactions_categories (
     transaction_id uuid not null,
     category_id uuid not null,
     amount numeric(13,6) not null,
+    type numeric(1) not null,
     primary key (transaction_id, category_id),
     constraint fk_transactions_categories_transactions foreign key (transaction_id) references transactions,
     constraint fk_transactions_categories_categories foreign key (category_id) references categories

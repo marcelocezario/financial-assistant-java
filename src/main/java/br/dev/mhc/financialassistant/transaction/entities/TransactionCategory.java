@@ -1,6 +1,7 @@
 package br.dev.mhc.financialassistant.transaction.entities;
 
 import br.dev.mhc.financialassistant.category.entities.Category;
+import br.dev.mhc.financialassistant.transaction.enums.TransactionType;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -25,11 +26,15 @@ public class TransactionCategory {
     private TransactionCategoryPK id;
     @Column(name = "amount")
     private BigDecimal amount;
+    @Getter(AccessLevel.NONE)
+    @Column(name = "type")
+    private Integer type;
 
     @Builder
-    public TransactionCategory(Transaction transaction, Category category, BigDecimal amount) {
+    public TransactionCategory(Transaction transaction, Category category, BigDecimal amount, TransactionType type) {
         this.id = new TransactionCategoryPK(transaction, category);
         this.amount = amount;
+        this.type = type.getCod();
     }
 
     public UUID getCategoryId() {
@@ -47,6 +52,10 @@ public class TransactionCategory {
             return null;
         }
         return id.getCategory();
+    }
+
+    public TransactionType getType() {
+        return TransactionType.toEnum(this.type);
     }
 
 }

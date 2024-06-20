@@ -97,7 +97,8 @@ public class TestDBSeedService {
                 transactions.add(getRandomTransaction(wallet, categories));
             }
         }
-        transactions = transactionRepository.saveAll(transactions);
+        // TODO adicionar transaction parent
+//        transactions = transactionRepository.saveAll(transactions);
     }
 
     private String[] getCategoryNames() {
@@ -214,7 +215,8 @@ public class TestDBSeedService {
     private Transaction getRandomTransaction(Wallet wallet, List<Category> categories) {
         Transaction transaction = Transaction.builder()
                 .amount(TestUtils.generateRandomBigDecimal(10, 1500, 2))
-                .moment(TestUtils.generateRandomLocalDateTime(2023, 2023))
+                .dueDate(TestUtils.generateRandomLocalDate(2023, 2023))
+                .paymentMoment(TestUtils.generateRandomLocalDateTime(2023, 2023))
                 .notes(TestUtils.generateLoremIpsum(TestUtils.generateRandomInteger(0, 20)))
                 .type(getRandomTransactionType().getCod())
                 .currentInstallment(1)
@@ -235,6 +237,7 @@ public class TestDBSeedService {
                     .amount(amount)
                     .transaction(transaction)
                     .category(category.get())
+                    .type(transaction.getType())
                     .build();
             transactionCategories.add(transactionCategory);
             amountDiff = transaction.getAmount().subtract(

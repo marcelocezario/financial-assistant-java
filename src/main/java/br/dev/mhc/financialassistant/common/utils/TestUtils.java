@@ -2,6 +2,7 @@ package br.dev.mhc.financialassistant.common.utils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.Random;
@@ -26,6 +27,18 @@ public class TestUtils {
 
         BigDecimal result = BigDecimal.valueOf(integerPart + (decimalPart / 100.0));
         return result.setScale(scale, RoundingMode.HALF_UP);
+    }
+
+    public static LocalDate generateRandomLocalDate(int startYear, int endYear) {
+        if (startYear > endYear) {
+            throw new IllegalArgumentException("Start year must be greater than end year");
+        }
+        int year = random.nextInt(endYear - startYear + 1) + startYear;
+        int month = random.nextInt(12) + 1;
+        int daysInMonth = YearMonth.of(year, month).lengthOfMonth();
+        int day = random.nextInt(daysInMonth) + 1;
+
+        return LocalDate.of(year, month, day);
     }
 
     public static LocalDateTime generateRandomLocalDateTime(int startYear, int endYear) {

@@ -2,10 +2,13 @@ package br.dev.mhc.financialassistant.transaction.mappers;
 
 import br.dev.mhc.financialassistant.transaction.dtos.TransactionDTO;
 import br.dev.mhc.financialassistant.transaction.entities.Transaction;
+import br.dev.mhc.financialassistant.transaction.entities.TransactionParent;
 import br.dev.mhc.financialassistant.user.entities.User;
 import br.dev.mhc.financialassistant.wallet.mappers.WalletMapper;
 
 import java.util.stream.Collectors;
+
+import static java.util.Objects.nonNull;
 
 public class TransactionMapper {
 
@@ -13,7 +16,8 @@ public class TransactionMapper {
         var entity = Transaction.builder()
                 .id(dto.getId())
                 .amount(dto.getAmount())
-                .moment(dto.getMoment())
+                .dueDate(dto.getDueDate())
+                .paymentMoment(dto.getPaymentMoment())
                 .notes(dto.getNotes())
                 .type(dto.getType().getCod())
                 .method(dto.getMethod().getCod())
@@ -23,6 +27,7 @@ public class TransactionMapper {
                 .updatedAt(dto.getUpdatedAt())
                 .user(new User(dto.getUserId()))
                 .wallet(WalletMapper.toEntity(dto.getWallet()))
+                .parent(TransactionParent.builder().id(dto.getParentId()).build())
                 .build();
         entity.setCategories(dto.getCategories().stream().map(TransactionCategoryMapper::toEntity).collect(Collectors.toSet()));
         return entity;
@@ -32,7 +37,8 @@ public class TransactionMapper {
         return TransactionDTO.builder()
                 .id(entity.getId())
                 .amount(entity.getAmount())
-                .moment(entity.getMoment())
+                .dueDate(entity.getDueDate())
+                .paymentMoment(entity.getPaymentMoment())
                 .notes(entity.getNotes())
                 .type(entity.getType())
                 .method(entity.getMethod())
@@ -42,6 +48,7 @@ public class TransactionMapper {
                 .updatedAt(entity.getUpdatedAt())
                 .userId(entity.getUser().getId())
                 .wallet(WalletMapper.toDto(entity.getWallet()))
+                .parentId(nonNull(entity.getParent()) ? entity.getParent().getId() : null)
                 .categories(entity.getCategories().stream().map(TransactionCategoryMapper::toDto).collect(Collectors.toSet()))
                 .build();
     }

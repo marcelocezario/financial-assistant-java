@@ -1,6 +1,7 @@
 package br.dev.mhc.financialassistant.transaction.dtos;
 
 import br.dev.mhc.financialassistant.category.dtos.CategoryDTO;
+import br.dev.mhc.financialassistant.transaction.enums.TransactionType;
 import lombok.*;
 
 import java.io.Serializable;
@@ -19,5 +20,6 @@ public class TransactionCategoryDTO implements Serializable {
     @EqualsAndHashCode.Include
     private CategoryDTO category;
     private BigDecimal amount;
+    private TransactionType type;
 
 }

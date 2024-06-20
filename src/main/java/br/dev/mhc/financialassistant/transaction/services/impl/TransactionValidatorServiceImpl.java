@@ -54,7 +54,8 @@ public class TransactionValidatorServiceImpl implements ITransactionValidatorSer
         var validation = new ValidationResultDTO<>(transactionDTO);
 
         validateAmount(validation);
-        validateMoment(validation);
+        validateDueDate(validation);
+        validatePaymentMoment(validation);
         validateNotes(validation);
         validateType(validation);
         validateMethod(validation);
@@ -142,7 +143,11 @@ public class TransactionValidatorServiceImpl implements ITransactionValidatorSer
                 BigDecimal newTotal;
                 do {
                     currentTotal = totalAmount.get();
-                    newTotal = currentTotal.add(category.getAmount());
+                    if (category.getType().equals(validation.getObject().getType())) {
+                        newTotal = currentTotal.add(category.getAmount());
+                    } else {
+                        newTotal = currentTotal.subtract(category.getAmount());
+                    }
                 } while (!totalAmount.compareAndSet(currentTotal, newTotal));
             }
         });
@@ -244,16 +249,23 @@ public class TransactionValidatorServiceImpl implements ITransactionValidatorSer
         }
     }
 
-    private void validateMoment(ValidationResultDTO<TransactionDTO> validation) {
-        final var FIELD_NAME = "moment";
-        var moment = validation.getObject().getMoment();
+    private void validatePaymentMoment(ValidationResultDTO<TransactionDTO> validation) {
+        final var FIELD_NAME = "paymentMoment";
+        var paymentMoment = validation.getObject().getPaymentMoment();
         final var MIN_MOMENT = LocalDateTime.now().minusYears(2);
-        if (isNull(moment)) {
-            validation.addError(FIELD_NAME, null, TRANSACTION_VALIDATION_MOMENT_CANNOT_BE_NULL.translate());
+        if (isNull(paymentMoment)) {
             return;
         }
-        if (MIN_MOMENT.isAfter(moment)) {
-            validation.addError(FIELD_NAME, moment, TRANSACTION_VALIDATION_MOMENT_CANNOT_BE_BEFORE_DATE.translate(MIN_MOMENT));
+        if (MIN_MOMENT.isAfter(paymentMoment)) {
+            validation.addError(FIELD_NAME, paymentMoment, TRANSACTION_VALIDATION_PAYMENT_MOMENT_CANNOT_BE_BEFORE_DATE.translate(MIN_MOMENT));
+        }
+    }
+
+    private void validateDueDate(ValidationResultDTO<TransactionDTO> validation) {
+        final var FIELD_NAME = "dueDate";
+        var dueDate = validation.getObject().getDueDate();
+        if (isNull(dueDate)) {
+            validation.addError(FIELD_NAME, null, TRANSACTION_VALIDATION_DUE_DATE_CANNOT_BE_NULL.translate());
         }
     }
 

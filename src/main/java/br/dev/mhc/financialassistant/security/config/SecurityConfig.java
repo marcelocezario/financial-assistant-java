@@ -69,7 +69,7 @@ public class SecurityConfig {
                     .cors(cors -> cors
                             .configurationSource(request -> {
                                 CorsConfiguration config = new CorsConfiguration();
-                                config.setAllowedOrigins(List.of("https://mhc-financas.netlify.app"));
+                                config.setAllowedOrigins(List.of("https://mhc-financas.netlify.app", "http://localhost:4200"));
                                 config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
                                 config.setAllowedHeaders(List.of("*"));
                                 return config;

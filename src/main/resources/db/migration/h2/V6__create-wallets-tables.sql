@@ -1,5 +1,5 @@
 create table wallets (
-    id uuid not null default RANDOM_UUID(),
+    id uuid not null default random_uuid(),
     name varchar(255) not null,
     balance numeric(13,6) not null,
     active boolean,

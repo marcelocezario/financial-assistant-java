@@ -51,16 +51,17 @@ public class UpdateTransactionServiceImpl implements IUpdateTransactionService {
 
     private void updateData(Transaction transactionEntity, TransactionDTO transactionDTO) {
         walletTransactionService.adjustBalance(
-                transactionEntity.getWallet().getId(), transactionEntity.getAmount(), TransactionType.DEBIT.equals(transactionEntity.getType())
+                transactionEntity.getWallet().getId(), transactionEntity.getAmount(), TransactionType.EXPENSE.equals(transactionEntity.getType())
         );
         transactionEntity.setType(transactionDTO.getType().getCod());
         transactionEntity.setAmount(transactionDTO.getAmount());
-        transactionEntity.setMoment(transactionDTO.getMoment());
+        transactionEntity.setDueDate(transactionDTO.getDueDate());
+        transactionEntity.setPaymentMoment(transactionDTO.getPaymentMoment());
         transactionEntity.setNotes(transactionDTO.getNotes());
         transactionEntity.setCurrentInstallment(transactionDTO.getCurrentInstallment());
         transactionEntity.setCategories(transactionDTO.getCategories().stream().map(TransactionCategoryMapper::toEntity).collect(Collectors.toSet()));
         walletTransactionService.adjustBalance(
-                transactionEntity.getWallet().getId(), transactionDTO.getAmount(), TransactionType.CREDIT.equals(transactionEntity.getType())
+                transactionEntity.getWallet().getId(), transactionDTO.getAmount(), TransactionType.INCOME.equals(transactionEntity.getType())
         );
     }
 }

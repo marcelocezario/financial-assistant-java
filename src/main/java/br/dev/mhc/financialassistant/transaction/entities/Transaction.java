@@ -12,6 +12,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -31,21 +32,23 @@ public class Transaction implements Serializable {
     @EqualsAndHashCode.Include
     @Column(name = "id")
     private UUID id;
-    @Column(name = "amount")
+    @Column(name = "amount", nullable = false)
     private BigDecimal amount;
-    @Column(name = "moment")
-    private LocalDateTime moment;
+    @Column(name = "due_date", nullable = false)
+    private LocalDate dueDate;
+    @Column(name = "payment_moment")
+    private LocalDateTime paymentMoment;
     @Column(name = "notes")
     private String notes;
     @Getter(AccessLevel.NONE)
-    @Column(name = "type")
+    @Column(name = "type", nullable = false)
     private Integer type;
     @Getter(AccessLevel.NONE)
-    @Column(name = "method")
+    @Column(name = "method", nullable = false)
     private Integer method;
-    @Column(name = "current_installment")
+    @Column(name = "current_installment", nullable = false)
     private Integer currentInstallment;
-    @Column(name = "active")
+    @Column(name = "active", nullable = false)
     private boolean active;
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -59,6 +62,9 @@ public class Transaction implements Serializable {
     @ManyToOne
     @JoinColumn(name = "wallet_id")
     private Wallet wallet;
+    @ManyToOne
+    @JoinColumn(name = "transaction_parent_id")
+    private TransactionParent parent;
     @Setter(AccessLevel.NONE)
     @Builder.Default
     @OneToMany(mappedBy = "id.transaction", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)

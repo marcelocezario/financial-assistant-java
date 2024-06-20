@@ -34,7 +34,7 @@ public class CreateTransactionServiceImpl implements ICreateTransactionService {
         transactionDTO.setId(null);
         transactionDTO.setActive(true);
         validatorService.validate(transactionDTO).isValidOrThrow(AppValidationException::new);
-        walletTransactionService.adjustBalance(transactionDTO.getWallet().getId(), transactionDTO.getAmount(), TransactionType.CREDIT.equals(transactionDTO.getType()));
+        walletTransactionService.adjustBalance(transactionDTO.getWallet().getId(), transactionDTO.getAmount(), TransactionType.INCOME.equals(transactionDTO.getType()));
         var transaction = toEntity(transactionDTO);
         transaction = repository.save(transaction);
         return toDto(transaction);
