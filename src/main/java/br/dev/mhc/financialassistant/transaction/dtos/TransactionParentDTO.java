@@ -16,8 +16,8 @@ public class TransactionParentDTO implements Serializable {
 
     private UUID id;
     private LocalDateTime eventMoment;
-    private String notes;
     private Integer totalOfInstallments;
+    private String notes;
     private boolean active;
     private Instant createdAt;
     private Instant updatedAt;

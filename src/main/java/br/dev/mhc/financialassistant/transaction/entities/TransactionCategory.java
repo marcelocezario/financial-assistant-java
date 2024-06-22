@@ -8,7 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.UUID;
 
 import static java.util.Objects.isNull;
@@ -19,7 +21,7 @@ import static java.util.Objects.isNull;
 @Setter
 @Entity
 @Table(name = "transactions_categories")
-public class TransactionCategory {
+public class TransactionCategory implements Serializable {
 
     @EmbeddedId
     @EqualsAndHashCode.Include
@@ -37,11 +39,15 @@ public class TransactionCategory {
         this.type = type.getCod();
     }
 
-    public UUID getCategoryId() {
-        if (isNull(id)) {
+    public UUID getTransactionId() {
+        if (isNull(id) || isNull(id.getTransaction())) {
             return null;
         }
-        if (isNull(id.getCategory())) {
+        return id.getTransaction().getId();
+    }
+
+    public UUID getCategoryId() {
+        if (isNull(id) || isNull(id.getCategory())) {
             return null;
         }
         return id.getCategory().getId();

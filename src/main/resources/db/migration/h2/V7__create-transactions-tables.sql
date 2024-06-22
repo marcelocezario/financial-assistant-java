@@ -1,7 +1,8 @@
 create table transactions_parents (
     id uuid not null default random_uuid(),
-    notes varchar(255),
+    event_moment timestamp without time zone not null,
     total_of_installments numeric(3) not null,
+    notes varchar(255),
     active boolean not null,
     created_at timestamp(6) with time zone,
     updated_at timestamp(6) with time zone,

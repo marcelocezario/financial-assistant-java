@@ -26,10 +26,10 @@ public class TransactionParent implements Serializable {
     private UUID id;
     @Column(name = "event_moment")
     private LocalDateTime eventMoment;
-    @Column(name = "notes")
-    private String notes;
     @Column(name = "total_of_installments")
     private Integer totalOfInstallments;
+    @Column(name = "notes")
+    private String notes;
     @Column(name = "active", nullable = false)
     private boolean active;
     @CreationTimestamp

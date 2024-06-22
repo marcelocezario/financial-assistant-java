@@ -9,8 +9,10 @@ import br.dev.mhc.financialassistant.featuresrequests.entities.FeatureRequest;
 import br.dev.mhc.financialassistant.featuresrequests.repositories.FeatureRequestRepository;
 import br.dev.mhc.financialassistant.transaction.entities.Transaction;
 import br.dev.mhc.financialassistant.transaction.entities.TransactionCategory;
+import br.dev.mhc.financialassistant.transaction.entities.TransactionParent;
 import br.dev.mhc.financialassistant.transaction.enums.TransactionMethod;
 import br.dev.mhc.financialassistant.transaction.enums.TransactionType;
+import br.dev.mhc.financialassistant.transaction.repositories.TransactionParentRepository;
 import br.dev.mhc.financialassistant.transaction.repositories.TransactionRepository;
 import br.dev.mhc.financialassistant.user.entities.User;
 import br.dev.mhc.financialassistant.user.repositories.UserRepository;
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 @Profile("test")
 @Service
@@ -33,14 +36,16 @@ public class TestDBSeedService {
     private final CategoryRepository categoryRepository;
     private final WalletRepository walletRepository;
     private final TransactionRepository transactionRepository;
+    private final TransactionParentRepository transactionParentRepository;
     private final FeatureRequestRepository featureRequestRepository;
 
-    public TestDBSeedService(UserRepository userRepository, CurrencyRepository currencyRepository, CategoryRepository categoryRepository, WalletRepository walletRepository, TransactionRepository transactionRepository, FeatureRequestRepository featureRequestRepository) {
+    public TestDBSeedService(UserRepository userRepository, CurrencyRepository currencyRepository, CategoryRepository categoryRepository, WalletRepository walletRepository, TransactionRepository transactionRepository, TransactionParentRepository transactionParentRepository, FeatureRequestRepository featureRequestRepository) {
         this.userRepository = userRepository;
         this.currencyRepository = currencyRepository;
         this.categoryRepository = categoryRepository;
         this.walletRepository = walletRepository;
         this.transactionRepository = transactionRepository;
+        this.transactionParentRepository = transactionParentRepository;
         this.featureRequestRepository = featureRequestRepository;
     }
 
@@ -94,11 +99,12 @@ public class TestDBSeedService {
         List<Transaction> transactions = new ArrayList<>();
         for (Wallet wallet : wallets) {
             for (int i = 0; i < 100; i++) {
-                transactions.add(getRandomTransaction(wallet, categories));
+                var parent = transactionParentRepository.save(getRandomTransactionParent());
+                var randomTransactions = getRandomTransactions(wallet, categories, parent);
+                transactions.addAll(randomTransactions);
             }
         }
-        // TODO adicionar transaction parent
-//        transactions = transactionRepository.saveAll(transactions);
+        transactions = transactionRepository.saveAll(transactions);
     }
 
     private String[] getCategoryNames() {
@@ -212,40 +218,103 @@ public class TestDBSeedService {
                 .build();
     }
 
-    private Transaction getRandomTransaction(Wallet wallet, List<Category> categories) {
-        Transaction transaction = Transaction.builder()
-                .amount(TestUtils.generateRandomBigDecimal(10, 1500, 2))
-                .dueDate(TestUtils.generateRandomLocalDate(2023, 2023))
-                .paymentMoment(TestUtils.generateRandomLocalDateTime(2023, 2023))
+    private TransactionParent getRandomTransactionParent() {
+        return TransactionParent.builder()
+                .eventMoment(TestUtils.generateRandomLocalDateTime(2023, 2023))
                 .notes(TestUtils.generateLoremIpsum(TestUtils.generateRandomInteger(0, 20)))
-                .type(getRandomTransactionType().getCod())
-                .currentInstallment(1)
-                .wallet(wallet)
-                .user(wallet.getUser())
-                .method(getRandomTransactionMethod(wallet).getCod())
+                .totalOfInstallments(TestUtils.generateRandomInteger(1, 3))
+                .active(true)
                 .build();
-        Set<TransactionCategory> transactionCategories = new HashSet<>();
-        var amountDiff = transaction.getAmount();
+    }
+
+    private List<Transaction> getRandomTransactions(Wallet wallet, List<Category> categories, TransactionParent parent) {
+        List<Transaction> transactions = new ArrayList<>();
+
+        var amount = TestUtils.generateRandomBigDecimal(10, 1500, 2);
+        var dueDate = parent.getEventMoment().toLocalDate();
+        var paymentMoment = parent.getEventMoment();
+        var notes = TestUtils.generateLoremIpsum(TestUtils.generateRandomInteger(0, 20));
+        var type = getRandomTransactionType();
+        var user = wallet.getUser();
+        var method = getRandomTransactionMethod(wallet).getCod();
+        var valueCategories = buildTransactionCategories(amount, type, categories);
+
+        for (int i = 1; i <= parent.getTotalOfInstallments(); i++) {
+            Transaction transaction = Transaction.builder()
+                    .amount(amount)
+                    .dueDate(dueDate)
+                    .paymentMoment(paymentMoment)
+                    .notes(notes)
+                    .type(type.getCod())
+                    .currentInstallment(i)
+                    .wallet(wallet)
+                    .user(user)
+                    .method(method)
+                    .parent(parent)
+                    .active(true)
+                    .build();
+            transaction.setCategories(valueCategories.entrySet().stream()
+                    .map(entry -> TransactionCategory.builder()
+                            .amount(entry.getValue())
+                            .transaction(transaction)
+                            .category(entry.getKey())
+                            .type(type).build())
+                    .collect(Collectors.toSet())
+            );
+            transactions.add(transaction);
+            dueDate = dueDate.plusMonths(1L);
+            paymentMoment = paymentMoment.plusMonths(1L);
+        }
+
+        return transactions;
+//
+//
+//        Transaction transaction = Transaction.builder()
+//                .amount(TestUtils.generateRandomBigDecimal(10, 1500, 2))
+//                .dueDate(TestUtils.generateRandomLocalDate(2023, 2023))
+//                .paymentMoment(TestUtils.generateRandomLocalDateTime(2023, 2023))
+//                .notes(TestUtils.generateLoremIpsum(TestUtils.generateRandomInteger(0, 20)))
+//                .type(getRandomTransactionType().getCod())
+//                .currentInstallment(1)
+//                .wallet(wallet)
+//                .user(wallet.getUser())
+//                .method(getRandomTransactionMethod(wallet).getCod())
+//                .build();
+//        Set<TransactionCategory> transactionCategories = new HashSet<>();
+//        var amountDiff = transaction.getAmount();
+//        do {
+//            var randomBigDecimal = TestUtils.generateRandomBigDecimal(1, 1000, 2);
+//            var amount = randomBigDecimal.compareTo(amountDiff) > 0 ? amountDiff : randomBigDecimal;
+//            final var category = new AtomicReference<>(categories.get(TestUtils.generateRandomInteger(0, categories.size() - 1)));
+//            while (transactionCategories.stream().map(TransactionCategory::getCategory).anyMatch(c -> c.equals(category.get()))) {
+//                category.set(categories.get(TestUtils.generateRandomInteger(0, categories.size() - 1)));
+//            }
+//            var transactionCategory = TransactionCategory.builder()
+//                    .amount(amount)
+//                    .transaction(transaction)
+//                    .category(category.get())
+//                    .type(transaction.getType())
+//                    .build();
+//            transactionCategories.add(transactionCategory);
+//            amountDiff = transaction.getAmount().subtract(
+//                    transactionCategories.stream().map(TransactionCategory::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add)
+//            );
+//        } while (amountDiff.compareTo(BigDecimal.ZERO) > 0);
+//        transaction.setCategories(transactionCategories);
+//        return transaction;
+    }
+
+    private Map<Category, BigDecimal> buildTransactionCategories(BigDecimal amount, TransactionType type, List<Category> categories) {
+        Map<Category, BigDecimal> valueCategories = new HashMap<>();
+        var amountDiff = amount;
         do {
             var randomBigDecimal = TestUtils.generateRandomBigDecimal(1, 1000, 2);
-            var amount = randomBigDecimal.compareTo(amountDiff) > 0 ? amountDiff : randomBigDecimal;
+            var randomAmount = randomBigDecimal.compareTo(amountDiff) > 0 ? amountDiff : randomBigDecimal;
             final var category = new AtomicReference<>(categories.get(TestUtils.generateRandomInteger(0, categories.size() - 1)));
-            while (transactionCategories.stream().map(TransactionCategory::getCategory).anyMatch(c -> c.equals(category.get()))) {
-                category.set(categories.get(TestUtils.generateRandomInteger(0, categories.size() - 1)));
-            }
-            var transactionCategory = TransactionCategory.builder()
-                    .amount(amount)
-                    .transaction(transaction)
-                    .category(category.get())
-                    .type(transaction.getType())
-                    .build();
-            transactionCategories.add(transactionCategory);
-            amountDiff = transaction.getAmount().subtract(
-                    transactionCategories.stream().map(TransactionCategory::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add)
-            );
+            valueCategories.put(category.get(), randomAmount);
+            amountDiff = amount.subtract(valueCategories.values().stream().reduce(BigDecimal.ZERO, BigDecimal::add));
         } while (amountDiff.compareTo(BigDecimal.ZERO) > 0);
-        transaction.setCategories(transactionCategories);
-        return transaction;
+        return valueCategories;
     }
 
     private TransactionType getRandomTransactionType() {
