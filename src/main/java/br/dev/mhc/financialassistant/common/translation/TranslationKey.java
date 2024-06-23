@@ -1,6 +1,9 @@
 package br.dev.mhc.financialassistant.common.translation;
 
 public enum TranslationKey {
+    CATEGORY_VALIDATION_CATEGORY_PARENT_ID_CANNOT_BE_A_PARENT_CATEGORY("category.validation.categoryParentId.cannotBeAParentCategory"),
+    CATEGORY_VALIDATION_CATEGORY_PARENT_ID_DOES_NOT_ACTIVE("category.validation.categoryParentId.doesNotActive"),
+    CATEGORY_VALIDATION_CATEGORY_PARENT_ID_DOES_NOT_EXIST("category.validation.categoryParentId.doesNotExist"),
     CATEGORY_VALIDATION_COLOR_IS_INVALID("category.validation.color.isInvalid"),
     CATEGORY_VALIDATION_COLOR_MUST_HAVE_CHARACTERS("category.validation.color.mustHaveCharacters"),
     CATEGORY_VALIDATION_ICON_CANNOT_BE_LONGER_THEN_CHARACTERS("category.validation.icon.cannotBeLongerThenCharacters"),

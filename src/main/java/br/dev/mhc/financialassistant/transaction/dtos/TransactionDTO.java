@@ -1,6 +1,7 @@
 package br.dev.mhc.financialassistant.transaction.dtos;
 
 import br.dev.mhc.financialassistant.transaction.annotations.TransactionDTOValidator;
+import br.dev.mhc.financialassistant.transaction.entities.TransactionParent;
 import br.dev.mhc.financialassistant.transaction.enums.TransactionMethod;
 import br.dev.mhc.financialassistant.transaction.enums.TransactionType;
 import br.dev.mhc.financialassistant.wallet.dtos.WalletDTO;
@@ -36,7 +37,7 @@ public class TransactionDTO implements Serializable {
     private Instant createdAt;
     private Instant updatedAt;
     private UUID userId;
-    private UUID parentId;
+    private TransactionParentDTO parent;
     private WalletDTO wallet;
     @Setter(AccessLevel.NONE)
     @Builder.Default

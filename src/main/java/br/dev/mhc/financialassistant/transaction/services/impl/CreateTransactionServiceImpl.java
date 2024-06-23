@@ -2,6 +2,7 @@ package br.dev.mhc.financialassistant.transaction.services.impl;
 
 import br.dev.mhc.financialassistant.exceptions.AppValidationException;
 import br.dev.mhc.financialassistant.transaction.dtos.TransactionDTO;
+import br.dev.mhc.financialassistant.transaction.entities.TransactionParent;
 import br.dev.mhc.financialassistant.transaction.enums.TransactionType;
 import br.dev.mhc.financialassistant.transaction.repositories.TransactionRepository;
 import br.dev.mhc.financialassistant.transaction.services.interfaces.ICreateTransactionService;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static br.dev.mhc.financialassistant.transaction.mappers.TransactionMapper.toDto;
 import static br.dev.mhc.financialassistant.transaction.mappers.TransactionMapper.toEntity;
+import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 
 @Service

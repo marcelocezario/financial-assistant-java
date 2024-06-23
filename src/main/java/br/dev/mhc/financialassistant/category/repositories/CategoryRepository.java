@@ -8,9 +8,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CategoryRepository extends JpaRepository<Category, UUID> {
-    List<Category> findByUserId(UUID userId);
+    List<Category> findByUserIdAndParentCategoryIsNull(UUID userId);
 
-    List<Category> findByUserIdAndActiveTrue(UUID userId);
+    List<Category> findByUserIdAndParentCategoryIsNullAndActiveTrue(UUID userId);
 
     Optional<Category> findByNameAndUserId(String categoryName, UUID userId);
 

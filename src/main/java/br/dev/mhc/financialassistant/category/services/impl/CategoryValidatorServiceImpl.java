@@ -49,6 +49,7 @@ public class CategoryValidatorServiceImpl implements ICategoryValidatorService, 
         validateIcon(validation);
         validateColor(validation);
         validateUserId(validation);
+        validateParentCategoryId(validation);
 
         LOG.debug(validation);
 
@@ -78,6 +79,29 @@ public class CategoryValidatorServiceImpl implements ICategoryValidatorService, 
         }
         if (nonNull(categoryDTO.getUserId()) && !categoryDTO.getUserId().equals(userId)) {
             validationResult.addError("userId", categoryDTO.getUserId(), CATEGORY_VALIDATION_USER_ID_DOES_NOT_MATCH_ROUTE.translate());
+        }
+    }
+
+    private void validateParentCategoryId(ValidationResultDTO<CategoryDTO> validation) {
+        final var FIELD_NAME = "parentCategoryId";
+        var parentCategoryId = validation.getObject().getParentCategoryId();
+        var userId = validation.getObject().getUserId();
+        if (isNull(parentCategoryId)) {
+            return;
+        }
+        CategoryDTO parentCategoryDTO = null;
+        try {
+            parentCategoryDTO = findCategoryByIdAndUserIdService.find(parentCategoryId, userId);
+        } catch (ResourceNotFoundException e) {
+            validation.addError(FIELD_NAME, parentCategoryId, CATEGORY_VALIDATION_CATEGORY_PARENT_ID_DOES_NOT_EXIST.translate(parentCategoryId));
+        }
+        if (nonNull(parentCategoryDTO)) {
+            if (nonNull(parentCategoryDTO.getParentCategoryId())) {
+                validation.addError(FIELD_NAME, parentCategoryId, CATEGORY_VALIDATION_CATEGORY_PARENT_ID_CANNOT_BE_A_PARENT_CATEGORY.translate());
+            }
+            if (!parentCategoryDTO.isActive()) {
+                validation.addError(FIELD_NAME, parentCategoryId, CATEGORY_VALIDATION_CATEGORY_PARENT_ID_DOES_NOT_ACTIVE.translate(parentCategoryId));
+            }
         }
     }
 

@@ -6,6 +6,7 @@ import br.dev.mhc.financialassistant.category.mappers.CategoryMapper;
 import br.dev.mhc.financialassistant.category.repositories.CategoryRepository;
 import br.dev.mhc.financialassistant.category.services.interfaces.IFindCategoriesByUserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -22,14 +23,15 @@ public class FindCategoriesByUserServiceImpl implements IFindCategoriesByUserSer
         this.repository = repository;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<CategoryDTO> find(UUID userId, boolean onlyActive) {
         requireNonNull(userId);
         List<Category> categories;
         if (onlyActive) {
-            categories = repository.findByUserIdAndActiveTrue(userId);
+            categories = repository.findByUserIdAndParentCategoryIsNullAndActiveTrue(userId);
         } else {
-            categories = repository.findByUserId(userId);
+            categories = repository.findByUserIdAndParentCategoryIsNull(userId);
         }
         return categories.stream()
                 .sorted(Comparator.comparing(Category::getName))

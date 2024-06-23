@@ -1,5 +1,6 @@
 package br.dev.mhc.financialassistant.category.entities;
 
+import br.dev.mhc.financialassistant.category.dtos.CategoryDTO;
 import br.dev.mhc.financialassistant.user.entities.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,6 +9,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -41,6 +44,12 @@ public class Category implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    @ManyToOne
+    @JoinColumn(name = "parent_category_id")
+    private Category parentCategory;
+    @Builder.Default
+    @OneToMany(mappedBy = "parentCategory")
+    private List<Category> subcategories = new ArrayList<>();
 
     public Category(UUID id) {
         this.id = id;

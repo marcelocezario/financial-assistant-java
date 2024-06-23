@@ -27,7 +27,7 @@ public class TransactionMapper {
                 .updatedAt(dto.getUpdatedAt())
                 .user(new User(dto.getUserId()))
                 .wallet(WalletMapper.toEntity(dto.getWallet()))
-                .parent(TransactionParent.builder().id(dto.getParentId()).build())
+                .parent(TransactionParentMapper.toEntity(dto.getParent()))
                 .build();
         entity.setCategories(dto.getCategories().stream().map(TransactionCategoryMapper::toEntity).collect(Collectors.toSet()));
         return entity;
@@ -48,7 +48,7 @@ public class TransactionMapper {
                 .updatedAt(entity.getUpdatedAt())
                 .userId(entity.getUser().getId())
                 .wallet(WalletMapper.toDto(entity.getWallet()))
-                .parentId(nonNull(entity.getParent()) ? entity.getParent().getId() : null)
+                .parent(TransactionParentMapper.toDto(entity.getParent()))
                 .categories(entity.getCategories().stream().map(TransactionCategoryMapper::toDto).collect(Collectors.toSet()))
                 .build();
     }

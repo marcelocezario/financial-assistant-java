@@ -5,7 +5,9 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.UUID;
+import java.util.*;
+
+import static java.util.Objects.nonNull;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,5 +26,8 @@ public class CategoryDTO implements Serializable {
     private Instant createdAt;
     private Instant updatedAt;
     private UUID userId;
+    private UUID parentCategoryId;
+    @Builder.Default
+    private List<CategoryDTO> subcategories = new ArrayList<>();
 
 }
