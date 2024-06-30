@@ -113,7 +113,7 @@ public class TransactionValidatorServiceImpl implements ITransactionValidatorSer
             validation.addError(FIELD_NAME, categories, TRANSACTION_VALIDATION_CATEGORIES_CANNOT_BE_EMPTY.translate());
             return;
         }
-        if (categories.stream().anyMatch(Objects::isNull)) {
+        if (categories.stream().anyMatch(c -> isNull(c) || isNull(c.getType()))) {
             validation.addError(FIELD_NAME, categories, TRANSACTION_VALIDATION_CATEGORIES_CONTAINS_NULL_OBJECTS.translate());
             return;
         }
@@ -265,7 +265,9 @@ public class TransactionValidatorServiceImpl implements ITransactionValidatorSer
         final var FIELD_NAME = "dueDate";
         var dueDate = validation.getObject().getDueDate();
         if (isNull(dueDate)) {
-            validation.addError(FIELD_NAME, null, TRANSACTION_VALIDATION_DUE_DATE_CANNOT_BE_NULL.translate());
+            if (isNull(validation.getObject().getPaymentMoment())) {
+                validation.addError(FIELD_NAME, null, TRANSACTION_VALIDATION_DUE_DATE_CANNOT_BE_NULL.translate());
+            }
         }
     }
 

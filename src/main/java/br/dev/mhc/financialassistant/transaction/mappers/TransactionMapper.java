@@ -8,6 +8,7 @@ import br.dev.mhc.financialassistant.wallet.mappers.WalletMapper;
 
 import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 public class TransactionMapper {
@@ -27,7 +28,7 @@ public class TransactionMapper {
                 .updatedAt(dto.getUpdatedAt())
                 .user(new User(dto.getUserId()))
                 .wallet(WalletMapper.toEntity(dto.getWallet()))
-                .parent(TransactionParentMapper.toEntity(dto.getParent()))
+                .parent(isNull(dto.getParent()) ? null : TransactionParentMapper.toEntity(dto.getParent()))
                 .build();
         entity.setCategories(dto.getCategories().stream().map(TransactionCategoryMapper::toEntity).collect(Collectors.toSet()));
         return entity;
