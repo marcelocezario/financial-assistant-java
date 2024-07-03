@@ -8,7 +8,6 @@ import br.dev.mhc.financialassistant.transaction.repositories.TransactionParentR
 import br.dev.mhc.financialassistant.transaction.services.interfaces.IFindTransactionParentByIdService;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
 import java.util.UUID;
 
 import static java.util.Objects.requireNonNull;

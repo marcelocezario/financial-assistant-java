@@ -4,12 +4,11 @@ import br.dev.mhc.financialassistant.category.dtos.CategoryDTO;
 import br.dev.mhc.financialassistant.category.entities.Category;
 import br.dev.mhc.financialassistant.user.entities.User;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 
 import static java.util.Collections.emptyList;
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 public class CategoryMapper {
 
@@ -19,6 +18,7 @@ public class CategoryMapper {
                 .name(dto.getName())
                 .icon(dto.getIcon())
                 .color(dto.getColor())
+                .type(nonNull(dto.getType()) ? dto.getType().getCod() : null)
                 .user(User.builder().id(dto.getUserId()).build())
                 .parentCategory(isNull(dto.getParentCategoryId()) ? null : Category.builder().id(dto.getParentCategoryId()).build())
                 .active(dto.isActive())
@@ -33,6 +33,7 @@ public class CategoryMapper {
                 .name(entity.getName())
                 .icon(entity.getIcon())
                 .color(entity.getColor())
+                .type(entity.getType())
                 .userId(entity.getUser().getId())
                 .parentCategoryId(isNull(entity.getParentCategory()) ? null : entity.getParentCategory().getId())
                 .subcategories(isNull(entity.getSubcategories())

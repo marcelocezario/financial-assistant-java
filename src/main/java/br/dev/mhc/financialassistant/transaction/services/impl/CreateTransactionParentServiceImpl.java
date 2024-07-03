@@ -1,12 +1,9 @@
 package br.dev.mhc.financialassistant.transaction.services.impl;
 
 import br.dev.mhc.financialassistant.transaction.dtos.TransactionParentDTO;
-import br.dev.mhc.financialassistant.transaction.mappers.TransactionParentMapper;
 import br.dev.mhc.financialassistant.transaction.repositories.TransactionParentRepository;
 import br.dev.mhc.financialassistant.transaction.services.interfaces.ICreateTransactionParentService;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
 
 import static br.dev.mhc.financialassistant.transaction.mappers.TransactionParentMapper.toDto;
 import static br.dev.mhc.financialassistant.transaction.mappers.TransactionParentMapper.toEntity;

@@ -1,6 +1,6 @@
 package br.dev.mhc.financialassistant.category.entities;
 
-import br.dev.mhc.financialassistant.category.dtos.CategoryDTO;
+import br.dev.mhc.financialassistant.common.enums.ClassificationType;
 import br.dev.mhc.financialassistant.user.entities.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,6 +33,9 @@ public class Category implements Serializable {
     private String icon;
     @Column(name = "color")
     private String color;
+    @Getter(AccessLevel.NONE)
+    @Column(name = "type", nullable = false)
+    private Integer type;
     @Column(name = "active", nullable = false)
     private boolean active;
     @CreationTimestamp
@@ -53,6 +56,10 @@ public class Category implements Serializable {
 
     public Category(UUID id) {
         this.id = id;
+    }
+
+    public ClassificationType getType() {
+        return ClassificationType.toEnum(this.type);
     }
 
 }

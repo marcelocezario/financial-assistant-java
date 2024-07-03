@@ -2,14 +2,12 @@ package br.dev.mhc.financialassistant.transaction.mappers;
 
 import br.dev.mhc.financialassistant.transaction.dtos.TransactionDTO;
 import br.dev.mhc.financialassistant.transaction.entities.Transaction;
-import br.dev.mhc.financialassistant.transaction.entities.TransactionParent;
 import br.dev.mhc.financialassistant.user.entities.User;
 import br.dev.mhc.financialassistant.wallet.mappers.WalletMapper;
 
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 public class TransactionMapper {
 

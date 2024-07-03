@@ -1,13 +1,14 @@
 package br.dev.mhc.financialassistant.category.dtos;
 
 import br.dev.mhc.financialassistant.category.annotations.CategoryDTOValidator;
+import br.dev.mhc.financialassistant.common.enums.ClassificationType;
 import lombok.*;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.*;
-
-import static java.util.Objects.nonNull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,6 +23,7 @@ public class CategoryDTO implements Serializable {
     private String name;
     private String icon;
     private String color;
+    private ClassificationType type;
     private boolean active;
     private Instant createdAt;
     private Instant updatedAt;

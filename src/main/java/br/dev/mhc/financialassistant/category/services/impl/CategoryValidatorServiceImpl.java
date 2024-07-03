@@ -48,6 +48,7 @@ public class CategoryValidatorServiceImpl implements ICategoryValidatorService, 
         validateName(validation);
         validateIcon(validation);
         validateColor(validation);
+        validateType(validation);
         validateUserId(validation);
         validateParentCategoryId(validation);
 
@@ -124,6 +125,14 @@ public class CategoryValidatorServiceImpl implements ICategoryValidatorService, 
             } catch (ResourceNotFoundException e) {
                 validation.addError(FIELD_NAME, userId, CATEGORY_VALIDATION_USER_ID_UNAUTHORIZED.translate());
             }
+        }
+    }
+
+    private void validateType(ValidationResultDTO<CategoryDTO> validation) {
+        final var FIELD_NAME = "type";
+        var type = validation.getObject().getType();
+        if (isNull(type)) {
+            validation.addError(FIELD_NAME, null, CATEGORY_VALIDATION_TYPE_CANNOT_BE_NULL.translate());
         }
     }
 

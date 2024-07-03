@@ -1,7 +1,7 @@
 package br.dev.mhc.financialassistant.transaction.entities;
 
+import br.dev.mhc.financialassistant.common.enums.ClassificationType;
 import br.dev.mhc.financialassistant.transaction.enums.TransactionMethod;
-import br.dev.mhc.financialassistant.transaction.enums.TransactionType;
 import br.dev.mhc.financialassistant.user.entities.User;
 import br.dev.mhc.financialassistant.wallet.entities.Wallet;
 import jakarta.persistence.*;
@@ -89,8 +89,8 @@ public class Transaction implements Serializable {
                 });
     }
 
-    public TransactionType getType() {
-        return TransactionType.toEnum(this.type);
+    public ClassificationType getType() {
+        return ClassificationType.toEnum(this.type);
     }
 
     public TransactionMethod getMethod() {

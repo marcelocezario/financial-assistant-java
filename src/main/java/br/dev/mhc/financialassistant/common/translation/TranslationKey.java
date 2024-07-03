@@ -13,6 +13,7 @@ public enum TranslationKey {
     CATEGORY_VALIDATION_NAME_CANNOT_BE_LONGER_THEN_CHARACTERS("category.validation.name.cannotBeLongerThenCharacters"),
     CATEGORY_VALIDATION_NAME_CANNOT_BE_NULL("category.validation.name.cannotBeNull"),
     CATEGORY_VALIDATION_NAME_IS_ALREADY_USED_BY_USER("category.validation.name.isAlreadyUsedByUser"),
+    CATEGORY_VALIDATION_TYPE_CANNOT_BE_NULL("category.validation.type.cannotBeNull"),
     CATEGORY_VALIDATION_USER_ID_CANNOT_BE_NULL("category.validation.userId.cannotBeNull"),
     CATEGORY_VALIDATION_USER_ID_DOES_NOT_EXIST("category.validation.userId.doesNotExist"),
     CATEGORY_VALIDATION_USER_ID_DOES_NOT_MATCH_ROUTE("category.validation.userId.doesNotMatchRoute"),

@@ -162,6 +162,7 @@ public class TestDBSeedService {
                                 .color(getRandomHexColor())
                                 .icon(getRandomIcon())
                                 .user(user)
+                                .type(TestUtils.generateRandomInteger(1, 2))
                                 .active(new Random().nextBoolean())
                                 .build())
                 .toList();
