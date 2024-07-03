@@ -259,7 +259,7 @@ public class TestDBSeedService {
                             .amount(entry.getValue())
                             .transaction(transaction)
                             .category(entry.getKey())
-                            .type(type).build())
+                            .build())
                     .collect(Collectors.toSet())
             );
             transactions.add(transaction);

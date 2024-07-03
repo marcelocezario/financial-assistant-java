@@ -20,6 +20,5 @@ public class TransactionCategoryDTO implements Serializable {
     @EqualsAndHashCode.Include
     private CategoryDTO category;
     private BigDecimal amount;
-    private TransactionType type;
 
 }

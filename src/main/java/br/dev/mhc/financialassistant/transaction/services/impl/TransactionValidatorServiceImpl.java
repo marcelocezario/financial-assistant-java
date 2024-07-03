@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static br.dev.mhc.financialassistant.common.translation.TranslationKey.*;
@@ -112,7 +113,7 @@ public class TransactionValidatorServiceImpl implements ITransactionValidatorSer
             validation.addError(FIELD_NAME, categories, TRANSACTION_VALIDATION_CATEGORIES_CANNOT_BE_EMPTY.translate());
             return;
         }
-        if (categories.stream().anyMatch(c -> isNull(c) || isNull(c.getType()))) {
+        if (categories.stream().anyMatch(Objects::isNull)) {
             validation.addError(FIELD_NAME, categories, TRANSACTION_VALIDATION_CATEGORIES_CONTAINS_NULL_OBJECTS.translate());
             return;
         }
@@ -142,7 +143,7 @@ public class TransactionValidatorServiceImpl implements ITransactionValidatorSer
                 BigDecimal newTotal;
                 do {
                     currentTotal = totalAmount.get();
-                    if (category.getType().equals(validation.getObject().getType())) {
+                    if (category.getCategory().getType().equals(validation.getObject().getType())) {
                         newTotal = currentTotal.add(category.getAmount());
                     } else {
                         newTotal = currentTotal.subtract(category.getAmount());

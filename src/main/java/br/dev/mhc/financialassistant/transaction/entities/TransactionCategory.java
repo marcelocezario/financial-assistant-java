@@ -27,15 +27,11 @@ public class TransactionCategory implements Serializable {
     private TransactionCategoryPK id;
     @Column(name = "amount")
     private BigDecimal amount;
-    @Getter(AccessLevel.NONE)
-    @Column(name = "type")
-    private Integer type;
 
     @Builder
-    public TransactionCategory(Transaction transaction, Category category, BigDecimal amount, TransactionType type) {
+    public TransactionCategory(Transaction transaction, Category category, BigDecimal amount) {
         this.id = new TransactionCategoryPK(transaction, category);
         this.amount = amount;
-        this.type = type.getCod();
     }
 
     public UUID getTransactionId() {
@@ -57,10 +53,6 @@ public class TransactionCategory implements Serializable {
             return null;
         }
         return id.getCategory();
-    }
-
-    public TransactionType getType() {
-        return TransactionType.toEnum(this.type);
     }
 
 }
