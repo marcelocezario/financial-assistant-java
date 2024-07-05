@@ -1,8 +1,8 @@
 package br.dev.mhc.financialassistant.transaction.services.impl;
 
+import br.dev.mhc.financialassistant.common.enums.ClassificationType;
 import br.dev.mhc.financialassistant.exceptions.ResourceNotFoundException;
 import br.dev.mhc.financialassistant.transaction.entities.Transaction;
-import br.dev.mhc.financialassistant.transaction.enums.TransactionType;
 import br.dev.mhc.financialassistant.transaction.repositories.TransactionRepository;
 import br.dev.mhc.financialassistant.transaction.services.interfaces.IDeleteTransactionByIdAndUserIdService;
 import br.dev.mhc.financialassistant.wallet.services.interfaces.IWalletTransactionService;
@@ -30,7 +30,7 @@ public class DeleteTransactionByIdAndUserIdServiceImpl implements IDeleteTransac
         requireNonNull(transactionId);
         var transaction = repository.findByIdAndUserId(transactionId, userId)
                 .orElseThrow(() -> new ResourceNotFoundException(transactionId, Transaction.class));
-        walletTransactionService.adjustBalance(transaction.getWallet().getId(), transaction.getAmount(), TransactionType.EXPENSE.equals(transaction.getType()));
+        walletTransactionService.adjustBalance(transaction.getWallet().getId(), transaction.getAmount(), ClassificationType.EXPENSE.equals(transaction.getType()));
         repository.delete(transaction);
     }
 }

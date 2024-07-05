@@ -1,7 +1,6 @@
 package br.dev.mhc.financialassistant.transaction.dtos;
 
 import br.dev.mhc.financialassistant.category.dtos.CategoryDTO;
-import br.dev.mhc.financialassistant.transaction.enums.TransactionType;
 import lombok.*;
 
 import java.io.Serializable;

@@ -1,7 +1,6 @@
 package br.dev.mhc.financialassistant.transaction.entities;
 
 import br.dev.mhc.financialassistant.category.entities.Category;
-import br.dev.mhc.financialassistant.transaction.enums.TransactionType;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;

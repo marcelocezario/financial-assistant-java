@@ -5,6 +5,8 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class TestUtils {
@@ -42,11 +44,27 @@ public class TestUtils {
     }
 
     public static LocalDateTime generateRandomLocalDateTime(int startYear, int endYear) {
+        return generateRandomLocalDateTime(startYear, 1, endYear, 12);
+    }
+
+    public static LocalDateTime generateRandomLocalDateTime(int startYear, int startMonth, int endYear, int endMonth) {
         if (startYear > endYear) {
             throw new IllegalArgumentException("Start year must be greater than end year");
         }
-        int year = random.nextInt(endYear - startYear + 1) + startYear;
-        int month = random.nextInt(12) + 1;
+        if (startYear == endYear) {
+            if (startMonth > endMonth) {
+                throw new IllegalArgumentException("Start month/year must be greater than end month/year");
+            }
+//            if (startMonth == endMonth && startDay > endDay) {
+//                throw new IllegalArgumentException("Start month/year/day must be greater than end month/year/day");
+//            }
+        }
+
+        int monthsDiff = ((endYear - startYear) * 12) + (endMonth - startMonth);
+        int randomSequenceMonth = random.nextInt(monthsDiff + 1);
+        int yearsDiff = ((startMonth - 1) + randomSequenceMonth) / 12;
+        int month = startMonth + randomSequenceMonth - (yearsDiff * 12);
+        int year = startYear + yearsDiff;
         int daysInMonth = YearMonth.of(year, month).lengthOfMonth();
         int day = random.nextInt(daysInMonth) + 1;
         int hour = random.nextInt(24);
@@ -68,4 +86,6 @@ public class TestUtils {
 
         return loremIpsum.toString().trim();
     }
+
+
 }

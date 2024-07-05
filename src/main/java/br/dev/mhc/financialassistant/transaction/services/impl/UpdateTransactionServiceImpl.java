@@ -1,10 +1,10 @@
 package br.dev.mhc.financialassistant.transaction.services.impl;
 
+import br.dev.mhc.financialassistant.common.enums.ClassificationType;
 import br.dev.mhc.financialassistant.exceptions.AppValidationException;
 import br.dev.mhc.financialassistant.exceptions.ResourceNotFoundException;
 import br.dev.mhc.financialassistant.transaction.dtos.TransactionDTO;
 import br.dev.mhc.financialassistant.transaction.entities.Transaction;
-import br.dev.mhc.financialassistant.transaction.enums.TransactionType;
 import br.dev.mhc.financialassistant.transaction.mappers.TransactionCategoryMapper;
 import br.dev.mhc.financialassistant.transaction.repositories.TransactionRepository;
 import br.dev.mhc.financialassistant.transaction.services.interfaces.ITransactionValidatorService;
@@ -51,7 +51,7 @@ public class UpdateTransactionServiceImpl implements IUpdateTransactionService {
 
     private void updateData(Transaction transactionEntity, TransactionDTO transactionDTO) {
         walletTransactionService.adjustBalance(
-                transactionEntity.getWallet().getId(), transactionEntity.getAmount(), TransactionType.EXPENSE.equals(transactionEntity.getType())
+                transactionEntity.getWallet().getId(), transactionEntity.getAmount(), ClassificationType.EXPENSE.equals(transactionEntity.getType())
         );
         transactionEntity.setType(transactionDTO.getType().getCod());
         transactionEntity.setAmount(transactionDTO.getAmount());
@@ -61,7 +61,7 @@ public class UpdateTransactionServiceImpl implements IUpdateTransactionService {
         transactionEntity.setCurrentInstallment(transactionDTO.getCurrentInstallment());
         transactionEntity.setCategories(transactionDTO.getCategories().stream().map(TransactionCategoryMapper::toEntity).collect(Collectors.toSet()));
         walletTransactionService.adjustBalance(
-                transactionEntity.getWallet().getId(), transactionDTO.getAmount(), TransactionType.INCOME.equals(transactionEntity.getType())
+                transactionEntity.getWallet().getId(), transactionDTO.getAmount(), ClassificationType.INCOME.equals(transactionEntity.getType())
         );
     }
 }

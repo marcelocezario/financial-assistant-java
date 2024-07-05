@@ -1,9 +1,9 @@
 package br.dev.mhc.financialassistant.transaction.services.impl;
 
+import br.dev.mhc.financialassistant.common.enums.ClassificationType;
 import br.dev.mhc.financialassistant.exceptions.AppValidationException;
 import br.dev.mhc.financialassistant.transaction.dtos.TransactionDTO;
 import br.dev.mhc.financialassistant.transaction.dtos.TransactionParentDTO;
-import br.dev.mhc.financialassistant.transaction.enums.TransactionType;
 import br.dev.mhc.financialassistant.transaction.repositories.TransactionRepository;
 import br.dev.mhc.financialassistant.transaction.services.interfaces.ICreateTransactionParentService;
 import br.dev.mhc.financialassistant.transaction.services.interfaces.ICreateTransactionService;
@@ -51,7 +51,7 @@ public class CreateTransactionServiceImpl implements ICreateTransactionService {
             transactionDTO.setDueDate(transactionDTO.getPaymentMoment().toLocalDate());
         }
         validatorService.validate(transactionDTO).isValidOrThrow(AppValidationException::new);
-        walletTransactionService.adjustBalance(transactionDTO.getWallet().getId(), transactionDTO.getAmount(), TransactionType.INCOME.equals(transactionDTO.getType()));
+        walletTransactionService.adjustBalance(transactionDTO.getWallet().getId(), transactionDTO.getAmount(), ClassificationType.INCOME.equals(transactionDTO.getType()));
         var transaction = toEntity(transactionDTO);
         transaction = repository.save(transaction);
         return toDto(transaction);
