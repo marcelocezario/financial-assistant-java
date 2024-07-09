@@ -96,10 +96,10 @@ public class TestDBSeedService {
         for (int i = 0; i < 20; i++) {
             wallets.add(getRandomWallet(user));
         }
-        wallets = walletRepository.saveAll(wallets);
+        wallets = walletRepository.saveAll(wallets).stream().filter(Wallet::isActive).toList();
         List<Transaction> transactions = new ArrayList<>();
         for (Wallet wallet : wallets) {
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 20; i++) {
                 var parent = transactionParentRepository.save(getRandomTransactionParent());
                 var randomTransactions = getRandomTransactions(wallet, categories, parent);
                 transactions.addAll(randomTransactions);
@@ -257,53 +257,32 @@ public class TestDBSeedService {
         }
 
         return transactions;
-//
-//
-//        Transaction transaction = Transaction.builder()
-//                .amount(TestUtils.generateRandomBigDecimal(10, 1500, 2))
-//                .dueDate(TestUtils.generateRandomLocalDate(2023, 2023))
-//                .paymentMoment(TestUtils.generateRandomLocalDateTime(2023, 2023))
-//                .notes(TestUtils.generateLoremIpsum(TestUtils.generateRandomInteger(0, 20)))
-//                .type(getRandomTransactionType().getCod())
-//                .currentInstallment(1)
-//                .wallet(wallet)
-//                .user(wallet.getUser())
-//                .method(getRandomTransactionMethod(wallet).getCod())
-//                .build();
-//        Set<TransactionCategory> transactionCategories = new HashSet<>();
-//        var amountDiff = transaction.getAmount();
-//        do {
-//            var randomBigDecimal = TestUtils.generateRandomBigDecimal(1, 1000, 2);
-//            var amount = randomBigDecimal.compareTo(amountDiff) > 0 ? amountDiff : randomBigDecimal;
-//            final var category = new AtomicReference<>(categories.get(TestUtils.generateRandomInteger(0, categories.size() - 1)));
-//            while (transactionCategories.stream().map(TransactionCategory::getCategory).anyMatch(c -> c.equals(category.get()))) {
-//                category.set(categories.get(TestUtils.generateRandomInteger(0, categories.size() - 1)));
-//            }
-//            var transactionCategory = TransactionCategory.builder()
-//                    .amount(amount)
-//                    .transaction(transaction)
-//                    .category(category.get())
-//                    .type(transaction.getType())
-//                    .build();
-//            transactionCategories.add(transactionCategory);
-//            amountDiff = transaction.getAmount().subtract(
-//                    transactionCategories.stream().map(TransactionCategory::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add)
-//            );
-//        } while (amountDiff.compareTo(BigDecimal.ZERO) > 0);
-//        transaction.setCategories(transactionCategories);
-//        return transaction;
     }
 
     private Map<Category, BigDecimal> buildTransactionCategories(BigDecimal amount, ClassificationType type, List<Category> categories) {
+        if (categories.stream().noneMatch(c -> c.getType().equals(type))) {
+            throw new RuntimeException("Unable to generate categories of the specified type");
+        }
         Map<Category, BigDecimal> valueCategories = new HashMap<>();
         var amountDiff = amount;
         do {
-            var randomBigDecimal = TestUtils.generateRandomBigDecimal(1, 1000, 2);
-            var randomAmount = randomBigDecimal.compareTo(amountDiff) > 0 ? amountDiff : randomBigDecimal;
-            final var category = new AtomicReference<>(categories.get(TestUtils.generateRandomInteger(0, categories.size() - 1)));
-            valueCategories.put(category.get(), randomAmount);
-            amountDiff = amount.subtract(valueCategories.values().stream().reduce(BigDecimal.ZERO, BigDecimal::add));
-        } while (amountDiff.compareTo(BigDecimal.ZERO) > 0);
+            final var category = categories.get(TestUtils.generateRandomInteger(0, categories.size() - 1));
+            BigDecimal randomAmount;
+            if (category.getType().equals(type)) {
+                var randomBigDecimal = TestUtils.generateRandomBigDecimal(1, Math.max(amount.multiply(BigDecimal.TWO).intValue(), 1000), 2);
+                if (valueCategories.containsKey(category)) {
+                    randomBigDecimal = randomBigDecimal.add(valueCategories.get(category));
+                }
+                randomAmount = randomBigDecimal.compareTo(amountDiff) > 0 ? amountDiff : randomBigDecimal;
+            } else {
+                randomAmount = valueCategories.getOrDefault(category, TestUtils.generateRandomBigDecimal(1, 100, 2));
+            }
+            valueCategories.put(category, randomAmount);
+            amountDiff = amount.subtract(valueCategories.entrySet().stream()
+                    .map(entry -> entry.getKey().getType().equals(type) ? entry.getValue() : entry.getValue().negate())
+                    .reduce(BigDecimal.ZERO, BigDecimal::add)
+            );
+        } while (amountDiff.compareTo(BigDecimal.ZERO) != 0);
         return valueCategories;
     }
 
